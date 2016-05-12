@@ -3,6 +3,7 @@
 class World {
    Block[][] board;
    
+   //might want to replace numBlocksRow and numBlocksCol with width and height primitives
    void initializeWorld(int numBlocksRow, int numBlocksCol) {
      //can be moved to constructor
        board = new Block[numBlocksRow][numBlocksCol];

@@ -1,6 +1,11 @@
 //Team blue puppies!
+World world = new World();
 
 void setup() {
-   size(1000, 600);
-   background(255, 20, 147);
+     world.initializeWorld(width, height);
+   size(100, 600);
+   //background(255, 20, 147);
+   println("" + width);
+   println("" + height);
+   println("hi");
 }

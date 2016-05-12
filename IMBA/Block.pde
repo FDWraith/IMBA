@@ -2,15 +2,16 @@ class Block {
     boolean isSolid;
     int x, y;
     
-    public Block(int l, int w, boolean isSolid) {
+    public Block(int x, int y, int l, int w, boolean isSolid) {
        rect(x, y, l, w);
        this.isSolid = isSolid;
     }
-    public Block(int l, int w) {
-       rect(x, y, l, w); 
+    public Block(int x, int y) {
+      stroke(0, 0, 255);
+       rect(x, y, 10, 10); 
     }
     public Block() {
-       rect(x, y, 1, 1); 
+       rect(0, 0, 1, 1); 
     }
     
     void setSolid(boolean b) {
