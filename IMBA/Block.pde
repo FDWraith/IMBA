@@ -11,9 +11,6 @@ public class Block implements Displayable{
 	xCor = x;
 	yCor = y;
 	color = 0;
-    }
-    public Block() {
-       rect(0, 0, 1, 1); 
     }    
     public void setColor(int c){
 	color = c;
@@ -36,5 +33,6 @@ public class Block implements Displayable{
 
     public void display(){
 	//fill in later
+	fill(color);
     }
 }
