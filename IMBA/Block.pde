@@ -1,22 +1,22 @@
 public class Block implements Displayable{
     private int xCor, yCor;
-    private int color;
+    private int blockColor;
     
-    public Block(int x, int y, int color) {
+    public Block(int x, int y, int blockColor) {
        xCor = x;
        yCor = y;
-       setColor(color);
+       setColor(blockColor);
     }
     public Block(int x, int y) {
-	xCor = x;
-	yCor = y;
-	color = 0;
+       xCor = x;
+       yCor = y;
+       blockColor = 0;
     }    
     public void setColor(int c){
-	color = c;
+      blockColor = c;
     }
     public void setXCor(int x){
-	xCor = x;
+      xCor = x;
     }
     public void setYCor(int y){
 	yCor = y;
@@ -28,11 +28,11 @@ public class Block implements Displayable{
 	return yCor;
     }
     public int getColor(){
-	return color;
+	return blockColor;
     }
 
     public void display(){
 	//fill in later
-	fill(color);
+	fill(blockColor);
     }
 }
