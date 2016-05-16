@@ -4,6 +4,11 @@ import java.util.*;
 public class World{
    Block[][] board;
    
+   //Constructor, empty means generating new world.
+   public World(){
+       Generator worldGen = new Generator();
+   }
+   
    //might want to replace numBlocksRow and numBlocksCol with width and height primitives
    void initializeWorld(String filename) {
      //can be moved to constructor
@@ -29,14 +34,17 @@ public class World{
         case 1: return new GroundBlock(ary[0],ary[1],ary[2]);
      }
    }
+     
+   void display(){
+      
+   }
    
-   //very crude randomizer -- randomly sets blocks to solid or gas
-   // 2/3 chance of being gaseous
+   
+   //to be changed (may not include in working edition.
    void randomizeBlocks() {
      for (int r = 0; r < board.length; r++) {
        for (int c = 0; c < board[r].length; c++) {
          if ((Math.random() * 3) < 1) {
-           board[r][c].setSolid(true);
          }
          else {
             board[r][c].setSolid(false); 
