@@ -1,3 +1,3 @@
-public interface Displayable{
+public interface Displayable extends Positionable{
     public void display();
 }
