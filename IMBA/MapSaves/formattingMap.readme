@@ -1,5 +1,5 @@
 A B
 
-{C,D,E}
+{C,D,E,F}
 
-where A is rows, B is cols, C and D are x,y cor of Block. E is the color
+where A is rows, B is cols, C and D are x,y cor of Block. E is the color. F is the Block ID.

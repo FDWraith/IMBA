@@ -17,9 +17,17 @@ public class World{
              String data = in.next();
              data = data.substring(1,data.length()-1) // get rid of array markings
              String[] ary = data.split(',');
-             board[r][c] = new Block(ary[0],ary[1],ary[2]);
+             board[r][c] = initializeBlock(ary);
           }
        }
+   }
+   
+   Block initializeBlock(String[]ary){
+     int ID = ary[ary.length-1];
+     switch(ID){
+        case 0: return new AirBlock(ary[0],ary[1],ary[2]);
+        case 1: return new GroundBlock(ary[0],ary[1],ary[2]);
+     }
    }
    
    //very crude randomizer -- randomly sets blocks to solid or gas
