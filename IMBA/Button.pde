@@ -21,8 +21,8 @@ public class Button{
     text(txt,xCor,yCor);
     
     if(mousePressed){
-      bckColor = 75;
-      System.out.println("triggered");
+      bckColor = 255;//For some reason, this line is not being activated...
+      //System.out.println("triggered");
     }
     
   }
