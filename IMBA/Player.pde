@@ -1,13 +1,13 @@
 public class Player extends Creature {
     public void handleUserInput(String lastKey) {
       if (lastKey.equals("W")) {
-         jump(); 
+         //jump(); 
       }
       if (lastKey.equals("A")) {
-         setSpeedLeft(); 
+         //setSpeedLeft(); 
       }
       if (lastKey.equals("D")) {
-         setSpeedRight(); 
+         //setSpeedRight(); 
       }
     }
 }

@@ -1,10 +1,10 @@
 public class AirBlock extends Block {
-   public AirBlock(int x, int y, int blockColor) {
-       super(x, y, blockColor);
+   public void display(double xCor, double yCor){
+     noFill();
+     rect((float)(xCor),(float)(yCor),50.0,50.0);
    }
-   public AirBlock(int x, int y) {
-      super(x, y); 
+   public AirBlock(){
+     super("null.jpg"); 
    }
-   
    
 }

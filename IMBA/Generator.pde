@@ -10,26 +10,30 @@ public class Generator{
   }  
   
   private String promptFile(){
-          
+    size(400,600);
+    background(loadImage("./Images/promptScreen.jpg")); 
+    return "";
   }
   
-  private void  initialize(){
+  private ArrayList<Integer> promptOptions(){
+     return null; 
+  }
+  
+  private void initialize(){
      fileName = promptFile();
      if(fileName.length() > 0){
-       try( PrintWriter out = new PrintWriter( "./MapSaves/" + filename + ".map") ){
-           ArrayList<Integer> form = promptOptions();
-           if(form.size() < 1){
-              System.out.println("Please fill out all the forms!"); 
-           }else{
-              board = new ArrayList<Block>[form.get(0)];//first form data will be the height of the board.
-           }
-           out.close();//save file for now.
-       }catch(FileNotFoundException e){
-       }
+        ArrayList<Integer> form = promptOptions();
+        if(form.size() < 1){
+            System.out.println("Please fill out all the forms!"); 
+        }else{
+            //board = new ArrayList<Block>[form.get(0)];//first form data will be the height of the board.
+        }
      }else{               
        System.out.println("Please enter a valid file name"); 
      }
   }//now, the board has been initialized and we are ready to continue
+  
+  
   
   
     

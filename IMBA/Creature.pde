@@ -1,4 +1,4 @@
-public class Creature implements Movable, Displayable {
+public class Creature{
    private float x, y, speedX, speedY;
    private String state;
    
@@ -34,8 +34,8 @@ public class Creature implements Movable, Displayable {
       
       //prevents creature from going closer to another creature
       for (int i = 0; i < others.length; i++) {
-         int diffX = x - others[i].getX();
-         int diffY = y - others[i].getY();
+         float diffX = x - others[i].getX();
+         float diffY = y - others[i].getY();
          
          if (diffX < 0 && diffX > -40) {
             if (speedX < 0) {
@@ -63,5 +63,5 @@ public class Creature implements Movable, Displayable {
    
    public void display() {
       text("Hi I'm A Creature!", x, y); 
-   }
+  }
 }

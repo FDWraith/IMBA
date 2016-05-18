@@ -1,11 +1,11 @@
-//Team blue puppies!
-World world = new World();
+   void setup() {
+   size(1000, 1000);
+   background(255, 255, 255);
+  }
 
-void setup() {
-     world.initializeWorld(width, height);
-   size(100, 600);
-   //background(255, 20, 147);
-   println("" + width);
-   println("" + height);
-   println("hi");
-}
+  void draw(){
+    clear();
+    background(255, 255, 255);
+    Button b = new Button(mouseX, mouseY, 50, 200, 0, 255, "Hello World");
+    b.display();
+  }
