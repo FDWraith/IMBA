@@ -1,3 +1,5 @@
+//BUTTON NO WORK. MUST MANUALLY DO BUTTONS INSTEAD
+
 public class Button{
   float xCor,yCor,len,wide;
   String txt;
@@ -12,19 +14,23 @@ public class Button{
     this.stringColor = stringColor;
   }
   
-  public void display(){
+  public void draw(){
     rectMode(CENTER);
     fill(bckColor);
     rect(xCor,yCor,wide, len);
     //textMode();
     fill(stringColor);
     text(txt,xCor,yCor);
+    mouseClicked();
+    noFill();
     
-    if(mousePressed){
-      bckColor = 255;//For some reason, this line is not being activated...
-      //System.out.println("triggered");
+  }
+  
+  void mouseClicked(){
+    if(mousePressed == true){
+      bckColor = 255; 
+      System.out.println("triggered");
     }
-    
   }
   
 }

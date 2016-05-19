@@ -7,7 +7,7 @@ public class World{
    
    //Constructor, empty means generating new world.
    public World(){
-       Generator worldGen = new Generator();
+       this("default.map");
    }
    
    public World(String fileName){
@@ -16,7 +16,8 @@ public class World{
       colEnd = 5;
    }
    
-   void display(){
+   public void display(){
+     
    }
    
    //might want to replace numBlocksRow and numBlocksCol with width and height primitives
@@ -49,7 +50,7 @@ public class World{
      int ID = Integer.parseInt(ary[ary.length-1]);
      switch(ID){
         case 0: return new AirBlock();
-        case 1: return new Block("ground.jpg");
+        case 1: return new Block("dirt.jpg");
      }
      return null;
    }
