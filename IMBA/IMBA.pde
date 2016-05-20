@@ -17,31 +17,49 @@ private Object world;
       fill(#FFF333);
       promptScreen();
       globalState = "loading";
-    }else if(globalState.equals("loading") && action != null){
-      clear();
-      if(action.equals("play")){
-        globalState = "choosingWorld";
-      }else if(action.equals("create")){
-        world = new Generator();
-        globalState = "generating";
+    }else if(globalState.equals("loading")){
+      if(action != null){
+        clear();  
+        if(action.equals("play")){
+          globalState = "choosingWorld";
+        }else if(action.equals("create")){
+          world = new Generator();
+          globalState = "generating";
+        }
       }
     }else if(globalState.equals("choosingWorld")){
         selectInput("Choose a map file", "fileSelected");
-        globalState = "running";
+        globalState = "tempPhaseOut";
+    }else if(globalState.equals("running")){
+        ((World)(world)).display(0.0);
+    }else if(globalState.equals("generating")){
+        //world.display(); 
     }
+    //System.out.println(globalState);
   }
   
   void fileSelected(File selection){
     if(selection == null){
       globalState = "initialize";
+      action = null;
     }else if(!selection.exists()){
       println("file does not exist");
       globalState = "initialize";
       action = null;
     }else if(!(selection.getAbsolutePath().contains("MapSaves") && selection.getAbsolutePath().contains(".map") ) ){
-      println("file not in proper format");
+      println("file not in proper format or not in proper location");
       globalState = "initialize";
       action = null;
+    }else{
+      try{
+        println(selection.getAbsolutePath());
+        println(selection.getCanonicalPath());
+        world = new World(selection.getAbsolutePath());
+        globalState = "running"; 
+      }catch(Exception e){
+        println("done goofed");
+        e.printStackTrace();
+      }
     }
   }
   
@@ -54,10 +72,12 @@ private Object world;
   
   void mouseClicked(){
     //System.out.println(globalState);
-    if(checkMouse(500,250,300,100) && globalState.equals("loading")){
-      fill(#333FFF);
-      promptScreen();
-      action = "play";
+    if(globalState.equals("loading")){
+      if(checkMouse(500,250,300,100)){
+        fill(#333FFF);  
+        promptScreen();
+        action = "play";
+      }
     }
   }
   
