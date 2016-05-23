@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class Generator{
+public class Generator implements Displayable{
   private ArrayList<Block>[] board;//this will be used as a sounding platform.
   private String fileName;
   
@@ -34,7 +34,9 @@ public class Generator{
   }//now, the board has been initialized and we are ready to continue
   
   
-  
+  public void display(){
+    
+  }
   
     
 }

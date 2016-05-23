@@ -4,7 +4,13 @@ public class AirBlock extends Block {
      rect((float)(xCor),(float)(yCor),50.0,50.0);
    }
    public AirBlock(){
-     super("null.jpg"); 
+     super("null.jpg");
    }
    
+   public void display(float xCor, float yCor){
+     rectMode(CENTER);
+     noFill();
+     noStroke();
+     rect(xCor,yCor,100,100);
+   }
 }
