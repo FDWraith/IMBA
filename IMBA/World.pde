@@ -1,7 +1,4 @@
-//Hello World
-import java.util.*; //<>//
-
-public class World{
+public class World{ //<>//
    private Block[][] board;
    private ArrayList<Positionable> collidableBlocks;
    //  private int rowStart, rowEnd;
@@ -53,9 +50,11 @@ public class World{
              data = data.substring(1,data.length()-1); // get rid of array markings
              Block b = initializeBlock(data);
              board[r][c] = b;
+             /*
              if(b instanceof SolidBlock){
                collidableBlocks.add((Positionable)(b));
              }
+             */
           }
           temp.close();
        }       
@@ -70,7 +69,7 @@ public class World{
      int ID = Integer.parseInt(info);
      switch(ID){
         case 0: return new AirBlock();
-        case 1: return new SolidBlock("dirt.jpg");
+        case 1: return new Block("dirt.jpg");
      }
      return null;
    }
