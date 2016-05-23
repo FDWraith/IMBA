@@ -1,8 +1,9 @@
-//Hello World!
-import java.util.*;
+//Hello World
+import java.util.*; //<>//
 
 public class World{
    private Block[][] board;
+   private ArrayList<Positionable> collidableBlocks;
    //  private int rowStart, rowEnd;
    
    //Constructor, empty means generating new world.
@@ -27,6 +28,9 @@ public class World{
         yCor = 50.0;
         xCor += 100.0;
       }
+      
+      
+      
    }
    
    //might want to replace numBlocksRow and numBlocksCol with width and height primitives
@@ -41,16 +45,21 @@ public class World{
        int col = firstLine.nextInt();
        firstLine.close();
        board = new Block[row][col];
+       collidableBlocks = new ArrayList<Positionable>();
        for(int r = 0;r < row;r++){
           Scanner temp = new Scanner(in.nextLine());
           for(int c = 0; c < col; c++){
             String data = temp.next();
              data = data.substring(1,data.length()-1); // get rid of array markings
-             board[r][c] = initializeBlock(data);
+             Block b = initializeBlock(data);
+             board[r][c] = b;
+             if(b instanceof SolidBlock){
+               collidableBlocks.add((Positionable)(b));
+             }
           }
           temp.close();
-       }
-       in.close();
+       }       
+       in.close();       
      }catch(FileNotFoundException e){
        
      }
@@ -61,7 +70,7 @@ public class World{
      int ID = Integer.parseInt(info);
      switch(ID){
         case 0: return new AirBlock();
-        case 1: return new Block("dirt.jpg");
+        case 1: return new SolidBlock("dirt.jpg");
      }
      return null;
    }
