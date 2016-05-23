@@ -1,6 +1,10 @@
 public class Block{
     private PImage img;
-
+    
+    public Block(){
+       //Do nothing; 
+    }
+  
     public Block(String filename){
       img = loadImage("./Images/"+filename); 
     }

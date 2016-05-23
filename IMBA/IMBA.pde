@@ -4,10 +4,14 @@ import java.util.concurrent.*;
 private String globalState;
 private String action;
 private Object world;
+private static float adjustment;
+
+
    void setup() {
    size(1000, 1000);
    background(255, 255, 255);
    globalState = "initialize";
+   adjustment = 0.0;
   }
 
   void draw(){
@@ -31,7 +35,8 @@ private Object world;
         selectInput("Choose a map file", "fileSelected");
         globalState = "tempPhaseOut";
     }else if(globalState.equals("running")){
-        ((World)(world)).display(0.0);
+        ((World)(world)).display(adjustment);
+        
     }else if(globalState.equals("generating")){
         //world.display(); 
     }
