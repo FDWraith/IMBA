@@ -5,7 +5,7 @@ public class Block{
        //Do nothing; 
     }  
     public Block(String filename){
-      img = loadImage("./Images/"+filename); 
+      img = loadImage("./Images/Blocks/"+filename); 
     }
     public void display(float xCor, float yCor){
       imageMode(CENTER);

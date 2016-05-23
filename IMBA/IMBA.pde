@@ -4,6 +4,14 @@ import java.util.concurrent.*;
 private String globalState;
 private String action;
 private Object world;
+<<<<<<< HEAD
+
+void setup() {
+   size(1000, 1000);
+   background(255, 255, 255);
+   globalState = "initialize";
+}
+=======
 private static float adjustment;
 
 
@@ -13,12 +21,13 @@ private static float adjustment;
    globalState = "initialize";
    adjustment = 0.0;
   }
+>>>>>>> 2f3eb5e3d87fc8b2b3d6e32e243e2c693c4ca835
 
-  void draw(){
+void draw(){
     //Button b = new Button(mouseX, mouseY, 50, 200, 0, 255, "Hello World");
     //b.draw();
+    background(#FFFFFF);
     if(globalState.equals("initialize")){
-      fill(#FFF333);
       promptScreen();
       globalState = "loading";
     }else if(globalState.equals("loading")){
@@ -30,35 +39,42 @@ private static float adjustment;
           world = new Generator();
           globalState = "generating";
         }
+      }else{
+        promptScreen();
+        if(checkMouse(500,250,300,100)){
+          fill(#A3A3A3);
+          promptButton(500,250,300,100);
+          noFill();
+        }
       }
     }else if(globalState.equals("choosingWorld")){
         selectInput("Choose a map file", "fileSelected");
         globalState = "tempPhaseOut";
+        action = null;
     }else if(globalState.equals("running")){
         ((World)(world)).display(adjustment);
         
     }else if(globalState.equals("generating")){
-        //world.display(); 
+        selectInput("Choose a map file to edit, or create a new one", "fileChanged");
+        globalState = "tempPhaseOut";
+        action = null;
     }
     //System.out.println(globalState);
-  }
+}
   
   void fileSelected(File selection){
     if(selection == null){
       globalState = "initialize";
-      action = null;
     }else if(!selection.exists()){
       println("file does not exist");
       globalState = "initialize";
-      action = null;
     }else if(!(selection.getAbsolutePath().contains("MapSaves") && selection.getAbsolutePath().contains(".map") ) ){
       println("file not in proper format or not in proper location");
       globalState = "initialize";
-      action = null;
     }else{
       try{
-        println(selection.getAbsolutePath());
-        println(selection.getCanonicalPath());
+        //println(selection.getAbsolutePath());
+        //println(selection.getCanonicalPath());
         world = new World(selection.getAbsolutePath());
         globalState = "running"; 
       }catch(Exception e){
@@ -68,19 +84,25 @@ private static float adjustment;
     }
   }
   
-  void promptScreen(){
-    clear();
-    background(255,255,255);
+  void fileChanged(File selection){
+    if(selection == null){
+      println("You need to choose a file"); 
+    }else if(!selection.exists()){
+        
+    }
+  }
+  void promptButton(float xCor, float yCor, float len, float ht){
     rectMode(CENTER);
-    rect(500,250,300,100);
+    rect(xCor, yCor, len, ht);
+  }
+  void promptScreen(){
+    promptButton(500,250,300,100);
   }
   
   void mouseClicked(){
     //System.out.println(globalState);
     if(globalState.equals("loading")){
       if(checkMouse(500,250,300,100)){
-        fill(#333FFF);  
-        promptScreen();
         action = "play";
       }
     }
@@ -95,3 +117,4 @@ private static float adjustment;
     }
     return false;
   }
+  
