@@ -1,12 +1,44 @@
+/*
+  THINGS NEEDED:
+      Positionable array for collide        
+      A way to include setSpeedHorizontal   **All Good!
+      Display                               **All Good... I hope!
+      Creature constructor                  **All Good!
+*/
+/*
+  How this runs:
+      1. Set the state
+      2. move will automatically read the state and act accordingly (set the speed, move a bit)
+      3. move handles the rest
+      
+      4. read player (or random move command generator) input
+      5. update state
+*/
+
 public class Creature{
-   public final static float gravity_constant = 9.81;
+   public final static float gravity_constant = 30;
    
    private float x, y, speedX, speedY;
    private String state;
      //There are several states:
         //JUMPING: The user will temporarily accelerate dramatically, and state reverts to falling
-        //FALLING: The user is mid-air and will fall
+        //FALLING: The user is mid-air. **You can be accelerating upwards, but you are regardless mid-air and thus will fall... eventually
         //DEFAULT: The user is on the ground and is walking by default
+        //STOP: The user has stopped
+   
+   public Creature() {
+     this(0, 0); 
+   }
+   
+   public Creature(float xcor, float ycor) {
+       x = xcor;
+       y = ycor;
+       state = "STOP";
+       speedX = 0;
+       speedY = 0;
+       move();
+   }
+
    
    public float getX() { return x; }
    public float getY() { return y; }
@@ -15,41 +47,45 @@ public class Creature{
    public String getState() { return state; }
    
    public void setState(String newState) { state = newState; }
-   public void setSpeedX(float newSpeedX) { speedX = newSpeedX; }
-   
-   
-   //All we need to do now is set speed appropriately
+   public void setSpeedHorizontal(String direction) {
+      if (direction.equals("LEFT")) {
+         speedX = -8; 
+      } else if (direction.equals("RIGHT")) {
+         speedX = 8; 
+      } else {
+         System.out.println("Invalid move attempted"); 
+      }
+   }
+      
+   //checks the state and moves accordingly
+   //changes the speed and location of creature
    public void move() {
       if (state.equals("FALLING")) {
          //just accelerate downwards 
       }
       else if (state.equals("JUMPING")) {
-        //gravity -- may need to add by .981 instead -- REQUIRES TESTING
-        speedY += 9.81;
+        speedY += 100;
       }
       else if (state.equals("DEFAULT")) {
           speedY = 0;
+      }
+      else if (state.equals("STOP")) {
+         speedX = 0;
+         speedY = 0; //may want to remove this -- if i'm on the ground it's 0, if i'm in the air would i want to stop midair?
       }
       //collide(new Positionable[30]);
       y += speedY;
       x += speedX;
       applyGravity();
-      //speedX = Math.abs(speedX / 10 - .001); //accounts for friction
+      display();
    }
    
+   //makes player move downwards
    public void applyGravity() {
       if (speedY < gravity_constant) {
          speedY = 0; 
       } else {
          speedY = speedY - gravity_constant; 
-      }
-   }
-   
-   public void moveHorizontal(String direction) {
-      if (direction.equals("LEFT")) {
-         speedX = -5; 
-      } else {
-         speedX = 5; 
       }
    }
    
@@ -92,16 +128,20 @@ public class Creature{
             }
          }
       }
-      if (speedY == 0) {
-         state = "DEFAULT"; 
+      if (speedY == 0 ) {
+        if (speedX == 0) {
+           state = "STOP"; 
+        } else {
+           state = "DEFAULT"; 
+        }
       }
    }
    
    public void display() {
-      text("Hi I'm A Creature!", x, y); 
+      ellipse(1000 - y + 20, x, 20, 20); 
   }
   
-  public void jump() {
-    
+  public void label() {
+      text("Hi I'm A Creature!", x, 1000 - y);
   }
 }
