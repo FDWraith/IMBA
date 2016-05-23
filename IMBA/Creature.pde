@@ -91,7 +91,7 @@ public class Creature{
    
    //sets the speed (and state?) to accomodate for statuses
    //accomodates for the speed and state to prevent collisions
-   public void collide(Positionable[] others) {
+   public void collide(ArrayList<Positionable> others) {
      //decides behavior with the edges of the world
       if (y > height - 40 || y < 40) {
          speedY = 0; 
@@ -102,27 +102,27 @@ public class Creature{
       }
       
       //prevents creature from going closer to another creature
-      for (int i = 0; i < others.length; i++) {
-         float diffX = x - others[i].getX();
-         float diffY = y - others[i].getY();
+      for (int i = 0; i < others.size(); i++) {
+         float diffX = x - others.get(i).getX();
+         float diffY = y - others.get(i).getY();
          //separate if with creature and blocks -- for blocks, see world code and use x,y cor (middle of the block) to determine collide
-         if (diffX < 0 && diffX > -40) {
+         if (diffX < 0 && diffX > -70) {
             if (speedX < 0) {
                speedX = 0; 
             }
          }
-         if (diffX > 0 && diffX < 40) {
+         if (diffX > 0 && diffX < 70) {
             if (speedX > 0) {
                speedX = 0; 
             }
          }
          
-         if (diffY < 0 && diffY > -40) {
+         if (diffY < 0 && diffY > -70) {
             if (speedY < 0) {
                speedY = 0; 
             }
          }
-         if (diffY > 0 && diffY < -40) {
+         if (diffY > 0 && diffY < -70) {
             if (speedY < 0) {
                speedY = 0; 
             }
@@ -138,7 +138,8 @@ public class Creature{
    }
    
    public void display() {
-      ellipse(1000 - y + 20, x, 20, 20); 
+     ellipseMode(CENTER);
+      ellipse(x, 1000 - y, 20, 20); 
   }
   
   public void label() {

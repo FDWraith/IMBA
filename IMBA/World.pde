@@ -1,6 +1,9 @@
-public class World{ //<>//
+public class World{  //<>//
    private Block[][] board;
    private ArrayList<Positionable> collidableBlocks;
+   private Player player;
+   private ArrayList<Positionable> others;
+   
    //  private int rowStart, rowEnd;
    
    //Constructor, empty means generating new world.
@@ -25,6 +28,11 @@ public class World{ //<>//
         yCor = 50.0;
         xCor += 100.0;
       }
+      player.move();
+      player.collide(collidableBlocks);
+      player.collide(others);
+     
+      
       
       
       
@@ -50,14 +58,30 @@ public class World{ //<>//
              data = data.substring(1,data.length()-1); // get rid of array markings
              Block b = initializeBlock(data);
              board[r][c] = b;
-             /*
+             
              if(b instanceof SolidBlock){
                collidableBlocks.add((Positionable)(b));
              }
-             */
+             
           }
           temp.close();
-       }       
+       }
+       Scanner nextLine = new Scanner(in.nextLine());
+       int numOfCreatures = nextLine.nextInt();
+       nextLine.close();
+       for(int i = 0; i < numOfCreatures; i++){
+         String data = in.nextLine();
+         data = data.substring(1,data.length()-1);
+         String[]ary = data.split(",");
+         Creature c = intializeCreature(ary[0],Float.parseFloat(ary[1]),Float.parseFloat(ary[2]));
+         others = new ArrayList<Positionable>();
+         if(c instanceof Player){
+           player = (Player)(c);
+         }else{
+           others.add((Positionable)(c));
+         }
+       }
+       
        in.close();       
      }catch(FileNotFoundException e){
        
@@ -69,7 +93,15 @@ public class World{ //<>//
      int ID = Integer.parseInt(info);
      switch(ID){
         case 0: return new AirBlock();
-        case 1: return new Block("dirt.jpg");
+        case 1: return new SolidBlock("dirt.jpg");
+     }
+     return null;
+   }
+   private Creature intializeCreature(String info, float xCor, float yCor){
+     int ID = Integer.parseInt(info);
+     switch(ID){
+        case 0: return new Player(xCor,yCor);
+        case 1: return new Creature(xCor,yCor);
      }
      return null;
    }

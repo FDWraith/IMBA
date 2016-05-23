@@ -4,24 +4,16 @@ import java.util.concurrent.*;
 private String globalState;
 private String action;
 private Object world;
-<<<<<<< HEAD
+private static float adjustment;
+
 
 void setup() {
    size(1000, 1000);
    background(255, 255, 255);
    globalState = "initialize";
-}
-=======
-private static float adjustment;
-
-
-   void setup() {
-   size(1000, 1000);
-   background(255, 255, 255);
-   globalState = "initialize";
    adjustment = 0.0;
-  }
->>>>>>> 2f3eb5e3d87fc8b2b3d6e32e243e2c693c4ca835
+}
+
 
 void draw(){
     //Button b = new Button(mouseX, mouseY, 50, 200, 0, 255, "Hello World");

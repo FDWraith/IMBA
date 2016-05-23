@@ -1,5 +1,10 @@
 public class Player extends Creature{
-    
+  
+  public Player(float xCor, float yCor){
+   super(xCor, yCor); 
+  }
+  
+  
   public void handleUserInput(String lastKey) {      
     if (lastKey.equals("W")) {
        setState("JUMPING");

@@ -1,5 +1,9 @@
 A B
+{C}
+D
+{E,F}
 
-{C,D,E,F}
-
-where A is rows, B is cols, C and D are x,y cor of Block. E is the color. F is the Block ID.
+where A is rows, B is cols, C is Block ID
+D is how many creatures there are
+E and F are the x and y-cors for each creature
+First entry will always refer to a player
