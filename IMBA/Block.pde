@@ -3,8 +3,7 @@ public class Block{
     
     public Block(){
        //Do nothing; 
-    }
-  
+    }  
     public Block(String filename){
       img = loadImage("./Images/"+filename); 
     }
