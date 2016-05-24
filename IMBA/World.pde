@@ -32,11 +32,12 @@ public class World{  //<>//
         yCor = 50.0;
         xCor += 100.0;
       }
-      player.display();
-      player.move();
-      player.collide(collidableBlocks);
-      player.collide(others);      
       
+      //println(collidableBlocks.size());
+      player.collide(collidableBlocks);
+      //player.collide(others);      
+      player.move();
+      player.display();
    }
    
    //might want to replace numBlocksRow and numBlocksCol with width and height primitives

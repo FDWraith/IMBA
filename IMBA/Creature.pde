@@ -93,11 +93,14 @@ public class Creature{
    //accomodates for the speed and state to prevent collisions
    public void collide(ArrayList<Positionable> others) {
      //decides behavior with the edges of the world
+     
       if (y > height - 40 || y < 40) {
+        y -= speedY;
          speedY = 0; 
       } 
       //need to change with map scrolling
       if (x > width - 40 || x < 40) {
+        x -= speedX;
          speedX = 0; 
       }
       
@@ -106,37 +109,38 @@ public class Creature{
          float diffX = x - others.get(i).getX();
          float diffY = y - others.get(i).getY();
          //separate if with creature and blocks -- for blocks, see world code and use x,y cor (middle of the block) to determine collide
-         if (diffX < 0 && diffX > -70) {
-            if (speedX < 0) {
+         if(diffY < 10){
+           if (diffX < 0 && diffX > -40) {
+              if (speedX < 0) {
                speedX = 0; 
             }
          }
-         if (diffX > 0 && diffX < 70) {
+         if (diffX > 0 && diffX < 40) {
             if (speedX > 0) {
                speedX = 0; 
             }
          }
          
-         if (diffY < 0 && diffY > -70) {
+         if (diffY < 0 && diffY > -40) {
             if (speedY < 0) {
                speedY = 0; 
             }
          }
-         if (diffY > 0 && diffY < -70) {
+         if (diffY > 0 && diffY < -40) {
             if (speedY < 0) {
                speedY = 0; 
             }
          }
       }
-      if (speedY == 0 ) {
+      if(speedY == 0 ){
         if (speedX == 0) {
            state = "STOP"; 
         } else {
            state = "DEFAULT"; 
         }
       }
+    }
    }
-   
    public void display() {
      fill(#000000);
      ellipseMode(CENTER);
