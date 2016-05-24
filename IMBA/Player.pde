@@ -5,16 +5,18 @@ public class Player extends Creature{
   }
   
   
-  public void handleUserInput(String lastKey) {      
-    if (lastKey.equals("W") || lastKey.equals("w") ){
+  public void handleUserInput(String lastKey) {
+    System.out.println("\n\n\n\nHANDLING USER INPUT");
+    if ((lastKey.equals("W") || lastKey.equals("w")) && !getIsJumping() /* && getState() != "FALLING" */){
        setState("JUMPING");
+       setIsJumping(true);
     }
     if (lastKey.equals("A") || lastKey.equals("a")) {
-       setState("MOVING");
+       setState("DEFAULT");
        setSpeedHorizontal("LEFT");
     }
     if (lastKey.equals("D") || lastKey.equals("d")) {
-      setState("MOVING");
+      setState("DEFAULT");
       setSpeedHorizontal("RIGHT");
     }
   }  
