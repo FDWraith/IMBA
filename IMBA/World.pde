@@ -15,6 +15,10 @@ public class World{  //<>//
       initializeWorld(filePath);
    }
    
+   public void handleUserInput(String in){
+     player.handleUserInput(in); 
+   }
+   
    public void display(float adjust){//adjust starts at 0. As adjust increases, we move left
       float movement = adjust % 100;
       int blockChange = (int)(adjust / 100);
@@ -28,13 +32,10 @@ public class World{  //<>//
         yCor = 50.0;
         xCor += 100.0;
       }
+      player.display();
       player.move();
       player.collide(collidableBlocks);
-      player.collide(others);
-     
-      
-      
-      
+      player.collide(others);      
       
    }
    

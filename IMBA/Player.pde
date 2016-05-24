@@ -6,14 +6,14 @@ public class Player extends Creature{
   
   
   public void handleUserInput(String lastKey) {      
-    if (lastKey.equals("W")) {
+    if (lastKey.equals("W") || lastKey.equals("w") ){
        setState("JUMPING");
     }
-    if (lastKey.equals("A")) {
+    if (lastKey.equals("A") || lastKey.equals("a")) {
        setState("MOVING");
        setSpeedHorizontal("LEFT");
     }
-    if (lastKey.equals("D")) {
+    if (lastKey.equals("D") || lastKey.equals("d")) {
       setState("MOVING");
       setSpeedHorizontal("RIGHT");
     }

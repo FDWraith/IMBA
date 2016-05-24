@@ -138,8 +138,9 @@ public class Creature{
    }
    
    public void display() {
+     fill(#000000);
      ellipseMode(CENTER);
-      ellipse(x, 1000 - y, 20, 20); 
+     ellipse(x, 1000 - y, 80, 80); 
   }
   
   public void label() {

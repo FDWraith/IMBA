@@ -100,6 +100,12 @@ void draw(){
     }
   }
   
+  void keyTyped(){
+    if(world instanceof World){
+      ((World)(world)).handleUserInput(""+key);
+    }
+  }
+  
   public boolean checkMouse(double xCor, double yCor, double wid, double ht){
     //System.out.println("testing");
     if(mouseX < xCor + wid / 2 && mouseX > xCor - wid / 2){
