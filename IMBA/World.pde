@@ -34,9 +34,9 @@ public class World{  //<>//
       }
       
       //println(collidableBlocks.size());
-      player.collide(collidableBlocks);
+      //    player.collide(collidableBlocks);
       //player.collide(others);      
-      player.move();
+      player.move(collidableBlocks);
       player.display();
    }
    
