@@ -54,6 +54,8 @@ void draw(){
     //System.out.println(globalState);
 }
   
+
+  
   void fileSelected(File selection){
     if(selection == null){
       globalState = "initialize";
@@ -103,6 +105,11 @@ void draw(){
   void keyTyped(){
     if(world instanceof World){
       ((World)(world)).handleUserInput(""+key);
+      if(key == 'd'){
+        adjustment += 5;  
+      }else if(key == 'a'){
+        adjustment -= 5;  
+      }
     }
   }
   

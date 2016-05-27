@@ -170,7 +170,20 @@ public class Creature {
       float diffX = x - others.get(i).getX();
       float diffY = y - others.get(i).getY();
       //separate if with creature and blocks -- for blocks, see world code and use x,y cor (middle of the block) to determine collide
-
+       /* 
+      if(abs(diffX) < 50){
+         if(abs(diffY) < 50){
+           //x -= speedX;
+           //y -= speedY;
+           speedX = 0;
+           //speedY = 0;
+         }
+      }
+      */
+  
+  
+  
+      
       //creature is above block and about to fall through it
       if (diffY > 0 && diffY < 81 && diffX > -50 && diffX < 50) {
         if (speedY < 0) {
@@ -193,6 +206,7 @@ public class Creature {
           System.out.println("6th if statement");
         }
       }
+      
     }
     /*
      if(speedY == 0 ){
@@ -209,6 +223,7 @@ public class Creature {
     fill(#000000);
     ellipseMode(CENTER);
     ellipse(x, 1000 - y, 40, 40);
+    label();
   }
 
   public void label() {

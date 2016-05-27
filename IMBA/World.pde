@@ -19,12 +19,16 @@ public class World{  //<>//
      player.handleUserInput(in); 
    }
    
-   public void display(float adjust){//adjust starts at 0. As adjust increases, we move left
+   public void display(float adjustX){//adjust starts at 0. As adjust increases, we move left
+   /*
       float movement = adjust % 100;
       int blockChange = (int)(adjust / 100);
-      float xCor = movement + 50.0;
+      */
+      pushMatrix();
+      translate(-1 * adjustX, 0);
+      float xCor = 50.0;
       float yCor = 50.0;
-      for(int r = 0 + blockChange; r < 10 + blockChange && r < board.length; r++){
+      for(int r = 0; r < board.length; r++){
         for(int c = 0; c < board[r].length; c++){
           board[r][c].display(xCor, 1000 - yCor);
           yCor += 100;
@@ -32,12 +36,15 @@ public class World{  //<>//
         yCor = 50.0;
         xCor += 100.0;
       }
-      
       //println(collidableBlocks.size());
       //    player.collide(collidableBlocks);
-      //player.collide(others);      
+      //player.collide(others);
+      popMatrix();
+      pushMatrix();
+      translate(adjustX, 0);
       player.move(collidableBlocks);
       player.display();
+      popMatrix();
    }
    
    //might want to replace numBlocksRow and numBlocksCol with width and height primitives

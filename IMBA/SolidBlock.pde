@@ -1,6 +1,7 @@
 public class SolidBlock extends Block implements Positionable{
   private float xCor, yCor;
   private PImage img;
+  private float wid;
   
   public SolidBlock(String fileName){
     img = loadImage("./Images/Blocks/"+fileName);
@@ -20,5 +21,8 @@ public class SolidBlock extends Block implements Positionable{
   }
   public float getY(){
     return 1000 - yCor; 
+  }
+  public float getW(){
+    return wid;
   }
 }
