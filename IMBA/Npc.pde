@@ -1,6 +1,6 @@
 public class Npc  extends Creature{
    public void randomizeMove() {
-      int randomChoice = (int)(Math.random() * 3);
+      int randomChoice = (int)(Math.random() * 2);
       if (randomChoice == 0) {
          setState("DEFAULT");
          setSpeedHorizontal("LEFT"); 
@@ -8,9 +8,6 @@ public class Npc  extends Creature{
       else if (randomChoice == 1) {
          setState("DEFAULT");
          setSpeedHorizontal("RIGHT"); 
-      }
-      else if (randomChoice == 2) {
-         setState("STOP"); 
       }
    }
 }
