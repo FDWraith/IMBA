@@ -134,7 +134,7 @@ public class Creature {
       y+= speedY;
       x+= speedX;
       collide(others);
-      //isJumping = true; //I fail to see the purpose of this.
+      isJumping = true; //I fail to see the purpose of this.
     }else if(state.equals("FALLING")){
       applyGravity();
       y += speedY;
@@ -147,6 +147,8 @@ public class Creature {
       speedX = 0;
       speedY = 0;
     }
+    display();
+    System.out.println("" + state + " SpeedX:" + speedX + " SpeedY: "+speedY);
     /*
     if (state.equals("FALLING")) {
       applyGravity();
@@ -171,7 +173,7 @@ public class Creature {
     collide(others);
     //      System.out.println(speedY);
     display();
-    System.out.println("" + state + " SpeedY: "+speedY);
+    
     //      System.out.println("Y: "+y);
     */
   } //<>//
