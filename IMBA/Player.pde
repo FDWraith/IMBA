@@ -25,6 +25,35 @@ public class Player extends Creature{
   public void label() {
      text("This Is You!", getX(), 1000 - getY()); 
   }
+  /*
+  public void move(ArrayList<Positionable> others){
+    applyGravity();
+    if (getState().equals("FALLING")) {
+      if (getSpeedY() == 0) {
+        setState("DEFAULT");
+      }
+      //just accelerate downwards
+    } else if (getState().equals("JUMPING")) {
+      setSpeedY(getSpeedY() + 10);
+      setState("FALLING");
+      //isJumping = true;
+    } else if (getState().equals("DEFAULT")) {
+      //speedY = 0;
+      setState("STOP");
+    } else if (getState().equals("STOP")) {
+      applyFriction();
+      //speedY = 0; //may want to remove this -- if i'm on the ground it's 0, if i'm in the air would i want to stop midair?
+    }
+    setX(getX() + getSpeedX());
+    setY(getY() + getSpeedY());
+    collide(others);
+    //      System.out.println(speedY);
+    display();
+  }
+  */
+  
+  
+  
   
   /*
     NOTES:
