@@ -122,6 +122,7 @@ public class Creature {
   //checks the state and moves accordingly
   //changes the speed and location of creature
   public void move(ArrayList<Positionable> others) { //<>//
+    /*
     if(state.equals("DEFAULT")){
       //speedY = 0;//this should be the case if
       applyFriction();
@@ -149,7 +150,7 @@ public class Creature {
     }
     display();
     System.out.println("" + state + " SpeedX:" + speedX + " SpeedY: "+speedY);
-    /*
+    */
     if (state.equals("FALLING")) {
       applyGravity();
       if (speedY == 0) {
@@ -168,14 +169,14 @@ public class Creature {
       applyFriction();
       //speedY = 0; //may want to remove this -- if i'm on the ground it's 0, if i'm in the air would i want to stop midair?
     }
+    collide(others);
     y += speedY;
     x += speedX;
-    collide(others);
     //      System.out.println(speedY);
     display();
     
     //      System.out.println("Y: "+y);
-    */
+    
   } //<>//
 
   //makes player move downwards
@@ -187,7 +188,7 @@ public class Creature {
     speedY = speedY - gravity_constant; 
     // }
   }
-  
+  /*
   public void  collide(ArrayList<Positionable> others){
     if(x < 50 || x > width - 50){
       x -= speedX;
@@ -211,7 +212,7 @@ public class Creature {
     
   }
   
-  /*
+  */
 
   //sets the speed (and state?) to accomodate for statuses
   //accomodates for the speed and state to prevent collisions
@@ -274,7 +275,7 @@ public class Creature {
      }
      
   }
-  */
+  
 
   public void display() {
     fill(#000000);

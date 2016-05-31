@@ -20,6 +20,6 @@ public class SolidBlock extends Block implements Positionable{
    return xCor; 
   }
   public float getY(){
-    return yCor; 
+    return 1000 - yCor; 
   }
 }
