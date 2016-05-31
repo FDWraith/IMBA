@@ -22,4 +22,7 @@ public class SolidBlock extends Block implements Positionable{
   public float getY(){
     return 1000 - yCor; 
   }
+  public float getW(){
+    return wid;
+  }
 }

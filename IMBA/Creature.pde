@@ -22,7 +22,7 @@
  */
 
 public class Creature {
-  public static final float gravity_constant = .5;
+  public static final float gravity_constant = 5;
   public static final float friction_constant = .1;
   public static final float max_speedx = 10;
   public static final float accelerateX = 3;
@@ -69,18 +69,6 @@ public class Creature {
   public boolean getIsJumping() {
     return isJumping; 
   }
-  public void setX(float n){
-    x = n; 
-  }
-  public void setY(float n){
-    y = n; 
-  }
-  public void setSpeedX(float n){
-    speedX = n;
-  }
-  public void setSpeedY(float n){
-    speedY = n; 
-  }
 
   public void setState(String newState) { 
     state = newState;
@@ -102,7 +90,7 @@ public class Creature {
      isJumping = b; 
   }
 
-  public void applyFriction() {
+  private void applyFriction() {
     //player moves to the right
     if (speedX > 0) {
       if (speedX > friction_constant) {
@@ -121,49 +109,19 @@ public class Creature {
 
   //checks the state and moves accordingly
   //changes the speed and location of creature
-  public void move(ArrayList<Positionable> others) { //<>//
-    /*
-    if(state.equals("DEFAULT")){
-      //speedY = 0;//this should be the case if
-      applyFriction();
-      x += speedX;
-      collide(others);//check left and right only.
-      //speedY is zero, so is unnecessary
-    }else if(state.equals("JUMPING")){//activated when player presses a button.
-      speedY += 10;
-      state = "FALLING";
-      y+= speedY;
-      x+= speedX;
-      collide(others);
-      isJumping = true; //I fail to see the purpose of this.
-    }else if(state.equals("FALLING")){
-      applyGravity();
-      y += speedY;
-      x += speedX;
-      collide(others);    
-      if(speedY == 0){
-        state = "DEFAULT";
-      }
-    }else if(state.equals("STOP")){
-      speedX = 0;
-      speedY = 0;
-    }
-    display();
-    System.out.println("" + state + " SpeedX:" + speedX + " SpeedY: "+speedY);
-    */
+  public void move(ArrayList<Positionable> others) {
+    applyGravity();
     if (state.equals("FALLING")) {
-      applyGravity();
       if (speedY == 0) {
         state = "DEFAULT";
       }
       //just accelerate downwards
     } else if (state.equals("JUMPING")) {
-      speedY += 10;
+      speedY += 50;
       state = "FALLING";
       isJumping = true;
     } else if (state.equals("DEFAULT")) {
       //speedY = 0;
-      
       state = "STOP";
     } else if (state.equals("STOP")) {
       applyFriction();
@@ -174,10 +132,9 @@ public class Creature {
     x += speedX;
     //      System.out.println(speedY);
     display();
-    
+    System.out.println("" + state + " SpeedY: "+speedY);
     //      System.out.println("Y: "+y);
-    
-  } //<>//
+  }
 
   //makes player move downwards
   public void applyGravity() {
@@ -188,31 +145,6 @@ public class Creature {
     speedY = speedY - gravity_constant; 
     // }
   }
-  /*
-  public void  collide(ArrayList<Positionable> others){
-    if(x < 50 || x > width - 50){
-      x -= speedX;
-      speedX = 0;
-    }
-    if(y < 50 || y > height - 50){
-      y -= speedY;
-      speedY = 0;
-      setState("DEFAULT");//this must occur. We cannot apply gravity at this time.
-    }
-    
-    for(int i = 0; i < others.size(); i++){
-      float diffX = x - others.get(i).getX();//difference in xCors
-      float diffY = y - others.get(i).getY();//difference in yCors
-      if(abs(diffX) < 50 && abs(diffY) < 50){
-        x -= speedX;
-        y -= speedY;
-        setState("STOP");//we need the play to just stop because of collision.
-      }
-    }
-    
-  }
-  
-  */
 
   //sets the speed (and state?) to accomodate for statuses
   //accomodates for the speed and state to prevent collisions
@@ -238,6 +170,17 @@ public class Creature {
       float diffX = x - others.get(i).getX();
       float diffY = y - others.get(i).getY();
       //separate if with creature and blocks -- for blocks, see world code and use x,y cor (middle of the block) to determine collide
+       /* 
+      if(abs(diffX) < 50){
+         if(abs(diffY) < 50){
+           //x -= speedX;
+           //y -= speedY;
+           speedX = 0;
+           //speedY = 0;
+         }
+      }
+      */
+  
   
   
       
@@ -265,17 +208,16 @@ public class Creature {
       }
       
     }
-    
+    /*
      if(speedY == 0 ){
-       if (speedX == 0) {
-         state = "STOP"; 
-       } else {
-         state = "DEFAULT"; 
-       }
+     if (speedX == 0) {
+     state = "STOP"; 
+     } else {
+     state = "DEFAULT"; 
      }
-     
+     }
+     */
   }
-  
 
   public void display() {
     fill(#000000);

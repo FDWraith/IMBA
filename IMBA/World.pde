@@ -24,6 +24,8 @@ public class World{  //<>//
       float movement = adjust % 100;
       int blockChange = (int)(adjust / 100);
       */
+      pushMatrix();
+      translate(-1 * adjustX, 0);
       float xCor = 50.0;
       float yCor = 50.0;
       for(int r = 0; r < board.length; r++){
@@ -37,9 +39,12 @@ public class World{  //<>//
       //println(collidableBlocks.size());
       //    player.collide(collidableBlocks);
       //player.collide(others);
-
+      popMatrix();
+      pushMatrix();
+      translate(adjustX, 0);
       player.move(collidableBlocks);
       player.display();
+      popMatrix();
    }
    
    //might want to replace numBlocksRow and numBlocksCol with width and height primitives
