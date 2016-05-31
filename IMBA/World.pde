@@ -39,9 +39,6 @@ public class World{  //<>//
       //println(collidableBlocks.size());
       //    player.collide(collidableBlocks);
       //player.collide(others);
-      popMatrix();
-      pushMatrix();
-      translate(adjustX, 0);
       player.move(collidableBlocks);
       player.display();
       popMatrix();

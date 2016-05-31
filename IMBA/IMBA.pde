@@ -28,7 +28,6 @@ void draw(){
         if(action.equals("play")){
           globalState = "choosingWorld";
         }else if(action.equals("create")){
-          world = new Generator();
           globalState = "generating";
         }
       }else{
@@ -50,6 +49,12 @@ void draw(){
         selectInput("Choose a map file to edit, or create a new one", "fileChanged");
         globalState = "tempPhaseOut";
         action = null;
+    }else if(globalState.equals("worldMaking")){
+        if(action.equals("createNew")){
+          
+        }else if(action.equals("editOld")){
+          
+        }
     }
     //System.out.println(globalState);
 }
@@ -82,7 +87,23 @@ void draw(){
     if(selection == null){
       println("You need to choose a file"); 
     }else if(!selection.exists()){
-        
+      int index = selection.getAbsolutePath().indexOf("/MapSaves/");
+      File f = new File(selection.getAbsolutePath());
+      f.getParentFile().mkdirs();
+      try{
+        f.createNewFile();
+        world = new Generator(selection.getAbsolutePath().substring(index+10));
+      }catch(IOException e){
+        println("What is going on?");
+      }
+      globalState = "worldMaking";
+      action = "createNew";
+      //f.close();
+    }else{
+      int index = selection.getAbsolutePath().indexOf("/MapSaves/");
+      world = new Generator(selection.getAbsolutePath().substring(index+10));
+      globalState = "worldMaking";
+      action = "editOld";
     }
   }
   void promptButton(float xCor, float yCor, float len, float ht){

@@ -160,7 +160,7 @@ public class Creature {
       isJumping = false;
     }
     //need to change with map scrolling
-    if (x > width - 40 || x < 40) {
+    if ( x < 40) {
       x -= speedX;
       speedX = 0;
     }

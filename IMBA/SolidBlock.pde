@@ -13,14 +13,14 @@ public class SolidBlock extends Block implements Positionable{
     imageMode(CENTER);
     image(img,xCor,yCor,100,100);
     this.xCor = xCor;
-    this.yCor = yCor;
+    this.yCor = 1000 - yCor;
   }
   
   public float getX(){
    return xCor; 
   }
   public float getY(){
-    return 1000 - yCor; 
+    return yCor; 
   }
   public float getW(){
     return wid;
