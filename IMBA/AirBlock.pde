@@ -1,16 +1,13 @@
 public class AirBlock extends Block {
-   public void display(double xCor, double yCor){
-     noFill();
-     rect((float)(xCor),(float)(yCor),50.0,50.0);
-   }
-   public AirBlock(){
-     super("null.jpg");
+  
+   public AirBlock(int size){
+     super("null.jpg", size);
    }
    
    public void display(float xCor, float yCor){
      rectMode(CENTER);
      noFill();
      noStroke();
-     rect(xCor,yCor,100,100);
+     rect(xCor,yCor,getSize(),getSize());
    }
 }

@@ -98,8 +98,8 @@ public class World{  //<>//
    private Block initializeBlock(String info){
      int ID = Integer.parseInt(info);
      switch(ID){
-        case 0: return new AirBlock();
-        case 1: return new SolidBlock("dirt.jpg");
+        case 0: return new AirBlock(100);
+        case 1: return new SolidBlock("dirt.jpg",100);
      }
      return null;
    }
