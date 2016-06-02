@@ -34,6 +34,7 @@ public class Creature {
 
   //crude but effective solution to multi-jump
   private boolean isJumping = false;
+  private boolean onFloor = false;
   private float x, y, speedX, speedY;
   private String state;
   //There are several states:
@@ -119,12 +120,14 @@ public class Creature {
     if (state.equals("FALLING")) {
       if (speedY == 0) {
         state = "DEFAULT";
+        isJumping = false;
       }
       //just accelerate downwards
     } else if (state.equals("JUMPING")) {
       speedY += 50;
       state = "FALLING";
       isJumping = true;
+      onFloor = false;
     } else if (state.equals("DEFAULT")) {
       //speedY = 0;
       state = "STOP";
@@ -146,14 +149,10 @@ public class Creature {
 
   //makes player move downwards
   public void applyGravity() {
-    /* if (speedY < gravity_constant) {
-     speedY = 0; 
-     } else {
-     */
-    if (state.equals("FALLING") || state.equals("JUMPING")) {
+    /*if (state.equals("FALLING") || state.equals("JUMPING")) {
       speedY = speedY - gravity_constant; 
-    }
-    // }
+    }*/
+    speedY = speedY - gravity_constant;
   }
 
   //sets the speed (and state?) to accomodate for statuses
@@ -214,7 +213,7 @@ public class Creature {
     float newSpeedX = (-speedX) / 100;
     float newSpeedY = (-speedY) / 100;
     
-    int counter = 300;
+    //int counter = 100;
 
     for (int i = 0; i < others.size(); i++) {
       float diffX = x - others.get(i).getX();
@@ -222,14 +221,16 @@ public class Creature {
       System.out.println("newSpeed(X, Y): ("+newSpeedX+", "+newSpeedY);
 
       System.out.println("\tDiff(X,Y): ("+diffX+", "+diffY+")");
-      while (diffY > -50 && diffY < 50 && diffX > -50 && diffX < 50 && speedY <= 0 && counter > 0) { //won't back up when jumping up
+      while (diffY > -90 && diffY < 90 && diffX > -50 && diffX < 50 && speedY <= 0 /*&& counter > 0*/) { //won't back up when jumping up
         x += newSpeedX;
         y += newSpeedY;
+        diffX = x - others.get(i).getX();
+        diffY = y - others.get(i).getY();
         wentBack = true;
-        //System.out.println("While Loop: x, y: "+x+", "+y+")");
-        counter -= 1;
-        //System.out.println("Diff(X,Y): ("+diffX+", "+diffY+")\n\tSpeed(X, Y): ("+newSpeedX);
-        //System.out.println("Diff(x,y): ("+diffX+" , "+diffY+")");
+        
+        if (diffY >= 90) {
+           onFloor = true; 
+        }
       }
     }  
     if (wentBack) {
