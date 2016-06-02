@@ -150,9 +150,11 @@ public class Creature {
   //makes player move downwards
   public void applyGravity() {
     /*if (state.equals("FALLING") || state.equals("JUMPING")) {
-      speedY = speedY - gravity_constant; 
-    }*/
-    speedY = speedY - gravity_constant;
+     speedY = speedY - gravity_constant; 
+     }*/
+    if (!onFloor) {
+      speedY = speedY - gravity_constant;
+    }
   }
 
   //sets the speed (and state?) to accomodate for statuses
@@ -212,7 +214,7 @@ public class Creature {
     boolean wentBack = false;
     float newSpeedX = (-speedX) / 100;
     float newSpeedY = (-speedY) / 100;
-    
+
     //int counter = 100;
 
     for (int i = 0; i < others.size(); i++) {
@@ -220,23 +222,26 @@ public class Creature {
       float diffY = y - others.get(i).getY();
       System.out.println("newSpeed(X, Y): ("+newSpeedX+", "+newSpeedY);
 
-      System.out.println("\tDiff(X,Y): ("+diffX+", "+diffY+")");
+      //System.out.println("\tDiff(X,Y): ("+diffX+", "+diffY+")");
       while (diffY > -90 && diffY < 90 && diffX > -50 && diffX < 50 && speedY <= 0 /*&& counter > 0*/) { //won't back up when jumping up
         x += newSpeedX;
         y += newSpeedY;
         diffX = x - others.get(i).getX();
         diffY = y - others.get(i).getY();
         wentBack = true;
-        
+
         if (diffY >= 90) {
-           onFloor = true; 
+          onFloor = true;
+        }
+        else {
+           onFloor = false; 
         }
       }
     }  
     if (wentBack) {
-    System.out.println("Backed up!");
-    speedX = 0;
-    speedY = 0;
+      System.out.println("Backed up!");
+      speedX = 0;
+      speedY = 0;
     }
   }
 
