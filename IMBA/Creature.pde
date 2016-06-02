@@ -27,6 +27,11 @@ public class Creature {
   public static final float max_speedx = 10;
   public static final float accelerateX = 3;
 
+  public static final float ceiling_constant = 1000 - 40;
+  public static final float floor_constant = 40;
+  public static final float leftWall_constant = 40;
+  public static final float rightWall_constant = 40;
+
   //crude but effective solution to multi-jump
   private boolean isJumping = false;
   private float x, y, speedX, speedY;
@@ -44,7 +49,7 @@ public class Creature {
   public Creature(float xcor, float ycor) {
     x = xcor;
     y = ycor;
-    state = "STOP";
+    state = "FALLING";
     speedX = 0;
     speedY = 0;
     display();
@@ -67,7 +72,7 @@ public class Creature {
     return state;
   }
   public boolean getIsJumping() {
-    return isJumping; 
+    return isJumping;
   }
 
   public void setState(String newState) { 
@@ -87,7 +92,7 @@ public class Creature {
     }
   }
   public void setIsJumping(boolean b) {
-     isJumping = b; 
+    isJumping = b;
   }
 
   private void applyFriction() {
@@ -130,9 +135,12 @@ public class Creature {
     collide(others);
     y += speedY;
     x += speedX;
+    System.out.println("~~~~~~~~~~~~~~START GOING BACK~~~~~~~~~~~~~~");
+    goBack(others);
+    System.out.println("~~~~~~~~~~~~~~~END GOING BACK~~~~~~~~~~~~~~~");
     //      System.out.println(speedY);
     display();
-    System.out.println("" + state + " SpeedY: "+speedY);
+    System.out.println("" + state + " Speed(X, Y): (" + speedX + ", " + speedY);
     //      System.out.println("Y: "+y);
   }
 
@@ -142,7 +150,9 @@ public class Creature {
      speedY = 0; 
      } else {
      */
-    speedY = speedY - gravity_constant; 
+    if (state.equals("FALLING") || state.equals("JUMPING")) {
+      speedY = speedY - gravity_constant; 
+    }
     // }
   }
 
@@ -160,7 +170,7 @@ public class Creature {
       isJumping = false;
     }
     //need to change with map scrolling
-    if ( x < 40) {
+    if (x < 40) {
       x -= speedX;
       speedX = 0;
     }
@@ -170,24 +180,11 @@ public class Creature {
       float diffX = x - others.get(i).getX();
       float diffY = y - others.get(i).getY();
       //separate if with creature and blocks -- for blocks, see world code and use x,y cor (middle of the block) to determine collide
-       /* 
-      if(abs(diffX) < 50){
-         if(abs(diffY) < 50){
-           //x -= speedX;
-           //y -= speedY;
-           speedX = 0;
-           //speedY = 0;
-         }
-      }
-      */
-  
-  
-  
-      
+
       //creature is above block and about to fall through it
       if (diffY > 0 && diffY < 81 && diffX > -50 && diffX < 50) {
         if (speedY < 0) {
-          speedY = 0; 
+          //speedY = 0; 
           isJumping = false;
           System.out.println("4th if statement");
         }
@@ -195,29 +192,54 @@ public class Creature {
       //creature is left of block
       if (diffY > -50 && diffY < 50 && diffX < -50 && diffX > -60) {
         if (speedX > 0) {
-          speedX = 0;  
+          //speedX = 0;  
           System.out.println("5th if statement");
         }
       }
       //creature is right of block
       if (diffY > -50 && diffY < 50 && diffX > 50 && diffX < 60) {
         if (speedX < 0) {
-          speedX = 0;  
+          //speedX = 0;  
           System.out.println("6th if statement");
         }
       }
-      
     }
-    /*
-     if(speedY == 0 ){
-     if (speedX == 0) {
-     state = "STOP"; 
-     } else {
-     state = "DEFAULT"; 
-     }
-     }
-     */
   }
+
+  //helper function for collide -- reverts the speed of a unit in an illegal place until it is in a valid location
+  //THIS IS ONLY FOR BLOCKS!! (not the edges of world, maybe other creatures)
+  public void goBack(ArrayList<Positionable> others) {
+    //a simple variable to see if i went back
+    boolean wentBack = false;
+    float newSpeedX = (-speedX) / 100;
+    float newSpeedY = (-speedY) / 100;
+    
+    int counter = 300;
+
+    for (int i = 0; i < others.size(); i++) {
+      float diffX = x - others.get(i).getX();
+      float diffY = y - others.get(i).getY();
+      System.out.println("newSpeed(X, Y): ("+newSpeedX+", "+newSpeedY);
+
+      System.out.println("\tDiff(X,Y): ("+diffX+", "+diffY+")");
+      while (diffY > -50 && diffY < 50 && diffX > -50 && diffX < 50 && speedY <= 0 && counter > 0) { //won't back up when jumping up
+        x += newSpeedX;
+        y += newSpeedY;
+        wentBack = true;
+        //System.out.println("While Loop: x, y: "+x+", "+y+")");
+        counter -= 1;
+        //System.out.println("Diff(X,Y): ("+diffX+", "+diffY+")\n\tSpeed(X, Y): ("+newSpeedX);
+        //System.out.println("Diff(x,y): ("+diffX+" , "+diffY+")");
+      }
+    }  
+    if (wentBack) {
+    System.out.println("Backed up!");
+    speedX = 0;
+    speedY = 0;
+    }
+  }
+
+  //need to determine accurately when i want to implement goBack() and how this function will detect collision
 
   public void display() {
     fill(#000000);
