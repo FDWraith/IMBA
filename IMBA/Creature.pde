@@ -143,6 +143,7 @@ public class Creature {
     System.out.println("~~~~~~~~~~~~~~~END GOING BACK~~~~~~~~~~~~~~~");
     //      System.out.println(speedY);
     display();
+    System.out.println("OnFloor= "+onFloor);
     System.out.println("" + state + " Speed(X, Y): (" + speedX + ", " + speedY);
     //      System.out.println("Y: "+y);
   }
@@ -220,28 +221,36 @@ public class Creature {
     for (int i = 0; i < others.size(); i++) {
       float diffX = x - others.get(i).getX();
       float diffY = y - others.get(i).getY();
-      System.out.println("newSpeed(X, Y): ("+newSpeedX+", "+newSpeedY);
+      //System.out.println("newSpeed(X, Y): ("+newSpeedX+", "+newSpeedY);
 
       //System.out.println("\tDiff(X,Y): ("+diffX+", "+diffY+")");
-      while (diffY > -90 && diffY < 90 && diffX > -50 && diffX < 50 && speedY <= 0 /*&& counter > 0*/) { //won't back up when jumping up
-        x += newSpeedX;
-        y += newSpeedY;
-        diffX = x - others.get(i).getX();
-        diffY = y - others.get(i).getY();
-        wentBack = true;
 
-        if (diffY >= 90) {
-          onFloor = true;
-        }
-        else {
-           onFloor = false; 
+      //onFloor = false;
+
+      if (diffX > -90 && diffX < 90) {
+        while (diffY > -90 && diffY < 90 && diffX > -50 && diffX < 50 && speedY <= 0 /*&& counter > 0*/) { //won't back up when jumping up
+          //System.out.println("\n\n\n\n\n\nRUNNING THE WHILE LOOP!!!!!\n\n\n\n\n\n");
+          x += newSpeedX;
+          y += newSpeedY;
+          diffX = x - others.get(i).getX();
+          diffY = y - others.get(i).getY();
+          wentBack = true;
+
+          if (diffY >= 90) {
+            onFloor = true;
+            isJumping = false;
+            System.out.println("Setting onFloor to true");
+          } else {
+            onFloor = false; 
+            isJumping = true;
+          }
         }
       }
-    }  
-    if (wentBack) {
-      System.out.println("Backed up!");
-      speedX = 0;
-      speedY = 0;
+      if (wentBack) {
+        System.out.println("Backed up!");
+        speedX = 0;
+        speedY = 0;
+      }
     }
   }
 

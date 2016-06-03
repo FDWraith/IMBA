@@ -124,7 +124,7 @@ void draw(){
   }
   
   void keyTyped(){
-    if(world instanceof World){
+    if(world instanceof World){ //<>//
       ((World)(world)).handleUserInput(""+key);
       if(key == 'd'){
         adjustment += 5;  
