@@ -1,8 +1,8 @@
 public class SolidBlock extends Block implements Positionable{
   private float xCor, yCor;
   
-  public SolidBlock(String fileName, int size){
-    super(fileName, size);
+  public SolidBlock(String fileName, int size, int ID){
+    super(fileName, size, ID);
   }
   
   public void display(float xCor, float yCor){

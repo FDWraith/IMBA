@@ -55,7 +55,7 @@ void draw(){
         action = null;
     }else if(globalState.equals("worldMaking")){
         if(action.equals("createNew")){
-          
+        
         }else if(action.equals("editOld")){
           
         }
@@ -69,8 +69,9 @@ void draw(){
     if(selection == null){
       globalState = "initialize";
     }else if(!selection.exists()){
-      println("file does not exist");
-      globalState = "initialize";
+      println("file does not exist, rerouting to default");
+      world = new World();
+      globalState = "running";
     }else if(!(selection.getAbsolutePath().contains("MapSaves") && selection.getAbsolutePath().contains(".map") ) ){
       println("file not in proper format or not in proper location");
       globalState = "initialize";
@@ -89,27 +90,27 @@ void draw(){
   
   void fileChanged(File selection){
     if(selection == null){
-      println("You need to choose a file"); 
+      world = new Generator();
+      globalState = "worldMaking";
+      action = "editOld";
     }else if(!selection.exists()){
-      int index = selection.getAbsolutePath().indexOf("\\MapSaves\\");
       File f = new File(selection.getAbsolutePath());
       f.getParentFile().mkdirs();
       try{
         f.createNewFile();
-        world = new Generator(selection.getAbsolutePath().substring(index+10));
+        world = new Generator(selection.getAbsolutePath());
       }catch(IOException e){
         println("What is going on?");
       }
       globalState = "worldMaking";
       action = "createNew";
       //f.close();
+      //println(action);
     }else{
-      int index = selection.getAbsolutePath().indexOf("\\MapSaves\\");
-      world = new Generator(selection.getAbsolutePath().substring(index+10));
-      println(index);
-      println(selection.getAbsolutePath().substring(index+10));
+      world = new Generator(selection.getAbsolutePath());
       globalState = "worldMaking";
       action = "editOld";
+      //println(action);
     }
   }
   void promptButton(float xCor, float yCor, float len, float ht){
