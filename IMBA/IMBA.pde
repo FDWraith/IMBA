@@ -36,6 +36,10 @@ void draw(){
           fill(#A3A3A3);
           promptButton(500,250,300,100);
           noFill();
+        }else if(checkMouse(500,550,300,100)){
+          fill(#A3A3A3);
+          promptButton(500,550,300,100);
+          noFill();
         }
       }
     }else if(globalState.equals("choosingWorld")){
@@ -87,7 +91,7 @@ void draw(){
     if(selection == null){
       println("You need to choose a file"); 
     }else if(!selection.exists()){
-      int index = selection.getAbsolutePath().indexOf("/MapSaves/");
+      int index = selection.getAbsolutePath().indexOf("\\MapSaves\\");
       File f = new File(selection.getAbsolutePath());
       f.getParentFile().mkdirs();
       try{
@@ -100,8 +104,10 @@ void draw(){
       action = "createNew";
       //f.close();
     }else{
-      int index = selection.getAbsolutePath().indexOf("/MapSaves/");
+      int index = selection.getAbsolutePath().indexOf("\\MapSaves\\");
       world = new Generator(selection.getAbsolutePath().substring(index+10));
+      println(index);
+      println(selection.getAbsolutePath().substring(index+10));
       globalState = "worldMaking";
       action = "editOld";
     }
@@ -112,6 +118,7 @@ void draw(){
   }
   void promptScreen(){
     promptButton(500,250,300,100);
+    promptButton(500,550,300,100);
   }
   
   void mouseClicked(){
@@ -119,6 +126,8 @@ void draw(){
     if(globalState.equals("loading")){
       if(checkMouse(500,250,300,100)){
         action = "play";
+      }else if(checkMouse(500,550,300,100)){
+        action = "create"; 
       }
     }
   }
