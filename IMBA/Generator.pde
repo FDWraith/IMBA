@@ -9,8 +9,8 @@ public class Generator{
     this("./MapSaves/default.map");
   }
   public Generator(String filePath){
+    setFilePath(filePath);
     initializeFile(filePath);
-    setFilePath(filePath);//this is not happening for some reason?
   }
   private void setFilePath(String in){
     filePath = in;
@@ -45,13 +45,10 @@ public class Generator{
   }
   
   private void save(){
-    println(filePath);
     try{
        File f = new File(filePath);//this is causing null for some reason....
-       println("fileInitialized");
        BufferedWriter out = new BufferedWriter(new FileWriter(f));
        String end = "";
-       println("first breakpoint");
        //Block of code for writing all the board information
        for(int i = 0; i < board.size(); i++) {
          String line = "";
