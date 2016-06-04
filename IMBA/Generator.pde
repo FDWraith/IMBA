@@ -21,8 +21,8 @@ public class Generator{
       Scanner in = new Scanner(f);
       if(!in.hasNext()){//file is empty, aka new file 
         board = new ArrayList<ArrayList<Block>>(10);
-        for(int i = 0; i < board.size(); i++){
-          board.set(i, new ArrayList<Block>(10));  
+        for(int i = 0; i < 10; i++){
+          board.add(new ArrayList<Block>(10));  
         }
         fillNulls();
         save();
@@ -31,11 +31,13 @@ public class Generator{
         int r = firstLine.nextInt();
         int c = firstLine.nextInt();
         board = new ArrayList<ArrayList<Block>>(r);
-        for(int i = 0; i < board.size(); i++){
+        for(int i = 0; i < r; i++){
           Scanner newLine = new Scanner(in.nextLine());
-          board.set(i, new ArrayList<Block>(c));
-          for(int j = 0; j < board.get(i).size();j++){
-            board.get(i).set(j, initializeBlock(newLine.nextInt()));  
+          board.add(new ArrayList<Block>(c));
+          for(int j = 0; j < c;j++){
+            String nxt = newLine.next();
+            nxt = nxt.substring(1,nxt.length()-1);
+            board.get(i).add(initializeBlock(Integer.parseInt(nxt)));  
           }
         }
       }
@@ -49,6 +51,7 @@ public class Generator{
        File f = new File(filePath);//this is causing null for some reason....
        BufferedWriter out = new BufferedWriter(new FileWriter(f));
        String end = "";
+       end += board.size() + " " + board.get(0).size() + "\n";       
        //Block of code for writing all the board information
        for(int i = 0; i < board.size(); i++) {
          String line = "";
@@ -82,12 +85,10 @@ public class Generator{
     return null;
   }
   
-  private void fillNulls(){
-    for(int i =0 ;i < board.size(); i++){
-      for(int j =0;j <board.get(i).size();j++){
-        if(board.get(i).get(j) == null){
-          board.get(i).set(j,new AirBlock(50,0));  
-        }
+  private void fillNulls(){//beginning of the board.
+    for(int i =0 ;i < 10; i++){
+      for(int j =0;j < 10;j++){
+        board.get(i).add(new AirBlock(50,0));  
       }
     }
   }
@@ -95,9 +96,9 @@ public class Generator{
   public void display(){
     //pushMatrix();
     //translate(-1 * adjustX, 0);
-    float xCor = 100.0;
+    float xCor = 140.0;
     float yCor = 40.0;
-    for(int r = 0; r < board.size(); r++){
+    for(int r = 0; r < board.size() && xCor < 900; r++){
       for(int c = 0; c < board.get(r).size(); c++){
         board.get(r).get(c).display(xCor, 800 - yCor);
         yCor += 80;

@@ -54,11 +54,7 @@ void draw(){
         globalState = "tempPhaseOut";
         action = null;
     }else if(globalState.equals("worldMaking")){
-        if(action.equals("createNew")){
-        
-        }else if(action.equals("editOld")){
-          
-        }
+        ((Generator)(world)).display();
     }
     //System.out.println(globalState);
 }
@@ -92,7 +88,6 @@ void draw(){
     if(selection == null){
       world = new Generator();
       globalState = "worldMaking";
-      action = "editOld";
     }else if(!selection.exists()){
       File f = new File(selection.getAbsolutePath());
       f.getParentFile().mkdirs();
@@ -103,13 +98,11 @@ void draw(){
         println("What is going on?");
       }
       globalState = "worldMaking";
-      action = "createNew";
       //f.close();
       //println(action);
     }else{
       world = new Generator(selection.getAbsolutePath());
       globalState = "worldMaking";
-      action = "editOld";
       //println(action);
     }
   }
@@ -130,6 +123,8 @@ void draw(){
       }else if(checkMouse(500,550,300,100)){
         action = "create"; 
       }
+    }else if(globalState.equals("worldMaking")){
+        
     }
   }
   
