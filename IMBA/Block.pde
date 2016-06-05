@@ -1,7 +1,8 @@
-public class Block{
+public class Block implements Positionable{
     private PImage img;
     private int size;
     private int ID;
+    private float xCor, yCor;
     
     public Block(){
        //Do nothing; 
@@ -14,6 +15,8 @@ public class Block{
     public void display(float xCor, float yCor){
       imageMode(CENTER);
       image(img,xCor,yCor,size,size);
+      this.xCor = xCor;
+      this.yCor = 1000 - yCor;
     }
     public int getSize(){
       return size;  
@@ -23,5 +26,17 @@ public class Block{
     }
     public int getID(){
       return ID;  
+    }
+    public float getX(){
+      return xCor;  
+    }
+    public float getY(){
+      return yCor;
+    }
+    public void setX(float x){
+      xCor = x;  
+    }
+    public void setY(float y){
+      yCor = y;
     }
 }

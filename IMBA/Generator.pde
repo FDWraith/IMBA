@@ -4,6 +4,12 @@ import java.io.*;
 public class Generator{
   private ArrayList<ArrayList<Block>> board;
   private String filePath;
+  private int adjust = 0;
+  private ArrayList<Block> displayBoard;
+  private int maxCount = 1;
+  private Block followBlock;
+  private boolean pressed = false;
+  
   
   public Generator(){
     this("./MapSaves/default.map");
@@ -15,6 +21,17 @@ public class Generator{
   private void setFilePath(String in){
     filePath = in;
   }
+  public void moveLeft(){
+    if(adjust > 0){
+      adjust--;  
+    }
+  }
+  public void moveRight(){
+    if(adjust < board.get(0).size() - 10){
+      adjust++;
+    }
+  }
+  
   private void initializeFile(String filePath){
     try{
       File f = new File(filePath);
@@ -44,6 +61,12 @@ public class Generator{
     }catch(FileNotFoundException e){
       println("FILE NEVER FOUND");      
     }
+    
+    displayBoard = new ArrayList<Block>();
+    displayBoard.add(new AirBlock(100, 0));
+    displayBoard.add(new SolidBlock("dirt.jpg",100,1));    
+    displayBoard.add(new AirBlock(100,0));
+    displayBoard.add(new AirBlock(100,0));
   }
   
   private void save(){
@@ -99,14 +122,77 @@ public class Generator{
     float xCor = 140.0;
     float yCor = 40.0;
     for(int r = 0; r < board.size() && xCor < 900; r++){
-      for(int c = 0; c < board.get(r).size(); c++){
+      for(int c = adjust; c < 10 + adjust; c++){
         board.get(r).get(c).display(xCor, 800 - yCor);
         yCor += 80;
       }
       yCor = 40.0;
       xCor += 80.0;
-    }  
+    }
+    
+    //Bottom GUI
+    
+    fill(0);
+    rect(500,900,width-100,150);
+    noFill();
+    
+    xCor = 200.0;
+    yCor = 100;
+    for(int i = 0; i< displayBoard.size(); i++){
+      fill(255);
+      rect(xCor, 1000 - yCor, 105, 105);
+      noFill();
+      displayBoard.get(i).display(xCor, 1000 - yCor);
+      xCor += 200;
+    }
+    
+    //Handle Picking up a block
+    if(followBlock != null){
+      followBlock.display(mouseX, mouseY);
+    }else{
+        
+    }
+  }
+ 
+  public void chooseBlock(){
+    if(followBlock != null){
+      return;//terminate if there is already a block following mouse
+    }else{
+      for(int i = 0; i < displayBoard.size();i++){
+         Block current = displayBoard.get(i);
+         float diffX = abs(mouseX - current.getX());
+         float diffY = abs(mouseY - (1000 - current.getY()));
+         //println(diffX + "," + diffY);
+         if(diffX < 50 && diffY < 50){
+           followBlock = initializeBlock(current.getID());
+           //println("picked up" + followBlock.getID());
+         }
+      }
+    }
   }
   
+  public void dropBlock(){
+    if(followBlock == null){
+      return;  
+    }else{
+      for(int r = 0;r < board.size();r++){
+        for(int c = 0; c < board.get(r).size(); c++){
+          Block current = board.get(r).get(c);
+          float diffX = abs(mouseX - current.getX());
+          float diffY = abs(mouseY - (1000 - current.getY()));
+          if(diffX < 40 && diffY < 40){
+            board.get(r).set(c, followBlock);
+            save();
+            followBlock = null;
+            return;
+          }
+        }
+      }
+    }
+  }
+ 
+  public boolean hasBlock(){
+    return followBlock != null;  
+  }
     
 }

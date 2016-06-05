@@ -9,5 +9,7 @@ public class AirBlock extends Block {
      noFill();
      noStroke();
      rect(xCor,yCor,getSize(),getSize());
+     setX(xCor);
+     setY(1000-yCor);
    }
 }

@@ -1,21 +1,9 @@
-public class SolidBlock extends Block implements Positionable{
-  private float xCor, yCor;
+public class SolidBlock extends Block{
   
   public SolidBlock(String fileName, int size, int ID){
     super(fileName, size, ID);
   }
   
-  public void display(float xCor, float yCor){
-    imageMode(CENTER);
-    image(getImage(),xCor,yCor,getSize(),getSize());
-    this.xCor = xCor;
-    this.yCor = 1000 - yCor;
-  }
   
-  public float getX(){
-   return xCor; 
-  }
-  public float getY(){
-    return yCor; 
-  }
+  
 }
