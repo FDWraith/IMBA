@@ -1,3 +1,5 @@
+import java.util.*;
+
 /*
   THINGS NEEDED:
  Positionable array for collide        
@@ -22,6 +24,8 @@
  */
 
 public class Creature {
+  private Block[][] board;
+
   public static final float gravity_constant = 5;
   public static final float friction_constant = .1;
   public static final float max_speedx = 10;
@@ -54,6 +58,11 @@ public class Creature {
     speedX = 0;
     speedY = 0;
     display();
+  }
+
+  public Creature(float xcor, float ycor, Block[][] b) {
+    this(xcor, ycor);
+    board = b;
   }
 
 
@@ -127,7 +136,7 @@ public class Creature {
       speedY += 50;
       state = "FALLING";
       isJumping = true;
-      onFloor = false;
+      //      onFloor = false;
     } else if (state.equals("DEFAULT")) {
       //speedY = 0;
       state = "STOP";
@@ -138,12 +147,13 @@ public class Creature {
     collide(others);
     y += speedY;
     x += speedX;
-    System.out.println("~~~~~~~~~~~~~~START GOING BACK~~~~~~~~~~~~~~");
+
+    //System.out.println("~~~~~~~~~~~~~~START GOING BACK~~~~~~~~~~~~~~");
     goBack(others);
-    System.out.println("~~~~~~~~~~~~~~~END GOING BACK~~~~~~~~~~~~~~~");
+    //System.out.println("~~~~~~~~~~~~~~~END GOING BACK~~~~~~~~~~~~~~~");
     //      System.out.println(speedY);
     display();
-    System.out.println("OnFloor= "+onFloor);
+    //    System.out.println("OnFloor= "+onFloor);
     System.out.println("" + state + " Speed(X, Y): (" + speedX + ", " + speedY);
     //      System.out.println("Y: "+y);
   }
@@ -153,7 +163,8 @@ public class Creature {
     /*if (state.equals("FALLING") || state.equals("JUMPING")) {
      speedY = speedY - gravity_constant; 
      }*/
-    if (!onFloor) {
+    if (!checkOnFloor()) {
+      System.out.println("Applying Gravity");
       speedY = speedY - gravity_constant;
     }
   }
@@ -226,35 +237,40 @@ public class Creature {
       //System.out.println("\tDiff(X,Y): ("+diffX+", "+diffY+")");
 
       //onFloor = false;
+      while (diffY > -70 && diffY < 70 && diffX > -70 && diffX < 70 && speedY <= 0 /*&& counter > 0*/) { //won't back up when jumping up
+        //System.out.println("\n\n\n\n\n\nRUNNING THE WHILE LOOP!!!!!\n\n\n\n\n\n");
+        x += newSpeedX;
+        y += newSpeedY;
+        diffX = x - others.get(i).getX();
+        diffY = y - others.get(i).getY();
+        wentBack = true;
 
-      if (diffX > -90 && diffX < 90) {
-        while (diffY > -90 && diffY < 90 && diffX > -50 && diffX < 50 && speedY <= 0 /*&& counter > 0*/) { //won't back up when jumping up
-          //System.out.println("\n\n\n\n\n\nRUNNING THE WHILE LOOP!!!!!\n\n\n\n\n\n");
-          x += newSpeedX;
-          y += newSpeedY;
-          diffX = x - others.get(i).getX();
-          diffY = y - others.get(i).getY();
-          wentBack = true;
-
-          if (diffY >= 90) {
-            onFloor = true;
-            isJumping = false;
-            System.out.println("Setting onFloor to true");
-          } else {
-            onFloor = false; 
-            isJumping = true;
-          }
+        if (diffY >= 70) {
+          //          onFloor = true;
+          isJumping = false;
+          System.out.println("Setting onFloor to true");
+        } else {
+          //          onFloor = false; 
+          isJumping = true;
         }
       }
-      if (wentBack) {
-        System.out.println("Backed up!");
-        speedX = 0;
-        speedY = 0;
-      }
+    }
+    if (wentBack) {
+      System.out.println("Backed up! -- setting speeds to 0!");
+      speedX = 0;
+      speedY = 0;
     }
   }
 
-  //need to determine accurately when i want to implement goBack() and how this function will detect collision
+  public boolean checkOnFloor() {
+    try {
+      System.out.println(isSolid(x-1, y-1));
+      return isSolid(x-10, y-10);
+    }
+    catch (NullPointerException e) {
+      return false;
+    }
+  }
 
   public void display() {
     fill(#000000);
@@ -265,5 +281,13 @@ public class Creature {
 
   public void label() {
     text("Hi I'm A Creature!", x, 1000 - y);
+  }
+
+  public boolean isSolid(float xCor, float yCor) {
+    if ( board[ ( Math.round(xCor)/* - 50 */) / 100][ (Math.round(yCor)/* - 50*/) / 100] instanceof SolidBlock) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
