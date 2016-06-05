@@ -1,7 +1,7 @@
 public class AirBlock extends Block {
   
-   public AirBlock(int size){
-     super("null.jpg", size);
+   public AirBlock(int size, int ID){
+     super("null.jpg", size, ID);
    }
    
    public void display(float xCor, float yCor){
@@ -9,5 +9,7 @@ public class AirBlock extends Block {
      noFill();
      noStroke();
      rect(xCor,yCor,getSize(),getSize());
+     setX(xCor);
+     setY(1000-yCor);
    }
 }
