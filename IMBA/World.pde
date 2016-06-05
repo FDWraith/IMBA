@@ -1,4 +1,4 @@
-public class World{  //<>// //<>//
+public class World{  //<>// //<>// //<>//
    private Block[][] board;
    private ArrayList<Positionable> collidableBlocks;
    private Player player;
@@ -17,14 +17,6 @@ public class World{  //<>// //<>//
    
    public void handleUserInput(String in){
      player.handleUserInput(in); 
-   }
-   
-   public boolean isSolid(float xCor, float yCor){
-     if( board[ ( Math.round(xCor) - 50 ) / 100][ (Math.round(yCor) - 50) / 100] instanceof SolidBlock){
-       return true;  
-     }else{
-       return false;  
-     }
    }
    
    public void display(float adjustX){//adjust starts at 0. As adjust increases, we move left
