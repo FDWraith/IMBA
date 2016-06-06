@@ -8,8 +8,7 @@ public class Generator{
   private ArrayList<Block> displayBoard;
   private int maxCount = 1;
   private Block followBlock;
-  private boolean pressed = false;
-  
+  private boolean triggered;
   
   public Generator(){
     this("./MapSaves/default.map");
@@ -27,11 +26,16 @@ public class Generator{
     }
   }
   public void moveRight(){
-    if(adjust < board.get(0).size() - 10){
+    if(adjust < board.size() - 10){
       adjust++;
     }
+    //println(adjust+","+(board.get(0).size()-10));
+    //println(board.toString());
   }
   
+  public void flashTriggered(){
+    triggered = true;  
+  }
   private void initializeFile(String filePath){
     try{
       File f = new File(filePath);
@@ -47,6 +51,7 @@ public class Generator{
         Scanner firstLine = new Scanner(in.nextLine());
         int r = firstLine.nextInt();
         int c = firstLine.nextInt();
+        firstLine.close();
         board = new ArrayList<ArrayList<Block>>(r);
         for(int i = 0; i < r; i++){
           Scanner newLine = new Scanner(in.nextLine());
@@ -56,8 +61,10 @@ public class Generator{
             nxt = nxt.substring(1,nxt.length()-1);
             board.get(i).add(initializeBlock(Integer.parseInt(nxt)));  
           }
+          newLine.close();
         }
       }
+      in.close();
     }catch(FileNotFoundException e){
       println("FILE NEVER FOUND");      
     }
@@ -121,14 +128,47 @@ public class Generator{
     //translate(-1 * adjustX, 0);
     float xCor = 140.0;
     float yCor = 40.0;
-    for(int r = 0; r < board.size() && xCor < 900; r++){
-      for(int c = adjust; c < 10 + adjust; c++){
+    for(int r = adjust; r < adjust + 10; r++){
+      for(int c = 0; c < 10; c++){
         board.get(r).get(c).display(xCor, 800 - yCor);
         yCor += 80;
       }
       yCor = 40.0;
       xCor += 80.0;
     }
+    
+    PShape leftTriangle = createShape(PShape.PATH);
+    leftTriangle.beginShape();
+    leftTriangle.vertex(40,400);
+    leftTriangle.vertex(60,450);
+    leftTriangle.vertex(60,350);
+    leftTriangle.endShape();
+    
+    PShape rightTriangle = createShape(PShape.PATH);
+    rightTriangle.beginShape();
+    rightTriangle.vertex(960,400);
+    rightTriangle.vertex(940,450);
+    rightTriangle.vertex(940,350);
+    rightTriangle.endShape();
+    
+    //Side Scrolling
+    if(triggered){
+      if(leftTriangle.contains(mouseX,mouseY)){
+        println("happened");
+        moveLeft();
+      }else if(rightTriangle.contains(mouseX,mouseY)){
+        println("happening");
+        moveRight();
+      }
+      triggered = false;
+    }
+    
+    triangle(40,400,60,450,60,350);
+    triangle(960,400,940,450,940,350);
+    fill(#862d2d);
+    triangle(43,400,58,440,58,360);
+    fill(#802b2b);
+    triangle(957,400,942,440,942,360);
     
     //Bottom GUI
     
