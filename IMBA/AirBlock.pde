@@ -6,8 +6,8 @@ public class AirBlock extends Block {
    
    public void display(float xCor, float yCor){
      rectMode(CENTER);
-     noFill();
      noStroke();
+     noFill();
      rect(xCor,yCor,getSize(),getSize());
      setX(xCor);
      setY(1000-yCor);

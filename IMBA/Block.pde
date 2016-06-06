@@ -18,6 +18,9 @@ public class Block implements Positionable{
       this.xCor = xCor;
       this.yCor = 1000 - yCor;
     }
+    public void display(){
+      //nada  
+    }
     public int getSize(){
       return size;  
     }

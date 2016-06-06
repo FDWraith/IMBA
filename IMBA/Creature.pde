@@ -23,7 +23,7 @@ import java.util.*;
  5. update state
  */
 
-public class Creature {
+public class Creature implements Positionable{
   private Block[][] board;
 
   public static final float epsilon = .1;

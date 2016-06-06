@@ -88,7 +88,7 @@ public class Generator{
        /*{Missing until later}*/
        
        //temp lines:
-       end += "1\n{0,50,950}";//The ball spawns in top left corner...
+       end += "1\n{0,50,140}";//The ball spawns in top left corner...
        
        out.write(end);
        out.close();       
@@ -149,9 +149,9 @@ public class Generator{
     //Handle Picking up a block
     if(followBlock != null){
       followBlock.display(mouseX, mouseY);
-    }else{
-        
     }
+    
+    
   }
  
   public void chooseBlock(){

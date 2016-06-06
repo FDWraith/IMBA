@@ -1,4 +1,8 @@
 public class Npc  extends Creature{
+  public Npc(float xcor, float ycor) {
+   super(xcor, ycor); 
+  }
+  
    public void randomizeMove() {
       int randomChoice = (int)(Math.random() * 2);
       if (randomChoice == 0) {
