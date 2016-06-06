@@ -5,8 +5,9 @@ public class Generator{
   private ArrayList<ArrayList<Block>> board;
   private String filePath;
   private int adjust = 0;
+  private int displayAdjust = 0;
   private ArrayList<Block> displayBoard;
-  private int maxCount = 1;
+  private int maxCount = 2;
   private Block followBlock;
   private boolean triggered;
   
@@ -71,9 +72,21 @@ public class Generator{
     
     displayBoard = new ArrayList<Block>();
     displayBoard.add(new AirBlock(100, 0));
-    displayBoard.add(new SolidBlock("dirt.jpg",100,1));    
-    displayBoard.add(new AirBlock(100,0));
-    displayBoard.add(new AirBlock(100,0));
+    displayBoard.add(new SolidBlock("dirt.jpg",100,1));
+    for(int i =0; i < 4 - (maxCount % 4);i++){
+      displayBoard.add(new AirBlock(100,0));
+    }
+  }
+  
+  private void moveDisplayLeft(){
+    if(displayAdjust > 0){
+       displayAdjust--; 
+    }
+  }
+  private void moveDisplayRight(){
+    if(displayAdjust < displayBoard.size() - 4){
+      displayAdjust++;  
+    }
   }
   
   private void save(){
@@ -154,10 +167,10 @@ public class Generator{
     //Side Scrolling
     if(triggered){
       if(leftTriangle.contains(mouseX,mouseY)){
-        println("happened");
+        //println("happened");
         moveLeft();
       }else if(rightTriangle.contains(mouseX,mouseY)){
-        println("happening");
+        //println("happening");
         moveRight();
       }
       triggered = false;
@@ -178,7 +191,7 @@ public class Generator{
     
     xCor = 200.0;
     yCor = 100;
-    for(int i = 0; i< displayBoard.size(); i++){
+    for(int i = displayAdjust; i< displayAdjust + 4; i++){
       fill(255);
       rect(xCor, 1000 - yCor, 105, 105);
       noFill();
@@ -186,6 +199,36 @@ public class Generator{
       xCor += 200;
     }
     
+    //BottomGUI's arrow keys on side
+    
+    PShape bottomLeftTriangle = createShape(PShape.PATH);
+    bottomLeftTriangle.beginShape();
+    bottomLeftTriangle.vertex(40,900);
+    bottomLeftTriangle.vertex(80,850);
+    bottomLeftTriangle.vertex(80,950);
+    bottomLeftTriangle.endShape();
+    
+    PShape bottomRightTriangle = createShape(PShape.PATH);
+    bottomRightTriangle.beginShape();
+    bottomRightTriangle.vertex(960,900);
+    bottomRightTriangle.vertex(920,850);
+    bottomRightTriangle.vertex(920,950);
+    bottomRightTriangle.endShape();
+    
+    fill(#862d2d);
+    triangle(40,900,80,850,80,950);
+    fill(#802b2b);
+    triangle(960,900,920,850,920,950);
+    
+    if(triggered){
+      if(bottomLeftTriangle.contains(mouseX,mouseY)){
+        moveDisplayLeft();
+      }else if(bottomRightTriangle.contains(mouseX,mouseY)){
+        moveDisplayRight();
+      }
+      triggered = false;
+    }
+   
     //Handle Picking up a block
     if(followBlock != null){
       followBlock.display(mouseX, mouseY);
