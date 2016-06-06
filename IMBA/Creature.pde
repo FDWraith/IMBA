@@ -26,6 +26,7 @@ import java.util.*;
 public class Creature {
   private Block[][] board;
 
+  public static final float epsilon = .1;
   public static final float gravity_constant = 5;
   public static final float friction_constant = .1;
   public static final float max_speedx = 10;
@@ -42,8 +43,9 @@ public class Creature {
   private float x, y, speedX, speedY;
   private String state;
   //There are several states:
-  //JUMPING: The user will temporarily accelerate dramatically, and state reverts to falling
-  //FALLING: The user is mid-air. **You can be accelerating upwards, but you are regardless mid-air and thus will fall... eventually
+  //JUMPING: The user will temporarily accelerate dramatically, and state reverts to rising
+  //RISING:  The user is moving upwards
+  //FALLING: The user is moving downwrds
   //DEFAULT: The user is on the ground and is walking by default
   //STOP: The user has stopped
 
@@ -126,18 +128,21 @@ public class Creature {
   //changes the speed and location of creature
   public void move(ArrayList<Positionable> others) {
     applyGravity();
-    if (state.equals("FALLING")) {
+    if (state.equals("JUMPING")) {
+      speedY += 50;
+      state = "RISING";
+      isJumping = true;
+      onFloor = false;
+    } else if (state.equals("RISING")) {
+      if (speedY - epsilon <= 0) {
+        state = "FALLING";
+      }
+    } else if (state.equals("FALLING")) {
       if (speedY == 0) {
         state = "DEFAULT";
-        isJumping = false;
       }
-      //just accelerate downwards
-    } else if (state.equals("JUMPING")) {
-      speedY += 50;
-      state = "FALLING";
-      isJumping = true;
-      //      onFloor = false;
     } else if (state.equals("DEFAULT")) {
+      isJumping = false;
       //speedY = 0;
       state = "STOP";
     } else if (state.equals("STOP")) {
@@ -147,7 +152,7 @@ public class Creature {
     collide(others);
     y += speedY;
     x += speedX;
-    
+
     goBack(others);
     display();
     System.out.println("" + state + " Speed(X, Y): (" + speedX + ", " + speedY);
@@ -158,10 +163,15 @@ public class Creature {
     /*if (state.equals("FALLING") || state.equals("JUMPING")) {
      speedY = speedY - gravity_constant; 
      }*/
-    if (!checkOnFloor()) {
-      System.out.println("Applying Gravity");
+    System.out.println(onFloor);
+    if (onFloor == false) {
       speedY = speedY - gravity_constant;
     }
+    /*   if (!checkOnFloor()) {
+     System.out.println("Applying Gravity");
+     speedY = speedY - gravity_constant;
+     }
+     */
   }
 
   //sets the speed (and state?) to accomodate for statuses
@@ -219,30 +229,42 @@ public class Creature {
   public void goBack(ArrayList<Positionable> others) {
     //a simple variable to see if i went back
     boolean wentBack = false;
-    float newSpeedX = (-speedX) / 100;
-    float newSpeedY = (-speedY) / 100;
+    boolean checkOnFloor = false;
+    float newSpeedX = (-speedX) / 30;
+    float newSpeedY = (-speedY) / 30;
+    float diffX = 0;
+    float diffY = 0;
 
     //int counter = 100;
 
+    onFloor = false;
     for (int i = 0; i < others.size(); i++) {
-      float diffX = x - others.get(i).getX();
-      float diffY = y - others.get(i).getY();
-      //onFloor = false;
+      diffX = x - others.get(i).getX();
+      diffY = y - others.get(i).getY();
+      if (diffY >= -70.5 && diffY <= 70.5 && diffX >= -70.5 && diffX <= 70.5 && speedY <= 0) {
+        onFloor = true; 
+        System.out.println("\n\nMade onFloor True again!");
+      }
       while (diffY > -70 && diffY < 70 && diffX > -70 && diffX < 70 && speedY <= 0 /*&& counter > 0*/) { //won't back up when jumping up
+
+        System.out.print("\tdiffX: "+diffX);
+        System.out.println("\tdiffY: "+diffY);
         x += newSpeedX;
         y += newSpeedY;
         diffX = x - others.get(i).getX();
         diffY = y - others.get(i).getY();
         wentBack = true;
 
-        if (diffY >= 70) {
-          //          onFloor = true;
+        if (Math.abs(diffY - 70) > epsilon) {
+          onFloor = true;
           isJumping = false;
+          speedY = 0;
           //System.out.println("Setting onFloor to true");
-        } else {
-          //          onFloor = false; 
+        } /*else {
+          System.out.println("Made onFloor False again!");
+          onFloor = false; 
           isJumping = true;
-        }
+        }*/
       }
     }
     if (wentBack) {
@@ -255,9 +277,9 @@ public class Creature {
   public boolean checkOnFloor() {
     System.out.println("\tRunning CheckOnFloor!");
     try {
-      System.out.print("\tRunning CheckOnFloor!");
+      System.out.print("\tRunning Check!");
       System.out.println("\tisSolid: "+ str(isSolid(x, y+10)));
-      return isSolid(x, y+10);
+      return isSolid(x, y+50);
     }
     catch (NullPointerException e) {
       return false;
@@ -282,14 +304,14 @@ public class Creature {
     System.out.println(Math.round(xCor) / 100);
     System.out.println(Math.round(yCor) / 100);
     System.out.println(board[1][1] instanceof SolidBlock);
-    System.out.println(board[(Math.round(xCor)) / 100][ (Math.round(yCor)) / 100] instanceof SolidBlock);
+    System.out.print("c"+(board[(Math.round(xCor)) / 100][ (Math.round(yCor)) / 100] instanceof SolidBlock));
+    System.out.println("\n\n\n");
     if (board[ ( Math.round(xCor)/* - 50 */) / 100][ (Math.round(yCor)/* - 50*/) / 100] instanceof SolidBlock) {
       System.out.println("True!");
       return true;
     } else {
       System.out.println("False!");
       return false;
-      
     }
   }
 }
