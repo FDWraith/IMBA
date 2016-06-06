@@ -107,7 +107,7 @@ public class World{  //<>// //<>// //<>//
      int ID = Integer.parseInt(info);
      switch(ID){
         case 0: return new Player(xCor,yCor);
-        case 1: return new Creature(xCor,yCor);
+        case 1: return new Creature(xCor,yCor, board);
      }
      return null;
    }

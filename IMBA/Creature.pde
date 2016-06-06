@@ -147,15 +147,10 @@ public class Creature {
     collide(others);
     y += speedY;
     x += speedX;
-
-    //System.out.println("~~~~~~~~~~~~~~START GOING BACK~~~~~~~~~~~~~~");
+    
     goBack(others);
-    //System.out.println("~~~~~~~~~~~~~~~END GOING BACK~~~~~~~~~~~~~~~");
-    //      System.out.println(speedY);
     display();
-    //    System.out.println("OnFloor= "+onFloor);
     System.out.println("" + state + " Speed(X, Y): (" + speedX + ", " + speedY);
-    //      System.out.println("Y: "+y);
   }
 
   //makes player move downwards
@@ -232,13 +227,8 @@ public class Creature {
     for (int i = 0; i < others.size(); i++) {
       float diffX = x - others.get(i).getX();
       float diffY = y - others.get(i).getY();
-      //System.out.println("newSpeed(X, Y): ("+newSpeedX+", "+newSpeedY);
-
-      //System.out.println("\tDiff(X,Y): ("+diffX+", "+diffY+")");
-
       //onFloor = false;
       while (diffY > -70 && diffY < 70 && diffX > -70 && diffX < 70 && speedY <= 0 /*&& counter > 0*/) { //won't back up when jumping up
-        //System.out.println("\n\n\n\n\n\nRUNNING THE WHILE LOOP!!!!!\n\n\n\n\n\n");
         x += newSpeedX;
         y += newSpeedY;
         diffX = x - others.get(i).getX();
@@ -248,7 +238,7 @@ public class Creature {
         if (diffY >= 70) {
           //          onFloor = true;
           isJumping = false;
-          System.out.println("Setting onFloor to true");
+          //System.out.println("Setting onFloor to true");
         } else {
           //          onFloor = false; 
           isJumping = true;
@@ -256,16 +246,18 @@ public class Creature {
       }
     }
     if (wentBack) {
-      System.out.println("Backed up! -- setting speeds to 0!");
+      //System.out.println("Backed up! -- setting speeds to 0!");
       speedX = 0;
       speedY = 0;
     }
   }
 
   public boolean checkOnFloor() {
+    System.out.println("\tRunning CheckOnFloor!");
     try {
-      System.out.println(isSolid(x-1, y-1));
-      return isSolid(x-10, y-10);
+      System.out.print("\tRunning CheckOnFloor!");
+      System.out.println("\tisSolid: "+ str(isSolid(x, y+10)));
+      return isSolid(x, y+10);
     }
     catch (NullPointerException e) {
       return false;
@@ -284,10 +276,20 @@ public class Creature {
   }
 
   public boolean isSolid(float xCor, float yCor) {
-    if ( board[ ( Math.round(xCor)/* - 50 */) / 100][ (Math.round(yCor)/* - 50*/) / 100] instanceof SolidBlock) {
+    System.out.println("\tRunning isSolid!");
+    System.out.println(Math.round(xCor));
+    System.out.println(Math.round(yCor));
+    System.out.println(Math.round(xCor) / 100);
+    System.out.println(Math.round(yCor) / 100);
+    System.out.println(board[1][1] instanceof SolidBlock);
+    System.out.println(board[(Math.round(xCor)) / 100][ (Math.round(yCor)) / 100] instanceof SolidBlock);
+    if (board[ ( Math.round(xCor)/* - 50 */) / 100][ (Math.round(yCor)/* - 50*/) / 100] instanceof SolidBlock) {
+      System.out.println("True!");
       return true;
     } else {
+      System.out.println("False!");
       return false;
+      
     }
   }
 }
