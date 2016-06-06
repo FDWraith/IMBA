@@ -229,9 +229,9 @@ public class Creature {
   public void goBack(ArrayList<Positionable> others) {
     //a simple variable to see if i went back
     boolean wentBack = false;
-    boolean checkOnFloor = false;
     float newSpeedX = (-speedX) / 30;
     float newSpeedY = (-speedY) / 30;
+    //if (newSpeedX < epsilon * 5) { newSpeedX = epsilon * 5; }
     float diffX = 0;
     float diffY = 0;
 
@@ -247,8 +247,8 @@ public class Creature {
       }
       while (diffY > -70 && diffY < 70 && diffX > -70 && diffX < 70 && speedY <= 0 /*&& counter > 0*/) { //won't back up when jumping up
 
-        System.out.print("\tdiffX: "+diffX);
-        System.out.println("\tdiffY: "+diffY);
+        /*System.out.print("\tdiffX: "+diffX);
+        System.out.println("\tdiffY: "+diffY);*/
         x += newSpeedX;
         y += newSpeedY;
         diffX = x - others.get(i).getX();
@@ -274,6 +274,7 @@ public class Creature {
     }
   }
 
+/*
   public boolean checkOnFloor() {
     System.out.println("\tRunning CheckOnFloor!");
     try {
@@ -285,6 +286,7 @@ public class Creature {
       return false;
     }
   }
+  */
 
   public void display() {
     fill(#000000);
@@ -294,10 +296,10 @@ public class Creature {
   }
 
   public void label() {
-    text("Hi I'm A Creature!", x, 1000 - y);
+    text("Hi I'm A Creature!", x - 30, 1000 - y - 23);
   }
 
-  public boolean isSolid(float xCor, float yCor) {
+/*  public boolean isSolid(float xCor, float yCor) {
     System.out.println("\tRunning isSolid!");
     System.out.println(Math.round(xCor));
     System.out.println(Math.round(yCor));
@@ -306,12 +308,12 @@ public class Creature {
     System.out.println(board[1][1] instanceof SolidBlock);
     System.out.print("c"+(board[(Math.round(xCor)) / 100][ (Math.round(yCor)) / 100] instanceof SolidBlock));
     System.out.println("\n\n\n");
-    if (board[ ( Math.round(xCor)/* - 50 */) / 100][ (Math.round(yCor)/* - 50*/) / 100] instanceof SolidBlock) {
+    if (board[ ( Math.round(xCor) - 50 ) / 100][ (Math.round(yCor) - 50) / 100] instanceof SolidBlock) {
       System.out.println("True!");
       return true;
     } else {
       System.out.println("False!");
       return false;
     }
-  }
+  }*/
 }
