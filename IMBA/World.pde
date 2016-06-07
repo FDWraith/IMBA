@@ -1,4 +1,4 @@
-public class World{  //<>// //<>// //<>// //<>//
+public class World{  //<>// //<>// //<>// //<>// //<>//
    private Block[][] board;
    private ArrayList<Positionable> collidableBlocks;
    private Player player;
@@ -42,6 +42,9 @@ public class World{  //<>// //<>// //<>// //<>//
       player.move(collidableBlocks);
       player.display();
       for(int i =0 ;i < others.size();i++){
+        if(others.get(i) instanceof Npc){
+          ((Npc)(others.get(i))).randomizeMove(collidableBlocks);
+        }
         others.get(i).display();  
       }
       popMatrix();

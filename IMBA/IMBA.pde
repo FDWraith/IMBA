@@ -54,7 +54,7 @@ void draw(){
         globalState = "tempPhaseOut";
         action = null;
     }else if(globalState.equals("worldMaking")){
-        background(loadImage("./Images/GeneratorGUI.jpg")); //<>//
+        background(loadImage("./Images/GeneratorGUI.jpg")); //<>// //<>//
         ((Generator)(world)).display(); //<>//
     }
     //System.out.println(globalState);
@@ -115,7 +115,7 @@ void draw(){
     promptButton(500,250,300,100);
     promptButton(500,550,300,100);
   }
-   //<>//
+   //<>// //<>//
   void mouseClicked(){ //<>//
     //System.out.println(globalState);
     if(globalState.equals("loading")){
@@ -128,7 +128,7 @@ void draw(){
       ((Generator)(world)).flashTriggered();  
     }
   }
-   //<>//
+   //<>// //<>//
   void mousePressed(){ //<>//
     if(world instanceof Generator && globalState.equals("worldMaking")){
       if(((Generator)(world)).hasBlock()){
@@ -145,9 +145,9 @@ void draw(){
     if(world instanceof World){ //<>//
       ((World)(world)).handleUserInput(""+key);
       if(key == 'd'){
-        adjustment += 5;  
+        adjustment += 1;  
       }else if(key == 'a'){
-        adjustment -= 5;  
+        adjustment -= 1;  
       }
     }
   }

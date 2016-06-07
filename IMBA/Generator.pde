@@ -106,7 +106,7 @@ public class Generator{
        /*{Missing until later}*/
        
        //temp lines:
-       end += "1\n{0,50,140}";//The ball spawns in top left corner...
+       end += "2\n{0,50,140}\n{1,500,140}";//The ball spawns in top left corner...
        
        out.write(end);
        out.close();       
