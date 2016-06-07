@@ -10,6 +10,7 @@ public class Generator{
   private ArrayList<Block> displayBoard;
   private int maxCount = 5;
   private Block followBlock;
+  private Creature followCreature;
   private boolean triggered;
   
   public Generator(){
@@ -307,12 +308,35 @@ public class Generator{
       }
     }
     
-    
+    fill(#862d2d);
+    rectMode(CENTER);
+    rect(960,20,80,40);
+    fill(0);
+    textMode(CENTER);
+    textAlign(CENTER);
+    text("Add Creature",960,20);
+     
+    if(triggered){
+      float diffX = abs(960 - mouseX);
+      float diffY = abs(20 - mouseY);
+      if(diffX < 40 && diffY < 20){
+        followCreature = new Creature(mouseX,mouseY);       
+      }
+    }
+   
     
    
     //Handle Picking up a block
     if(followBlock != null){
       followBlock.display(mouseX, mouseY);
+    }
+    
+    if(followCreature != null){
+      followCreature = new Creature(mouseX, 1000 - mouseY);
+      followCreature.display();
+      if(triggered){
+        dropCreature();  
+      }
     }
     
     triggered = false;//if where the player presses his/her mouse does nothing, reset the state of triggered
@@ -352,6 +376,26 @@ public class Generator{
           }
         }
       }
+    }
+  }
+  
+  public void dropCreature(){
+    if(followCreature == null){
+      return; 
+    }else{
+      for(int r = 0;r < board.size();r++){
+        for(int c = 0; c < board.get(r).size(); c++){
+          Block current = board.get(r).get(c);
+          float diffX = abs(mouseX - current.getX());
+          float diffY = abs(mouseY - (1000 - current.getY()));
+          if(current instanceof AirBlock && diffX < 40 && diffY < 40){
+            creatures.add(new Npc(mouseX, c * 100 + 20));
+            save();
+            followCreature = null;
+            return;
+          }
+        }
+      } 
     }
   }
  
