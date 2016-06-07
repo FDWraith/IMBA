@@ -127,7 +127,7 @@ public class Creature implements Positionable {
 
   //checks the state and moves accordingly
   //changes the speed and location of creature
-  public void move(ArrayList<Positionable> others) {
+  public void move(ArrayList<Positionable> others, ArrayList<Positionable> otherCreatures) {
     applyGravity();
     if (state.equals("JUMPING")) {
       speedY += jumping_constant;
@@ -154,9 +154,10 @@ public class Creature implements Positionable {
     y += speedY;
     x += speedX;
 
+    goBackCreature(otherCreatures);
     goBack(others);
     display();
-    System.out.println("" + state + " Speed(X, Y): (" + speedX + ", " + speedY);
+    //System.out.println("" + state + " Speed(X, Y): (" + speedX + ", " + speedY);
   }
 
   //makes player move downwards
@@ -164,7 +165,7 @@ public class Creature implements Positionable {
     /*if (state.equals("FALLING") || state.equals("JUMPING")) {
      speedY = speedY - gravity_constant; 
      }*/
-    System.out.println(onFloor);
+    //System.out.println(onFloor);
     if (onFloor == false) {
       speedY = speedY - gravity_constant;
     }
@@ -245,13 +246,13 @@ public class Creature implements Positionable {
       if (diffY >= -70.5 && diffY <= 70.5 && diffX >= -70.5 && diffX <= 70.5 /*&& speedY <= 0*/) {
         if (Math.abs(diffY - 70.15) > epsilon) {
           onFloor = false; 
-          System.out.println(diffY);
-          System.out.println("\n\nMade onFloor False again!");
+          //System.out.println(diffY);
+          //System.out.println("\n\nMade onFloor False again!");
         }
         if (Math.abs(diffY + 70.5) > epsilon) {
           onFloor = true; 
-          System.out.println(diffY);
-          System.out.println("\n\nMade onFloor True again!");
+          //System.out.println(diffY);
+          //System.out.println("\n\nMade onFloor True again!");
         }
       }
       while (diffY > -70 && diffY < 70 && diffX > -70 && diffX < 70 /*&& speedY <= 0*/ /*&& counter > 0*/) { //won't back up when jumping up
@@ -281,6 +282,21 @@ public class Creature implements Positionable {
       //System.out.println("Backed up! -- setting speeds to 0!");
       speedX = 0;
       speedY = 0;
+    }
+  }
+
+  public void goBackCreature(ArrayList<Positionable> others) {
+    float newSpeedX = (-speedX) / 30;
+    float newSpeedY = (-speedY) / 30;
+    //if (newSpeedX < epsilon * 5) { newSpeedX = epsilon * 5; }
+    float diffX = 0;
+    float diffY = 0;
+    for (int i = 0; i < others.size(); i++) {
+      diffX = x - others.get(i).getX();
+      //diffY = y - others.get(i).getY();
+      while (diffX < 90 && diffX > -90) {
+        x += newSpeedX; 
+      }
     }
   }
 
