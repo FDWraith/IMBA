@@ -103,6 +103,9 @@ public class World{  //<>// //<>// //<>// //<>//
      switch(ID){
         case 0: return new AirBlock(100,ID);
         case 1: return new SolidBlock("dirt.jpg",100,ID);
+        case 2: return new SolidBlock("stone.jpg",100,ID);
+        case 3: return new SolidBlock("stone_brick.jpg",100,ID);
+        case 4: return new SolidBlock("wood.jpg",100,ID);
      }
      return null;
    }

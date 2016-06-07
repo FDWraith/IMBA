@@ -7,7 +7,7 @@ public class Generator{
   private int adjust = 0;
   private int displayAdjust = 0;
   private ArrayList<Block> displayBoard;
-  private int maxCount = 2;
+  private int maxCount = 5;
   private Block followBlock;
   private boolean triggered;
   
@@ -71,10 +71,8 @@ public class Generator{
     }
     
     displayBoard = new ArrayList<Block>();
-    displayBoard.add(new AirBlock(100, 0));
-    displayBoard.add(new SolidBlock("dirt.jpg",100,1));
-    for(int i =0; i < 4 - (maxCount % 4);i++){
-      displayBoard.add(new AirBlock(100,0));
+    for(int i = 0; i < maxCount;i++){
+      displayBoard.add(initializeDisplayBlock(i));  
     }
   }
   
@@ -124,14 +122,27 @@ public class Generator{
     switch(ID){
       case 0: return new AirBlock(80,ID);
       case 1: return new SolidBlock("dirt.jpg",80,ID);
+      case 2: return new SolidBlock("stone.jpg",80,ID);
+      case 3: return new SolidBlock("stone_brick.jpg",80,ID);
+      case 4: return new SolidBlock("wood.jpg",80,ID);
+    }
+    return null;
+  }
+  private Block initializeDisplayBlock(int ID){
+    switch(ID){
+      case 0: return new AirBlock(100,ID);
+      case 1: return new SolidBlock("dirt.jpg",100,ID);
+      case 2: return new SolidBlock("stone.jpg",100,ID);
+      case 3: return new SolidBlock("stone_brick.jpg",100,ID);
+      case 4: return new SolidBlock("wood.jpg",100,ID);
     }
     return null;
   }
   
   private void fillNulls(){//beginning of the board.
-    for(int i =0 ;i < 10; i++){
+    for(int i =0 ;i < board.size(); i++){
       for(int j =0;j < 10;j++){
-        board.get(i).add(new AirBlock(50,0));  
+        board.get(i).add(new AirBlock(80,0));  
       }
     }
   }
@@ -164,16 +175,32 @@ public class Generator{
     rightTriangle.vertex(940,350);
     rightTriangle.endShape();
     
+    PShape addLayerTriangle = createShape(PShape.PATH);
+    addLayerTriangle.beginShape();
+    addLayerTriangle.vertex(990,400);
+    addLayerTriangle.vertex(970,450);
+    addLayerTriangle.vertex(970,350);
+    addLayerTriangle.endShape();
+    
     //Side Scrolling
     if(triggered){
       if(leftTriangle.contains(mouseX,mouseY)){
         //println("happened");
         moveLeft();
+        triggered = false;
       }else if(rightTriangle.contains(mouseX,mouseY)){
         //println("happening");
         moveRight();
+        triggered = false;
+      }else if(addLayerTriangle.contains(mouseX,mouseY)){
+        board.add(new ArrayList<Block>(10));
+        for(int i = 0; i < 10; i++){
+          board.get(board.size()-1).add(initializeBlock(0));
+        }
+        moveRight();
+        triggered = false;
       }
-      triggered = false;
+      
     }
     
     triangle(40,400,60,450,60,350);
@@ -182,15 +209,17 @@ public class Generator{
     triangle(43,400,58,440,58,360);
     fill(#802b2b);
     triangle(957,400,942,440,942,360);
+    triangle(990,400,970,450,970,350);
     
     //Bottom GUI
-    
+    /*
     fill(0);
     rect(500,900,width-100,150);
     noFill();
-    
+    */
     xCor = 200.0;
     yCor = 100;
+    
     for(int i = displayAdjust; i< displayAdjust + 4; i++){
       fill(255);
       rect(xCor, 1000 - yCor, 105, 105);
@@ -223,11 +252,14 @@ public class Generator{
     if(triggered){
       if(bottomLeftTriangle.contains(mouseX,mouseY)){
         moveDisplayLeft();
+        println("left");
       }else if(bottomRightTriangle.contains(mouseX,mouseY)){
         moveDisplayRight();
+        println("right");
       }
       triggered = false;
     }
+    
    
     //Handle Picking up a block
     if(followBlock != null){
