@@ -34,11 +34,11 @@ void draw(){
         promptScreen();
         if(checkMouse(500,250,300,100)){
           fill(#A3A3A3);
-          promptButton(500,250,300,100);
+          promptButton(500,250,300,100,"Play");
           noFill();
         }else if(checkMouse(500,550,300,100)){
           fill(#A3A3A3);
-          promptButton(500,550,300,100);
+          promptButton(500,550,300,100,"Create");
           noFill();
         }
       }
@@ -54,7 +54,7 @@ void draw(){
         globalState = "tempPhaseOut";
         action = null;
     }else if(globalState.equals("worldMaking")){
-        background(loadImage("./Images/GeneratorGUI.jpg")); //<>// //<>//
+        background(loadImage("./Images/GeneratorGUI.jpg")); //<>// //<>// //<>//
         ((Generator)(world)).display(); //<>//
     }
     //System.out.println(globalState);
@@ -90,6 +90,10 @@ void draw(){
       world = new Generator();
       globalState = "worldMaking";
     }else if(!selection.exists()){
+      if(!selection.getAbsolutePath().contains(".map") || !selection.getAbsolutePath().contains("MapSaves")){
+        globalState = "initialize";
+        return;
+      }
       File f = new File(selection.getAbsolutePath());
       f.getParentFile().mkdirs();
       try{
@@ -102,18 +106,29 @@ void draw(){
       //f.close();
       //println(action);
     }else{
+      if(!selection.getAbsolutePath().contains(".map") || !selection.getAbsolutePath().contains("./MapSaves/")){
+        globalState = "initialize";
+        return;
+      }
       world = new Generator(selection.getAbsolutePath());
       globalState = "worldMaking";
       //println(action);
     }
   }
-  void promptButton(float xCor, float yCor, float len, float ht){
+  void promptButton(float xCor, float yCor, float len, float ht,String txt){ //<>//
     rectMode(CENTER);
+    textMode(CENTER);
+    textAlign(CENTER);
+    textSize(28);
     rect(xCor, yCor, len, ht);
+    fill(0);
+    text(txt, xCor, yCor);
+    noFill();
+    textSize(12);
   }
   void promptScreen(){
-    promptButton(500,250,300,100);
-    promptButton(500,550,300,100);
+    promptButton(500,250,300,100,"Play");
+    promptButton(500,550,300,100,"Create"); //<>//
   }
    //<>// //<>//
   void mouseClicked(){ //<>//
