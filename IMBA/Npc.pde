@@ -3,7 +3,7 @@ public class Npc  extends Creature{
    super(xcor, ycor); 
   }
   
-   public void randomizeMove() {
+   public void randomizeMove(ArrayList<Positionable> others) {
       int randomChoice = (int)(Math.random() * 2);
       if (randomChoice == 0) {
          setState("DEFAULT");
@@ -13,5 +13,6 @@ public class Npc  extends Creature{
          setState("DEFAULT");
          setSpeedHorizontal("RIGHT"); 
       }
+      move(others);
    }
 }
