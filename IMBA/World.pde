@@ -39,11 +39,11 @@ public class World{  //<>// //<>// //<>// //<>// //<>//
       //println(collidableBlocks.size());
       //    player.collide(collidableBlocks);
       //player.collide(others);
-      player.move(collidableBlocks);
+      player.move(collidableBlocks, others);
       player.display();
       for(int i =0 ;i < others.size();i++){
         if(others.get(i) instanceof Npc){
-          ((Npc)(others.get(i))).randomizeMove(collidableBlocks);
+          ((Npc)(others.get(i))).randomizeMove(collidableBlocks, others);
         }
         others.get(i).display();  
       }
