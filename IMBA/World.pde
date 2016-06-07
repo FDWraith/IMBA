@@ -39,12 +39,12 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>//
       //println(collidableBlocks.size());
       //    player.collide(collidableBlocks);
       //player.collide(others);
-      player.move(collidableBlocks, others);
+      player.move(collidableBlocks, creatures);
       player.display();
       for(int i =0 ;i < creatures.size();i++){
         Positionable current = creatures.get(i);
         if(current instanceof Npc){
-          ((Npc)(current)).randomizeMove(collidableBlocks, others);
+          ((Npc)(current)).randomizeMove(collidableBlocks, creatures);
         }else if(current instanceof Player){
           //((Player)(current)).move(collidableBlocks);          
         }
