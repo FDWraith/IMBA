@@ -1,8 +1,8 @@
-public class World{  //<>// //<>// //<>// //<>// //<>//
+public class World{  //<>// //<>// //<>// //<>// //<>// //<>//
    private Block[][] board;
    private ArrayList<Positionable> collidableBlocks;
+   private ArrayList<Positionable> creatures;
    private Player player;
-   private ArrayList<Positionable> others;
    
    //  private int rowStart, rowEnd;
    
@@ -41,11 +41,14 @@ public class World{  //<>// //<>// //<>// //<>// //<>//
       //player.collide(others);
       player.move(collidableBlocks, others);
       player.display();
-      for(int i =0 ;i < others.size();i++){
-        if(others.get(i) instanceof Npc){
-          ((Npc)(others.get(i))).randomizeMove(collidableBlocks, others);
+      for(int i =0 ;i < creatures.size();i++){
+        Positionable current = creatures.get(i);
+        if(current instanceof Npc){
+          ((Npc)(current)).randomizeMove(collidableBlocks, others);
+        }else if(current instanceof Player){
+          //((Player)(current)).move(collidableBlocks);          
         }
-        others.get(i).display();  
+        current.display();  
       }
       popMatrix();
    }
@@ -86,11 +89,10 @@ public class World{  //<>// //<>// //<>// //<>// //<>//
          data = data.substring(1,data.length()-1);
          String[]ary = data.split(",");
          Creature c = intializeCreature(ary[0],Float.parseFloat(ary[1]),Float.parseFloat(ary[2]));
-         others = new ArrayList<Positionable>();
+         creatures = new ArrayList<Positionable>();
+         creatures.add((Positionable)(c));
          if(c instanceof Player){
-           player = (Player)(c);
-         }else{
-           others.add((Positionable)(c));
+           player = ((Player)(c));  
          }
        }
        
