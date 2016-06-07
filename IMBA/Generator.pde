@@ -3,6 +3,7 @@ import java.io.*;
 
 public class Generator{
   private ArrayList<ArrayList<Block>> board;
+  private ArrayList<Positionable> creatures;
   private String filePath;
   private int adjust = 0;
   private int displayAdjust = 0;
@@ -47,6 +48,8 @@ public class Generator{
           board.add(new ArrayList<Block>(10));  
         }
         fillNulls();
+        creatures = new ArrayList<Positionable>();
+        creatures.add(new Player(50,500));
         save();
       }else{
         Scanner firstLine = new Scanner(in.nextLine());
@@ -62,6 +65,18 @@ public class Generator{
             nxt = nxt.substring(1,nxt.length()-1);
             board.get(i).add(initializeBlock(Integer.parseInt(nxt)));  
           }
+          newLine.close();
+        }
+        Scanner secondLine = new Scanner(in.nextLine());
+        int numOfCreatures = secondLine.nextInt();
+        secondLine.close();
+        creatures = new ArrayList<Positionable>(numOfCreatures);
+        for(int i = 0; i < numOfCreatures; i++){
+          Scanner newLine = new Scanner(in.nextLine());
+          String info = newLine.next();
+          info = info.substring(1,info.length()-1);
+          String[]ary = info.split(",");
+          creatures.add(initializeCreature(Integer.parseInt(ary[0]),Float.parseFloat(ary[1]),Float.parseFloat(ary[2])));
           newLine.close();
         }
       }
@@ -103,10 +118,29 @@ public class Generator{
          end += line += "\n";      
        }
        //Block of code for Creatures
-       /*{Missing until later}*/
        
-       //temp lines:
-       end += "2\n{0,50,140}\n{1,500,140}";//The ball spawns in top left corner...
+       //Calcuate the proper yCor for the player;
+       
+       pushMatrix();
+       scale(10.0/8.0);
+       translate(-100,-200);
+       float playerYCor = 0;
+       for(int i = 0; i < board.get(0).size(); i++){
+         if(board.get(0).get(i) instanceof AirBlock){
+           playerYCor = (i) * 100 + 20;
+           break;
+         }         
+       }
+       popMatrix();
+       //Now, fill in the data for Creatures
+       end += creatures.size() + "\n";
+       end += "{0,50,"+playerYCor+"}\n";//player will always be first item saved
+       for(int i = 1; i < creatures.size(); i++){
+         Positionable current = creatures.get(i);
+         if(current instanceof Npc){
+           end += "{1,"+current.getX()+","+current.getY()+"}\n";  
+         }
+       }
        
        out.write(end);
        out.close();       
@@ -138,6 +172,13 @@ public class Generator{
     }
     return null;
   }
+  private Creature initializeCreature(int ID, float xCor, float yCor){
+    switch(ID){
+      case 0: return new Player(xCor, yCor);
+      case 1: return new Npc(xCor,yCor);
+    }
+    return null;
+  }
   
   private void fillNulls(){//beginning of the board.
     for(int i =0 ;i < board.size(); i++){
@@ -161,6 +202,13 @@ public class Generator{
       xCor += 80.0;
     }
     
+    pushMatrix();
+    translate(100,0);
+    scale(0.8);
+    for(int i = 0; i < creatures.size(); i++){
+      creatures.get(i).display();  
+    }
+    popMatrix();
     PShape leftTriangle = createShape(PShape.PATH);
     leftTriangle.beginShape();
     leftTriangle.vertex(40,400);
@@ -257,8 +305,9 @@ public class Generator{
         moveDisplayRight();
         println("right");
       }
-      triggered = false;
     }
+    
+    
     
    
     //Handle Picking up a block
@@ -266,7 +315,7 @@ public class Generator{
       followBlock.display(mouseX, mouseY);
     }
     
-    
+    triggered = false;//if where the player presses his/her mouse does nothing, reset the state of triggered
   }
  
   public void chooseBlock(){
