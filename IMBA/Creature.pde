@@ -23,19 +23,20 @@ import java.util.*;
  5. update state
  */
 
-public class Creature implements Positionable{
+public class Creature implements Positionable {
   private Block[][] board;
 
   public static final float epsilon = .1;
-  public static final float gravity_constant = 5;
+  public static final float gravity_constant = 2.5;
   public static final float friction_constant = .1;
   public static final float max_speedx = 10;
   public static final float accelerateX = 3;
+  public static final float jumping_constant = 25;
 
   public static final float ceiling_constant = 1000 - 40;
-  public static final float floor_constant = 40;
-  public static final float leftWall_constant = 40;
-  public static final float rightWall_constant = 40;
+  public static final float floor_constant = 20;
+  public static final float leftWall_constant = 20;
+  public static final float rightWall_constant = 20;
 
   //crude but effective solution to multi-jump
   private boolean isJumping = false;
@@ -129,7 +130,7 @@ public class Creature implements Positionable{
   public void move(ArrayList<Positionable> others) {
     applyGravity();
     if (state.equals("JUMPING")) {
-      speedY += 50;
+      speedY += jumping_constant;
       state = "RISING";
       isJumping = true;
       onFloor = false;
@@ -241,14 +242,22 @@ public class Creature implements Positionable{
     for (int i = 0; i < others.size(); i++) {
       diffX = x - others.get(i).getX();
       diffY = y - others.get(i).getY();
-      if (diffY >= -70.5 && diffY <= 70.5 && diffX >= -70.5 && diffX <= 70.5 && speedY <= 0) {
-        onFloor = true; 
-        System.out.println("\n\nMade onFloor True again!");
+      if (diffY >= -70.5 && diffY <= 70.5 && diffX >= -70.5 && diffX <= 70.5 /*&& speedY <= 0*/) {
+        if (Math.abs(diffY - 70.15) > epsilon) {
+          onFloor = false; 
+          System.out.println(diffY);
+          System.out.println("\n\nMade onFloor False again!");
+        }
+        if (Math.abs(diffY + 70.5) > epsilon) {
+          onFloor = true; 
+          System.out.println(diffY);
+          System.out.println("\n\nMade onFloor True again!");
+        }
       }
-      while (diffY > -70 && diffY < 70 && diffX > -70 && diffX < 70 && speedY <= 0 /*&& counter > 0*/) { //won't back up when jumping up
+      while (diffY > -70 && diffY < 70 && diffX > -70 && diffX < 70 /*&& speedY <= 0*/ /*&& counter > 0*/) { //won't back up when jumping up
 
         /*System.out.print("\tdiffX: "+diffX);
-        System.out.println("\tdiffY: "+diffY);*/
+         System.out.println("\tdiffY: "+diffY);*/
         x += newSpeedX;
         y += newSpeedY;
         diffX = x - others.get(i).getX();
@@ -260,11 +269,12 @@ public class Creature implements Positionable{
           isJumping = false;
           speedY = 0;
           //System.out.println("Setting onFloor to true");
-        } /*else {
-          System.out.println("Made onFloor False again!");
-          onFloor = false; 
+        } else if (Math.abs(diffY + 70) > epsilon) {
+          onFloor = false;
           isJumping = true;
-        }*/
+          speedY = gravity_constant;
+          wentBack = false;
+        }
       }
     }
     if (wentBack) {
@@ -274,19 +284,19 @@ public class Creature implements Positionable{
     }
   }
 
-/*
+  /*
   public boolean checkOnFloor() {
-    System.out.println("\tRunning CheckOnFloor!");
-    try {
-      System.out.print("\tRunning Check!");
-      System.out.println("\tisSolid: "+ str(isSolid(x, y+10)));
-      return isSolid(x, y+50);
-    }
-    catch (NullPointerException e) {
-      return false;
-    }
-  }
-  */
+   System.out.println("\tRunning CheckOnFloor!");
+   try {
+   System.out.print("\tRunning Check!");
+   System.out.println("\tisSolid: "+ str(isSolid(x, y+10)));
+   return isSolid(x, y+50);
+   }
+   catch (NullPointerException e) {
+   return false;
+   }
+   }
+   */
 
   public void display() {
     fill(#000000);
@@ -299,21 +309,21 @@ public class Creature implements Positionable{
     text("Hi I'm A Creature!", x - 30, 1000 - y - 23);
   }
 
-/*  public boolean isSolid(float xCor, float yCor) {
-    System.out.println("\tRunning isSolid!");
-    System.out.println(Math.round(xCor));
-    System.out.println(Math.round(yCor));
-    System.out.println(Math.round(xCor) / 100);
-    System.out.println(Math.round(yCor) / 100);
-    System.out.println(board[1][1] instanceof SolidBlock);
-    System.out.print("c"+(board[(Math.round(xCor)) / 100][ (Math.round(yCor)) / 100] instanceof SolidBlock));
-    System.out.println("\n\n\n");
-    if (board[ ( Math.round(xCor) - 50 ) / 100][ (Math.round(yCor) - 50) / 100] instanceof SolidBlock) {
-      System.out.println("True!");
-      return true;
-    } else {
-      System.out.println("False!");
-      return false;
-    }
-  }*/
+  /*  public boolean isSolid(float xCor, float yCor) {
+   System.out.println("\tRunning isSolid!");
+   System.out.println(Math.round(xCor));
+   System.out.println(Math.round(yCor));
+   System.out.println(Math.round(xCor) / 100);
+   System.out.println(Math.round(yCor) / 100);
+   System.out.println(board[1][1] instanceof SolidBlock);
+   System.out.print("c"+(board[(Math.round(xCor)) / 100][ (Math.round(yCor)) / 100] instanceof SolidBlock));
+   System.out.println("\n\n\n");
+   if (board[ ( Math.round(xCor) - 50 ) / 100][ (Math.round(yCor) - 50) / 100] instanceof SolidBlock) {
+   System.out.println("True!");
+   return true;
+   } else {
+   System.out.println("False!");
+   return false;
+   }
+   }*/
 }
