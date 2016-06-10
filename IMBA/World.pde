@@ -2,7 +2,9 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
    private Block[][] board;
    private ArrayList<Positionable> collidableBlocks;
    private ArrayList<Positionable> creatures;
+   private ArrayList<EndBlock> endingPositions;
    private Player player;
+   private String filePath;
    
    //  private int rowStart, rowEnd;
    
@@ -13,13 +15,23 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
    
    public World(String filePath){
       initializeWorld(filePath);
+      this.filePath = filePath;
    }
    
    public void handleUserInput(String in){
      player.handleUserInput(in); 
    }
    
-   public void display(float adjustX){//adjust starts at 0. As adjust increases, we move left
+   public void reload(){
+     board = null;
+     collidableBlocks = null;
+     creatures = null;
+     endingPositions = null;
+     player = null;
+     initializeWorld(filePath);
+   }
+   
+   public void display(float adjustX) throws Throwable{//adjust starts at 0. As adjust increases, we move left
    /*
       float movement = adjust % 100;
       int blockChange = (int)(adjust / 100);
@@ -51,6 +63,16 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
         current.display();  
       }
       popMatrix();
+      
+      for(int i = 0;i < endingPositions.size(); i++){
+        float diffX = abs(player.getX() - endingPositions.get(i).getX());
+        float diffY = abs(player.getY() - endingPositions.get(i).getY());
+        println(diffX + "," + diffY);
+        if(diffX < endingPositions.get(i).getSize() / 2 && diffY < endingPositions.get(i).getSize() / 2){
+          clear();
+          throw new Throwable("EndGame");
+        }
+      }
    }
    
    //might want to replace numBlocksRow and numBlocksCol with width and height primitives
@@ -66,6 +88,7 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
        firstLine.close();
        board = new Block[row][col];
        collidableBlocks = new ArrayList<Positionable>();
+       endingPositions = new ArrayList<EndBlock>();
        for(int r = 0;r < row;r++){
           Scanner temp = new Scanner(in.nextLine());
           for(int c = 0; c < col; c++){
@@ -76,6 +99,10 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
              
              if(b instanceof SolidBlock){
                collidableBlocks.add((Positionable)(b));
+             }
+             
+             if(b instanceof EndBlock){
+               endingPositions.add((EndBlock)(b));  
              }
              
           }
@@ -111,6 +138,7 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
         case 2: return new SolidBlock("stone.jpg",100,ID);
         case 3: return new SolidBlock("stone_brick.jpg",100,ID);
         case 4: return new SolidBlock("wood.jpg",100,ID);
+        case 5: return new EndBlock(100,ID);
      }
      return null;
    }

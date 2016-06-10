@@ -67,7 +67,12 @@ public class Creature implements Positionable {
     this(xcor, ycor);
     board = b;
   }
-
+  public void setX(float num){
+     x = num; 
+  }
+  public void setY(float num){
+     y = num; 
+  }
 
   public float getX() { 
     return x;

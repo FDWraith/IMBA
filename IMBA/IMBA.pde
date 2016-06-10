@@ -14,7 +14,6 @@ void setup() {
    adjustment = 0.0;
 }
 
-
 void draw(){
     //Button b = new Button(mouseX, mouseY, 50, 200, 0, 255, "Hello World");
     //b.draw();
@@ -30,6 +29,7 @@ void draw(){
         }else if(action.equals("create")){
           globalState = "generating";
         }
+        action = null;//reset action here
       }else{
         promptScreen();
         if(checkMouse(500,250,300,100)){
@@ -47,8 +47,41 @@ void draw(){
         globalState = "tempPhaseOut";
         action = null;
     }else if(globalState.equals("running")){
-        ((World)(world)).display(adjustment);
-        
+      try{
+        ((World)(world)).display(adjustment);        
+      }catch(Throwable t){
+        if(t.getMessage().equals("EndGame")){
+          globalState = "EndGame";
+        }else{
+          t.printStackTrace();
+        }
+      }
+    }else if(globalState.equals("EndGame")){
+      if(action == null){
+        if(checkMouse(500,150,300,100)){
+          fill(#A3A3A3);
+          promptButton(500,150,300,100,"Play Again");
+          noFill();
+        }else if(checkMouse(500,450,300,100)){
+          fill(#A3A3A3);
+          promptButton(500,450,300,100,"Play Another");
+          noFill();
+        }else if(checkMouse(500,750,300,100)){
+          fill(#A3A3A3);
+          promptButton(500,750,300,100,"Quit");
+          noFill();
+        }
+      }else{
+        if(action.equals("Quit")){
+          globalState = "initialize";
+        }else if(action.equals("Another")){
+          globalState = "choosingWorld"; 
+        }else if(action.equals("Again")){
+          globalState = "running";
+          adjustment = 0;
+          ((World)(world)).reload();
+        }
+      }
     }else if(globalState.equals("generating")){
         selectInput("Choose a map file to edit, or create a new one", "fileChanged");
         globalState = "tempPhaseOut";
@@ -59,10 +92,13 @@ void draw(){
     }
     //System.out.println(globalState);
 }
-  
 
   
-  void fileSelected(File selection){
+ void changeState(String in){
+   globalState = in;
+ }
+  
+ void fileSelected(File selection){
     if(selection == null){
       globalState = "initialize";
     }else if(!selection.exists()){
@@ -127,9 +163,18 @@ void draw(){
     textSize(12);
   }
   void promptScreen(){
+    fill(255);
     promptButton(500,250,300,100,"Play");
     promptButton(500,550,300,100,"Create"); //<>//
   }
+  
+  void promptEndScreen(){
+    fill(255);
+    promptButton(500,150,300,100,"Play Again");
+    promptButton(500,450,300,100,"Play Another");
+    promptButton(500,750,300,100,"Quit");
+  }
+  
    //<>// //<>//
   void mouseClicked(){ //<>//
     //System.out.println(globalState);
@@ -141,6 +186,14 @@ void draw(){
       }
     }else if(globalState.equals("worldMaking")){
       ((Generator)(world)).flashTriggered();  
+    }else if(globalState.equals("EndGame")){
+      if(checkMouse(500,150,300,100)){
+        action = "Again"; 
+      }else if(checkMouse(500,450,300,100)){
+        action = "Another";
+      }else if(checkMouse(500,750,300,100)){
+        action = "Quit";
+      }
     }
   }
    //<>// //<>//
