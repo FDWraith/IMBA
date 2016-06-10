@@ -106,7 +106,7 @@ void draw(){
       //f.close();
       //println(action);
     }else{
-      if(!selection.getAbsolutePath().contains(".map") || !selection.getAbsolutePath().contains("./MapSaves/")){
+      if(!selection.getAbsolutePath().contains(".map") || !selection.getAbsolutePath().contains("MapSaves")){
         globalState = "initialize";
         return;
       }
@@ -160,9 +160,9 @@ void draw(){
     if(world instanceof World){ //<>//
       ((World)(world)).handleUserInput(""+key);
       if(key == 'd'){
-        adjustment += 1;  
+        adjustment += 3;  
       }else if(key == 'a'){
-        adjustment -= 1;  
+        adjustment -= 3;  
       }
     }
   }
