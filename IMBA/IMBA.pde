@@ -50,14 +50,16 @@ void draw(){
       try{
         ((World)(world)).display(adjustment);        
       }catch(Throwable t){
+        //println(t.getMessage());
         if(t.getMessage().equals("EndGame")){
           globalState = "EndGame";
         }else{
-          t.printStackTrace();
+          t.printStackTrace(); //<>//
         }
       }
     }else if(globalState.equals("EndGame")){
       if(action == null){
+        promptEndScreen();
         if(checkMouse(500,150,300,100)){
           fill(#A3A3A3);
           promptButton(500,150,300,100,"Play Again");
@@ -81,6 +83,7 @@ void draw(){
           adjustment = 0;
           ((World)(world)).reload();
         }
+        action = null;
       }
     }else if(globalState.equals("generating")){
         selectInput("Choose a map file to edit, or create a new one", "fileChanged");
@@ -112,7 +115,7 @@ void draw(){
       try{
         //println(selection.getAbsolutePath());
         //println(selection.getCanonicalPath());
-        world = new World(selection.getAbsolutePath());
+        world = new World(selection.getAbsolutePath()); //<>//
         globalState = "running"; 
       }catch(Exception e){
         println("done goofed");
@@ -125,7 +128,7 @@ void draw(){
     if(selection == null){
       world = new Generator();
       globalState = "worldMaking";
-    }else if(!selection.exists()){
+    }else if(!selection.exists()){ //<>//
       if(!selection.getAbsolutePath().contains(".map") || !selection.getAbsolutePath().contains("MapSaves")){
         globalState = "initialize";
         return;
@@ -169,7 +172,9 @@ void draw(){
   }
   
   void promptEndScreen(){
-    fill(255);
+    //fill(255);
+    stroke(2);
+    noFill();
     promptButton(500,150,300,100,"Play Again");
     promptButton(500,450,300,100,"Play Another");
     promptButton(500,750,300,100,"Quit");
