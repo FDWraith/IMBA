@@ -6,6 +6,7 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
    private Player player;
    private String filePath;
    private float worldAdjust = 0;
+   private int score = 0;
    
    //  private int rowStart, rowEnd;
    
@@ -42,7 +43,9 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
         translate(-1 * (player.getX() - 500), 0);
       }else if(player.getX() > (100 * board.length - 500) ){
         translate(-1 * (100 * board.length - 1000), 0);
-      }     
+      }else{
+        translate(0,0); 
+      }
       float xCor = 50.0;
       float yCor = 50.0;
       for(int r = 0; r < board.length; r++){
@@ -58,6 +61,10 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
       //player.collide(others);
       player.move(collidableBlocks, creatures);
       player.display();
+      if( board[(round(player.getX()) - 50) % 100][(round(player.getY()) - 50) % 100] instanceof CoinBlock){
+        board[(round(player.getX() - 50) % 100)][(round(player.getY()) - 50) % 100] = initializeBlock("0");
+        score++;
+      }
       for(int i =0 ;i < creatures.size();i++){
         Positionable current = creatures.get(i);
         if(current instanceof Npc){
@@ -67,6 +74,14 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
         }
         current.display();  
       }
+      
+      //ScoreDisplay
+      /*
+      textMode(LEFT);
+      textAlign(LEFT);
+      textSize(18);
+      text("Score : "+score,0,0);
+      */
       popMatrix();
       
       for(int i = 0;i < endingPositions.size(); i++){
@@ -144,6 +159,7 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
         case 3: return new SolidBlock("stone_brick.jpg",100,ID);
         case 4: return new SolidBlock("wood.jpg",100,ID);
         case 5: return new EndBlock(100,ID);
+        case 6: return new CoinBlock(100,ID);
      }
      return null;
    }
@@ -155,6 +171,12 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
      }
      return null;
    }
+   
+   private void updateScore(){
+     score++;
+     
+   }
+   
    
    /*
    //to be changed (may not include in working edition.

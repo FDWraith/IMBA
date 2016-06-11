@@ -162,6 +162,7 @@ public class Generator{
       case 3: return new SolidBlock("stone_brick.jpg",80,ID);
       case 4: return new SolidBlock("wood.jpg",80,ID);
       case 5: return new EndBlock(80,ID);
+      case 6: return new CoinBlock(80,ID);
     }
     return null;
   }
@@ -173,6 +174,7 @@ public class Generator{
       case 3: return new SolidBlock("stone_brick.jpg",100,ID);
       case 4: return new SolidBlock("wood.jpg",100,ID);
       case 5: return new EndBlock(100,ID);
+      case 6: return new CoinBlock(100,ID);
     }
     return null;
   }
