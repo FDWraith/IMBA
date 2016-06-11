@@ -40,7 +40,9 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
       pushMatrix();
       if(player.getX() >= 500 && player.getX() <= (100 * board.length - 500)){
         translate(-1 * (player.getX() - 500), 0);
-      }
+      }else if(player.getX() > (100 * board.length - 500) ){
+        translate(-1 * (100 * board.length - 1000), 0);
+      }     
       float xCor = 50.0;
       float yCor = 50.0;
       for(int r = 0; r < board.length; r++){
