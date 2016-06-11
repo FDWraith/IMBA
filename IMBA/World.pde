@@ -3,6 +3,7 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
    private ArrayList<Positionable> collidableBlocks;
    private ArrayList<Positionable> creatures;
    private ArrayList<EndBlock> endingPositions;
+   private ArrayList<CoinBlock> coins;
    private Player player;
    private String filePath;
    private float worldAdjust = 0;
@@ -61,10 +62,12 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
       //player.collide(others);
       player.move(collidableBlocks, creatures);
       player.display();
-      if( board[(round(player.getX()) - 50) % 100][(round(player.getY()) - 50) % 100] instanceof CoinBlock){
-        board[(round(player.getX() - 50) % 100)][(round(player.getY()) - 50) % 100] = initializeBlock("0");
+      
+      if( board[(round(player.getX())) / 100][(round(player.getY())) / 100] instanceof CoinBlock){
+        board[(round(player.getX()) / 100)][(round(player.getY())) / 100] = new AirBlock(100,0);
         score++;
       }
+      
       for(int i =0 ;i < creatures.size();i++){
         Positionable current = creatures.get(i);
         if(current instanceof Npc){
@@ -75,14 +78,21 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
         current.display();  
       }
       
-      //ScoreDisplay
-      /*
-      textMode(LEFT);
-      textAlign(LEFT);
-      textSize(18);
-      text("Score : "+score,0,0);
-      */
+      
       popMatrix();
+      
+      
+      //ScoreDisplay
+      
+      //textMode(RIGHT);
+      textAlign(LEFT,TOP);
+      textSize(20);
+      fill(0);
+      text("Score : "+score,0,0);
+      textSize(12);
+      //noFill();
+      
+
       
       for(int i = 0;i < endingPositions.size(); i++){
         float diffX = abs(player.getX() - endingPositions.get(i).getX());

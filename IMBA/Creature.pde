@@ -331,7 +331,7 @@ public class Creature implements Positionable {
    */
 
   public void display() {
-    fill(#000000);
+    fill(#A3A3A3);
     ellipseMode(CENTER);
     ellipse(x, 1000 - y, 40, 40);
     label();

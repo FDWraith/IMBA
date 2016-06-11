@@ -8,7 +8,7 @@ public class Generator{
   private int adjust = 0;
   private int displayAdjust = 0;
   private ArrayList<Block> displayBoard;
-  private int maxCount = 6;
+  private int maxCount = 7;
   private Block followBlock;
   private Creature followCreature;
   private boolean triggered;

@@ -21,6 +21,7 @@ public class Player extends Creature{
   
   //overwrites creature's label
   public void label() {
+     fill(0);
      text("This Is You!", getX() - 20, 1000 - getY() - 23);
   }
   
