@@ -1,4 +1,4 @@
-public interface Moveable extends Positionable {
-  public void move(); 
-  public void collide(ArrayList<Positionable> others); 
+public interface Movable extends Positionable {
+  public void move(ArrayList<Positionable> others); 
+  public boolean collide(ArrayList<Positionable> others); 
 }
