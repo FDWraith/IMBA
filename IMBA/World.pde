@@ -5,6 +5,7 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
    private ArrayList<EndBlock> endingPositions;
    private Player player;
    private String filePath;
+   private float worldAdjust = 0;
    
    //  private int rowStart, rowEnd;
    
@@ -31,13 +32,15 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
      initializeWorld(filePath);
    }
    
-   public void display(float adjustX) throws Throwable{//adjust starts at 0. As adjust increases, we move left
+   public void display() throws Throwable{//adjust starts at 0. As adjust increases, we move left
    /*
       float movement = adjust % 100;
       int blockChange = (int)(adjust / 100);
       */
       pushMatrix();
-      translate(-1 * adjustX, 0);
+      if(player.getX() >= 500 && player.getX() <= (100 * board.length - 500)){
+        translate(-1 * (player.getX() - 500), 0);
+      }
       float xCor = 50.0;
       float yCor = 50.0;
       for(int r = 0; r < board.length; r++){

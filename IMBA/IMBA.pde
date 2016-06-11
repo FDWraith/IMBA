@@ -4,14 +4,11 @@ import java.util.concurrent.*;
 private String globalState;
 private String action;
 private Object world;
-private static float adjustment;
-
 
 void setup() {
    size(1000, 1000);
    background(255, 255, 255);
    globalState = "initialize";
-   adjustment = 0.0;
 }
 
 void draw(){
@@ -48,7 +45,7 @@ void draw(){
         action = null;
     }else if(globalState.equals("running")){
       try{
-        ((World)(world)).display(adjustment);        
+        ((World)(world)).display();        
       }catch(Throwable t){
         //println(t.getMessage());
         if(t.getMessage().equals("EndGame")){
@@ -80,7 +77,6 @@ void draw(){
           globalState = "choosingWorld"; 
         }else if(action.equals("Again")){
           globalState = "running";
-          adjustment = 0;
           ((World)(world)).reload();
         }
         action = null;
@@ -217,11 +213,6 @@ void draw(){
   void keyTyped(){
     if(world instanceof World){ //<>//
       ((World)(world)).handleUserInput(""+key);
-      if(key == 'd'){
-        adjustment += 3;  
-      }else if(key == 'a'){
-        adjustment -= 3;  
-      }
     }
   }
   
