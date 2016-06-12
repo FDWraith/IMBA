@@ -31,7 +31,10 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
      collidableBlocks = null;
      creatures = null;
      endingPositions = null;
+     first = true;
+     movingBlocks = null;
      player = null;
+     score = 0;
      initializeWorld(filePath);
    }
    

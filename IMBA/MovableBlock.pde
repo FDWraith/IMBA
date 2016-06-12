@@ -59,7 +59,8 @@ public class MovableBlock extends SolidBlock implements Movable{
       println(getY());
       while(diffY < b.getSize() && diffX < b.getSize() ){
         end = true;
-        setY( 1000 - ((1000 - getY()) - getSpeedY()));
+        //setY( 1000 - ((1000 - getY()) - getSpeedY()));
+        setY(getY() - getSpeedY());
         diffY = abs( getY() + b.getY() );
       }
     }

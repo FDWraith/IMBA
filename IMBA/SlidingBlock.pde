@@ -19,13 +19,13 @@ public class SlidingBlock extends MovableBlock{
       setSpeedX(slideSpeed);
       first = false;
     }
-    println(getSpeedX()+","+getSpeedY());
+    //println(getSpeedX()+","+getSpeedY());
     super.move(solidBlocks);
     if(super.collide(solidBlocks)){
-      println(getSpeedX());
+      //println(getSpeedX());
       setSpeedX(-1 * getSpeedX());//speed is not inverting for some reason?
-      println("It has happened");
-      println(getSpeedX());
+      //println("It has happened");
+      //println(getSpeedX());
     }
   }
   
