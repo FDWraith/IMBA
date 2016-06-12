@@ -8,7 +8,7 @@ public class Generator{
   private int adjust = 0;
   private int displayAdjust = 0;
   private ArrayList<Block> displayBoard;
-  private int maxCount = 5;
+  private int maxCount = 7;
   private Block followBlock;
   private Creature followCreature;
   private boolean triggered;
@@ -64,7 +64,7 @@ public class Generator{
           for(int j = 0; j < c;j++){
             String nxt = newLine.next();
             nxt = nxt.substring(1,nxt.length()-1);
-            board.get(i).add(initializeBlock(Integer.parseInt(nxt)));  
+            board.get(i).add(initializeBlock(Integer.parseInt(nxt)));
           }
           newLine.close();
         }
@@ -102,6 +102,7 @@ public class Generator{
       displayAdjust++;  
     }
   }
+  
   
   private void save(){
     try{
@@ -157,9 +158,11 @@ public class Generator{
     switch(ID){
       case 0: return new AirBlock(80,ID);
       case 1: return new SolidBlock("dirt.jpg",80,ID);
-      case 2: return new SolidBlock("stone.jpg",80,ID);
+      case 2: return new FallingBlock("gravel.jpg",80,ID);
       case 3: return new SolidBlock("stone_brick.jpg",80,ID);
       case 4: return new SolidBlock("wood.jpg",80,ID);
+      case 5: return new EndBlock(80,ID);
+      case 6: return new CoinBlock(80,ID);
     }
     return null;
   }
@@ -167,9 +170,11 @@ public class Generator{
     switch(ID){
       case 0: return new AirBlock(100,ID);
       case 1: return new SolidBlock("dirt.jpg",100,ID);
-      case 2: return new SolidBlock("stone.jpg",100,ID);
+      case 2: return new FallingBlock("gravel.jpg",100,ID);
       case 3: return new SolidBlock("stone_brick.jpg",100,ID);
       case 4: return new SolidBlock("wood.jpg",100,ID);
+      case 5: return new EndBlock(100,ID);
+      case 6: return new CoinBlock(100,ID);
     }
     return null;
   }
@@ -207,7 +212,14 @@ public class Generator{
     translate(100,0);
     scale(0.8);
     for(int i = 0; i < creatures.size(); i++){
-      creatures.get(i).display();  
+      Creature current = (Creature)(creatures.get(i));
+      current.setX(current.getX() - (adjust * 80));
+      if(current.getX() <= 100 || current.getX() >= (adjust + 10) * 80){
+        //don't display
+      }else{        
+        current.display();
+      }
+      current.setX(current.getX() + (adjust * 80));
     }
     popMatrix();
     PShape leftTriangle = createShape(PShape.PATH);
