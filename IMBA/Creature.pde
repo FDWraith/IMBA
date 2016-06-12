@@ -295,20 +295,27 @@ public class Creature implements Positionable {
     for (int i = 0; i < others.size(); i++) {
       if (others.get(i).getX() != x && others.get(i).getY() != y) {
         diffX = x - others.get(i).getX();
-        //diffY = y - others.get(i).getY();
-        while (diffX < 40 && diffX > -40) {
+        diffY = y - others.get(i).getY();
+        while (diffX < 40 && diffX > -40 && diffY < 40 && diffY > -40) {
           if (speedX < epsilon && speedX > -epsilon) {
-            speedX = 5; 
+            newSpeedX = ((Math.abs(speedX)) / speedX) * epsilon / 30; 
           }
           x += newSpeedX;
           diffX = x - others.get(i).getX();
           wentBack = true;
         }
+        /*
+        if (diffX < 40 && diffX > -40 && diffY < 40 && diffY > -40) {
+           speedX = -speedX;
+           x += speedX;
+        }
+        */
       }
     }
     if (wentBack) {
        speedX = -speedX; 
     }
+    
   }
 
   /*
