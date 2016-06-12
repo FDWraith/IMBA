@@ -1,4 +1,4 @@
-public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
+public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
    private Block[][] board;
    private ArrayList<Positionable> collidableBlocks;
    private ArrayList<Positionable> creatures;
@@ -176,16 +176,16 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
        }
        Scanner nextLine = new Scanner(in.nextLine());
        int numOfCreatures = nextLine.nextInt();
-       System.out.println("t"+numOfCreatures);
+       //System.out.println("t"+numOfCreatures);
        nextLine.close();
+       creatures = new ArrayList<Positionable>();
        for(int i = 0; i < numOfCreatures; i++){
          String data = in.nextLine();
          data = data.substring(1,data.length()-1);
          String[]ary = data.split(",");
-         Creature c = intializeCreature(ary[0],Float.parseFloat(ary[1]),Float.parseFloat(ary[2]));
-         creatures = new ArrayList<Positionable>();
+         Creature c = intializeCreature(ary[0],Float.parseFloat(ary[1]),Float.parseFloat(ary[2]));         
          creatures.add((Positionable)(c));
-         System.out.println("\t\t"+creatures.size());
+         //System.out.println("\t\t"+creatures.size());
          if(c instanceof Player){
            player = ((Player)(c));  
          }
