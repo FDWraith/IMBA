@@ -1,5 +1,6 @@
 public class SlidingBlock extends MovableBlock{
   private int slideSpeed;  
+  private boolean first = true;
   
   public SlidingBlock(String fileName, int size, int ID){
       super(fileName,size,ID);  
@@ -8,16 +9,23 @@ public class SlidingBlock extends MovableBlock{
   
   private void initializeSlidingSpeed(int ID){
     switch(ID){
-      case 7: slideSpeed = 5;
+      case 7: slideSpeed = 1;
     }
   }
   
   public void move(ArrayList<Positionable> solidBlocks){
-    setSpeedY(0);
-    setSpeedX(slideSpeed);
+   if(first){ 
+      setSpeedY(0);
+      setSpeedX(slideSpeed);
+      first = false;
+    }
+    println(getSpeedX()+","+getSpeedY());
     super.move(solidBlocks);
     if(super.collide(solidBlocks)){
-      setSpeedX(-1 * slideSpeed );
+      println(getSpeedX());
+      setSpeedX(-1 * getSpeedX());//speed is not inverting for some reason?
+      println("It has happened");
+      println(getSpeedX());
     }
   }
   

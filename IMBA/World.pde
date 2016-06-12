@@ -1,4 +1,4 @@
-public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
+public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
    private Block[][] board;
    private ArrayList<Positionable> collidableBlocks;
    private ArrayList<Positionable> creatures;
@@ -100,6 +100,8 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
         if(current instanceof FallingBlock){
           //println(current.getX()+","+current.getY());
           ((FallingBlock)(current)).move(collidableBlocks);  
+        }else if(current instanceof SlidingBlock){
+          ((SlidingBlock)(current)).move(collidableBlocks);
         }
       }
       
@@ -201,6 +203,7 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
         case 4: return new SolidBlock("wood.jpg",100,ID);
         case 5: return new EndBlock(100,ID);
         case 6: return new CoinBlock(100,ID);
+        case 7: return new SlidingBlock("platform.jpg",100,ID);
      }
      return null;
    }

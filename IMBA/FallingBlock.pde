@@ -9,15 +9,17 @@ public class FallingBlock extends MovableBlock{
   
   private void determineFallConstant(int ID){
     switch(ID){
-      case 2: fall_constant = 0.01;
+      case 2: fall_constant = 0.1;
               break;
       
     }
   }
   
   public void triggerFall(){
-    setSpeedY(-1);//Initial falling velocity is small, but gets faster as time continues. 
-    triggered = true;
+    if(!triggered){
+      setSpeedY(-1);//Initial falling velocity is small, but gets faster as time continues. 
+      triggered = true;
+    }
   }
  
   public void move(ArrayList<Positionable> solidBlocks){

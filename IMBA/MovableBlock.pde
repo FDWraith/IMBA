@@ -22,6 +22,7 @@ public class MovableBlock extends SolidBlock implements Movable{
   public void move(ArrayList<Positionable> solidBlocks){
     if( getX() - getSize() / 2 > 0){
       setX(speedX + getX());
+      println(getX());
     }
     if( getY() - getSize() / 2 > 0){
       setY(speedY + getY()); 
@@ -48,7 +49,7 @@ public class MovableBlock extends SolidBlock implements Movable{
     }
     //println(diffX+","+diffY);
     if(getSpeedX() != 0){
-      while(diffX < b.getSize()){
+      while(diffX < b.getSize() && diffY < b.getSize() ){
         end = true;
         setX( getX() - getSpeedX() );
         diffX = abs( getX() - b.getX() );
@@ -56,7 +57,7 @@ public class MovableBlock extends SolidBlock implements Movable{
     }
     if(getSpeedY() != 0){
       println(getY());
-      while(diffY < b.getSize()){
+      while(diffY < b.getSize() && diffX < b.getSize() ){
         end = true;
         setY( 1000 - ((1000 - getY()) - getSpeedY()));
         diffY = abs( getY() + b.getY() );

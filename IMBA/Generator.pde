@@ -8,7 +8,7 @@ public class Generator{
   private int adjust = 0;
   private int displayAdjust = 0;
   private ArrayList<Block> displayBoard;
-  private int maxCount = 7;
+  private int maxCount = 8;
   private Block followBlock;
   private Creature followCreature;
   private boolean triggered;
@@ -163,6 +163,7 @@ public class Generator{
       case 4: return new SolidBlock("wood.jpg",80,ID);
       case 5: return new EndBlock(80,ID);
       case 6: return new CoinBlock(80,ID);
+      case 7: return new SlidingBlock("platform.jpg",80,ID);
     }
     return null;
   }
@@ -175,6 +176,7 @@ public class Generator{
       case 4: return new SolidBlock("wood.jpg",100,ID);
       case 5: return new EndBlock(100,ID);
       case 6: return new CoinBlock(100,ID);
+      case 7: return new SlidingBlock("platform.jpg",100,ID);
     }
     return null;
   }
