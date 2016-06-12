@@ -291,23 +291,31 @@ public class Creature implements Positionable {
   }
 
   public void goBackCreature(ArrayList<Positionable> others) {
-    float newSpeedX = (-speedX) / 30;
+    float newSpeedX; //= (-speedX) / 30;
     float newSpeedY = (-speedY) / 30;
     //if (newSpeedX < epsilon * 5) { newSpeedX = epsilon * 5; }
     float diffX = 0;
     float diffY = 0;
     boolean wentBack = false;
-    for (int i = 0; i < others.size(); i++) {
-      if (others.get(i).getX() != x && others.get(i).getY() != y) {
+    for (int i = 0; i < others.size(); i++) { //loops through all creatuers
+      if (others.get(i).getX() != x && others.get(i).getY() != y) { //ensures you're not the creature being read
         diffX = x - others.get(i).getX();
         diffY = y - others.get(i).getY();
-        while (diffX < 40 && diffX > -40 && diffY < 40 && diffY > -40) {
-          if (speedX < epsilon && speedX > -epsilon) {
-            newSpeedX = ((Math.abs(speedX)) / speedX) * epsilon / 30; 
+        while (diffX < 40 && diffX > -40 && diffY < 40 && diffY > -40) { //while still touching
+        /*
+          if (speedX < epsilon && speedX > -epsilon) { //makes sure newSpeedX is not negligible
+            newSpeedX = -((Math.abs(speedX)) / speedX) * epsilon / 30; 
+          }
+          */
+          if (diffX < 0) {
+            newSpeedX = -(Math.abs(speedX)) / 30;
+          } else {
+            newSpeedX = Math.abs(speedX) / 30; 
           }
           x += newSpeedX;
           diffX = x - others.get(i).getX();
           wentBack = true;
+          
         }
         /*
         if (diffX < 40 && diffX > -40 && diffY < 40 && diffY > -40) {
@@ -339,8 +347,10 @@ public class Creature implements Positionable {
 
   public void display() {
     fill(#A3A3A3);
-    ellipseMode(CENTER);
-    ellipse(x, 1000 - y, 40, 40);
+    //ellipseMode(CENTER);
+    //ellipse(x, 1000 - y, 40, 40);
+    rectMode(CENTER);
+    rect(x, 1000-y, 40, 40);
     label();
   }
 
