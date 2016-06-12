@@ -87,7 +87,6 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
         board[(round(player.getX()) / 100)][(round(player.getY())) / 100] = new AirBlock(100,0);
         score++;
       }
-      
       for(int i =0 ;i < creatures.size();i++){
         Positionable current = creatures.get(i);
         if(current instanceof Npc){
@@ -97,6 +96,7 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
         }
         current.display();  
       }
+      checkCreatureCollision(creatures);
       //println(movingBlocks.toString());
       for(int i =0; i < movingBlocks.size(); i++){
         MovableBlock current = movingBlocks.get(i);
@@ -176,6 +176,7 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
        }
        Scanner nextLine = new Scanner(in.nextLine());
        int numOfCreatures = nextLine.nextInt();
+       System.out.println("t"+numOfCreatures);
        nextLine.close();
        for(int i = 0; i < numOfCreatures; i++){
          String data = in.nextLine();
@@ -184,6 +185,7 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
          Creature c = intializeCreature(ary[0],Float.parseFloat(ary[1]),Float.parseFloat(ary[2]));
          creatures = new ArrayList<Positionable>();
          creatures.add((Positionable)(c));
+         System.out.println("\t\t"+creatures.size());
          if(c instanceof Player){
            player = ((Player)(c));  
          }
@@ -216,6 +218,7 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
         case 0: return new Player(xCor,yCor);
         case 1: return new Npc(xCor,yCor);
      }
+     System.out.println("returned null");
      return null;
    }
    
@@ -223,6 +226,44 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
      score++;
      
    }
+   
+   private void checkCreatureCollision(ArrayList<Positionable> creatures) {
+     System.out.println(creatures.size());
+      for (int i = 0; i < creatures.size(); i++) {
+        System.out.println("Creature "+i+" (x, y): ("+creatures.get(i).getX()+", "+creatures.get(i).getY()+")");
+         for (int j = 0; j < creatures.size(); j++) {
+            if (i != j) { //prevents creature from colliding with itself
+              Creature creatureOne = (Creature)creatures.get(i);
+              Creature creatureTwo = (Creature)creatures.get(j);
+              float diffX = creatureOne.getX() - creatureTwo.getX();
+              float diffY = creatureOne.getY() - creatureTwo.getY();
+              System.out.println("Diff(x,y): ("+diffX+", "+diffY+")");
+              while (Math.abs(diffX) < 40 && Math.abs(diffY) < 40) {
+                fixCreatureCollision(creatureOne, creatureTwo);
+              }
+              creatureOne.setSpeedX(-creatureOne.getSpeedX());
+              creatureOne.setSpeedY(-creatureOne.getSpeedY());
+              creatureTwo.setSpeedX(-creatureTwo.getSpeedX());
+              creatureTwo.setSpeedY(-creatureTwo.getSpeedY());
+            }
+         }
+      }
+   }
+   
+   //one tick of collision
+   private void fixCreatureCollision(Creature creatureOne, Creature creatureTwo) {
+     System.out.println("Fixing!");
+      float diffX = creatureOne.getX() - creatureTwo.getX(); //if positive, creatureOne is to the right. If negative, creatureOne is to the left.
+      float diffY = creatureOne.getY() - creatureTwo.getY();
+      float speedXOne = creatureOne.getSpeedX();
+      float speedYOne = creatureOne.getSpeedY();
+      float speedXTwo = creatureTwo.getSpeedX();
+      float speedYTwo = creatureTwo.getSpeedY();
+      creatureOne.setX(-speedXOne/10);
+      creatureOne.setY(-speedYOne/10);
+      creatureTwo.setX(-speedXTwo/10);
+      creatureTwo.setY(-speedYTwo/10);
+  }
    
    
    /*
