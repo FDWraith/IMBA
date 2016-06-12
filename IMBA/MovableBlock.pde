@@ -31,8 +31,10 @@ public class MovableBlock extends SolidBlock implements Movable{
   public boolean collide(ArrayList<Positionable> solidBlocks){
     boolean end = false;
     for(int i = 0; i < solidBlocks.size(); i++){
-      boolean b = moveBack( (SolidBlock)(solidBlocks.get(i)) );  
-      if(b){end = true;}
+     //if(solidBlocks.get(i) != this){
+        boolean b = moveBack( (SolidBlock)(solidBlocks.get(i)) );  
+        if(b){end = true;}
+      //}
     }
     return end;
   }
@@ -40,19 +42,24 @@ public class MovableBlock extends SolidBlock implements Movable{
   public boolean moveBack(SolidBlock b){
     boolean end = false;
     float diffX = abs( getX() - b.getX() );
-    float diffY = abs( getY() - b.getY() );  
+    float diffY = abs( getY() - b.getY() );
+    if(diffX == 0 && diffY == 0){
+      return false;  
+    }
+    //println(diffX+","+diffY);
     if(getSpeedX() != 0){
-      while(diffX < b.getSize() / 2){
+      while(diffX < b.getSize()){
         end = true;
-        setX( getX() - 0.1 * (getSpeedX() / abs(getSpeedX())));
+        setX( getX() - getSpeedX() );
         diffX = abs( getX() - b.getX() );
       }
     }
     if(getSpeedY() != 0){
-      while(diffY < b.getSize() / 2){
+      println(getY());
+      while(diffY < b.getSize()){
         end = true;
-        setY( getY() - 0.1 * (getSpeedY() / abs(getSpeedY())));
-        diffY = abs( getY() - b.getY() );
+        setY( 1000 - ((1000 - getY()) - getSpeedY()));
+        diffY = abs( getY() + b.getY() );
       }
     }
     return end;

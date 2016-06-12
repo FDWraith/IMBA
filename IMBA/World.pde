@@ -3,11 +3,12 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
    private ArrayList<Positionable> collidableBlocks;
    private ArrayList<Positionable> creatures;
    private ArrayList<EndBlock> endingPositions;
-   private ArrayList<CoinBlock> coins;
+   private ArrayList<MovableBlock> movingBlocks;
    private Player player;
    private String filePath;
    private float worldAdjust = 0;
    private int score = 0;
+   private boolean first = true;
    
    //  private int rowStart, rowEnd;
    
@@ -47,21 +48,37 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
       }else{
         translate(0,0); 
       }
-      float xCor = 50.0;
-      float yCor = 50.0;
-      for(int r = 0; r < board.length; r++){
-        for(int c = 0; c < board[r].length; c++){
-          board[r][c].display(xCor, 1000 - yCor);
-          yCor += 100;
+      if(first){
+        float xCor = 50.0;
+        float yCor = 50.0;
+        for(int r = 0; r < board.length; r++){
+          for(int c = 0; c < board[r].length; c++){
+            board[r][c].display(xCor, 1000 - yCor);
+            yCor += 100;
+          }
+          yCor = 50.0;
+          xCor += 100.0;
         }
-        yCor = 50.0;
-        xCor += 100.0;
+        first = false;
+      }else{
+        for(int r =0; r < board.length; r++){
+          for(int c = 0; c < board[r].length; c++){
+            board[r][c].display(board[r][c].getX(),1000 - board[r][c].getY());
+          }
+        }
       }
       //println(collidableBlocks.size());
       //    player.collide(collidableBlocks);
       //player.collide(others);
       player.move(collidableBlocks, creatures);
       player.display();
+      
+      if( round(player.getY()) / 100 != 0){
+        if(board[round(player.getX())/100][round(player.getY())/100 -1] instanceof FallingBlock){
+          println("triggered");
+          ((FallingBlock)(board[round(player.getX())/100][round(player.getY())/100 -1])).triggerFall();
+        }
+      }
       
       if( board[(round(player.getX())) / 100][(round(player.getY())) / 100] instanceof CoinBlock){
         board[(round(player.getX()) / 100)][(round(player.getY())) / 100] = new AirBlock(100,0);
@@ -77,6 +94,15 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
         }
         current.display();  
       }
+      //println(movingBlocks.toString());
+      for(int i =0; i < movingBlocks.size(); i++){
+        MovableBlock current = movingBlocks.get(i);
+        if(current instanceof FallingBlock){
+          //println(current.getX()+","+current.getY());
+          ((FallingBlock)(current)).move(collidableBlocks);  
+        }
+      }
+      
       
       
       popMatrix();
@@ -97,7 +123,7 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
       for(int i = 0;i < endingPositions.size(); i++){
         float diffX = abs(player.getX() - endingPositions.get(i).getX());
         float diffY = abs(player.getY() - endingPositions.get(i).getY());
-        println(diffX + "," + diffY);
+        //println(diffX + "," + diffY);
         if(diffX < endingPositions.get(i).getSize() / 2 && diffY < endingPositions.get(i).getSize() / 2){
           clear();
           throw new Throwable("EndGame");
@@ -119,6 +145,7 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
        board = new Block[row][col];
        collidableBlocks = new ArrayList<Positionable>();
        endingPositions = new ArrayList<EndBlock>();
+       movingBlocks = new ArrayList<MovableBlock>();
        for(int r = 0;r < row;r++){
           Scanner temp = new Scanner(in.nextLine());
           for(int c = 0; c < col; c++){
@@ -133,6 +160,10 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
              
              if(b instanceof EndBlock){
                endingPositions.add((EndBlock)(b));  
+             }
+             
+             if(b instanceof MovableBlock){
+               movingBlocks.add((MovableBlock)(b));  
              }
              
           }
@@ -165,7 +196,7 @@ public class World{  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
      switch(ID){
         case 0: return new AirBlock(100,ID);
         case 1: return new SolidBlock("dirt.jpg",100,ID);
-        case 2: return new SolidBlock("stone.jpg",100,ID);
+        case 2: return new FallingBlock("gravel.jpg",100,ID);
         case 3: return new SolidBlock("stone_brick.jpg",100,ID);
         case 4: return new SolidBlock("wood.jpg",100,ID);
         case 5: return new EndBlock(100,ID);

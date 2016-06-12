@@ -115,7 +115,7 @@ public class Creature implements Positionable {
 
   private void applyFriction() {
     //player moves to the right
-    System.out.println("Applying Friction");
+    //System.out.println("Applying Friction");
     if (speedX > 0) {
       if (speedX > friction_constant) {
         speedX -= friction_constant;
@@ -163,7 +163,7 @@ public class Creature implements Positionable {
     goBackCreature(otherCreatures);
     goBack(others);
     display();
-    System.out.println("" + state + " Speed(X, Y): (" + speedX + ", " + speedY);
+    //System.out.println("" + state + " Speed(X, Y): (" + speedX + ", " + speedY);
   }
 
   //makes player move downwards
@@ -212,21 +212,21 @@ public class Creature implements Positionable {
         if (speedY < 0) {
           //speedY = 0; 
           isJumping = false;
-          System.out.println("4th if statement");
+          //System.out.println("4th if statement");
         }
       }
       //creature is left of block
       if (diffY > -50 && diffY < 50 && diffX < -50 && diffX > -60) {
         if (speedX > 0) {
           //speedX = 0;  
-          System.out.println("5th if statement");
+          //System.out.println("5th if statement");
         }
       }
       //creature is right of block
       if (diffY > -50 && diffY < 50 && diffX > 50 && diffX < 60) {
         if (speedX < 0) {
           //speedX = 0;  
-          System.out.println("6th if statement");
+          //System.out.println("6th if statement");
         }
       }
     }
