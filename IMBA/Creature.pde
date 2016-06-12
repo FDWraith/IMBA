@@ -67,11 +67,17 @@ public class Creature implements Positionable {
     this(xcor, ycor);
     board = b;
   }
-  public void setX(float num){
-     x = num; 
+  public void setX(float num) {
+    x = num;
   }
-  public void setY(float num){
-     y = num; 
+  public void setY(float num) {
+    y = num;
+  }
+  public void setSpeedX(float num) {
+    speedX = num;
+  }
+  public void setSpeedY(float num) {
+    speedY = num;
   }
 
   public float getX() { 
@@ -160,7 +166,7 @@ public class Creature implements Positionable {
     y += speedY;
     x += speedX;
 
-    goBackCreature(otherCreatures);
+    //goBackCreature(otherCreatures);
     goBack(others);
     display();
     //System.out.println("" + state + " Speed(X, Y): (" + speedX + ", " + speedY);
@@ -302,33 +308,39 @@ public class Creature implements Positionable {
         diffX = x - others.get(i).getX();
         diffY = y - others.get(i).getY();
         while (diffX < 40 && diffX > -40 && diffY < 40 && diffY > -40) { //while still touching
-        /*
+          /*
           if (speedX < epsilon && speedX > -epsilon) { //makes sure newSpeedX is not negligible
-            newSpeedX = -((Math.abs(speedX)) / speedX) * epsilon / 30; 
-          }
-          */
-          if (diffX < 0) {
-            newSpeedX = -(Math.abs(speedX)) / 30;
-          } else {
-            newSpeedX = Math.abs(speedX) / 30; 
+           newSpeedX = -((Math.abs(speedX)) / speedX) * epsilon / 30; 
+           }
+           */
+          if (diffX < 0) { //if creature is to the left
+            if (speedX < epsilon && speedX > -epsilon) { //if speed is too small/negligible
+              newSpeedX = -epsilon / 30;
+            } else { //if speed is large enough
+              newSpeedX = -(Math.abs(speedX)) / 30;
+            }
+          } else { //creature is to the right
+            if (speedX < epsilon && speedX > -epsilon) { //speed is negligible
+              newSpeedX = epsilon / 30;
+            } else {
+              newSpeedX = Math.abs(speedX) / 30;
+            }
           }
           x += newSpeedX;
           diffX = x - others.get(i).getX();
           wentBack = true;
-          
         }
         /*
         if (diffX < 40 && diffX > -40 && diffY < 40 && diffY > -40) {
-           speedX = -speedX;
-           x += speedX;
-        }
-        */
+         speedX = -speedX;
+         x += speedX;
+         }
+         */
       }
     }
     if (wentBack) {
-       speedX = -speedX; 
+      speedX = -speedX;
     }
-    
   }
 
   /*
