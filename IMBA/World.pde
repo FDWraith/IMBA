@@ -312,7 +312,7 @@ public class World {  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //
 
               newNextDiffX = creatureOne.getX() + creatureOne.getSpeedX() / 50 - (creatureTwo.getX() + creatureTwo.getSpeedX() / 50);
               newNextDiffY = creatureOne.getY() + creatureOne.getSpeedY() / 50 - (creatureTwo.getY() + creatureTwo.getSpeedY() / 50);
-              System.out.println("New Next diff(x,y): ("+newNextDiffX+", "+newNextDiffY+")");
+              //System.out.println("New Next diff(x,y): ("+newNextDiffX+", "+newNextDiffY+")");
             }
             //if they are reasonably close to each other -- now we need to set speeds properly
             float diffX = creatureOne.getX() - creatureTwo.getX();
@@ -329,42 +329,44 @@ public class World {  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //
 
             //Case 1 and 4:
             if (Math.abs(diffY) > 40 && Math.abs(diffY) < 42) {
-              System.out.print("1");
+              //System.out.print("1");
               if (diffY > 0) { //one is above, two is below
-                System.out.print("A");
+                //System.out.print("A");
                 creatureOne.setSpeedY(creatureTwo.getSpeedY()); //sets to same speed
-                if (Math.abs(creatureOne.getSpeedY()) < .01) { //makes sure speed is not negligible
-                  System.out.print("a");
+                //System.out.println(creatureOne.getSpeedY());
+                if (Math.abs(creatureOne.getSpeedY()) <= 1.5) { //makes sure speed is not negligible
+                  //System.out.print("a");
                   creatureOne.onFloor = true;
                 }
                 creatureOne.setY(creatureTwo.getY() + 41);  //fixes where it is
               } else if (diffY < 0) {
-                System.out.print("B");
+                //System.out.print("B");
                 creatureTwo.setSpeedY(creatureOne.getSpeedY());
-                if (Math.abs(creatureTwo.getSpeedY()) < .001) {
-                  System.out.print("a");
+                if (Math.abs(creatureTwo.getSpeedY()) <= 1.5) {
+                  //System.out.print("a");
                   creatureTwo.onFloor = true;
                 }
                 creatureTwo.setY(creatureOne.getY() + 41);
               }
+              //System.out.print("\n");
             }
             //Case 2 and 3
-            System.out.println("Diff(x,y): ("+diffX+", "+diffY+")");
+            //System.out.println("Diff(x,y): ("+diffX+", "+diffY+")");
             if (Math.abs(diffX) > 40 && Math.abs(diffX) < 42) {
-              System.out.println("Reversing speed!");
-              System.out.println("Speed (1, 2): ("+(creatureOne.getSpeedX())+", "+creatureTwo.getSpeedX());
+              //System.out.println("Reversing speed!");
+              //System.out.println("Speed (1, 2): ("+(creatureOne.getSpeedX())+", "+creatureTwo.getSpeedX());
               creatureOne.setSpeedX(-creatureOne.getSpeedX());
               creatureTwo.setSpeedX(-creatureTwo.getSpeedX());
-              System.out.println("Speed (1, 2): ("+(creatureOne.getSpeedX())+", "+creatureTwo.getSpeedX());
+              //System.out.println("Speed (1, 2): ("+(creatureOne.getSpeedX())+", "+creatureTwo.getSpeedX());
             }
             
             if (Math.abs(diffX) < 40 && Math.abs(diffY) < 5) { //can't directly change x/y values due to possible issues with block collision
-            System.out.println("Reversing and Multiplying speed!");
-            System.out.println("Speed (1, 2): ("+(creatureOne.getSpeedX())+", "+creatureTwo.getSpeedX());
+            //System.out.println("Reversing and Multiplying speed!");
+            //System.out.println("Speed (1, 2): ("+(creatureOne.getSpeedX())+", "+creatureTwo.getSpeedX());
               creatureOne.setSpeedX(Math.min(-creatureOne.getSpeedX() * 1.3, creatureOne.max_speedx));
               creatureTwo.setSpeedX(Math.min(-creatureTwo.getSpeedX() * 1.3, creatureTwo.max_speedx));
               
-              System.out.println("Speed (1, 2): ("+(creatureOne.getSpeedX())+", "+creatureTwo.getSpeedX());
+              //System.out.println("Speed (1, 2): ("+(creatureOne.getSpeedX())+", "+creatureTwo.getSpeedX());
             }
           }
           if (Math.abs(creatureOne.getX() - creatureTwo.getX()) < 40 && (creatureOne.getY() - creatureTwo.getY()) > 40 && (creatureOne.getY() - creatureTwo.getY()) < 42) {

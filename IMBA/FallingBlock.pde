@@ -32,7 +32,7 @@ public class FallingBlock extends MovableBlock {
       //println("break2");
       if (super.collide(solidBlocks)) {
         setSpeedY(0);
-        println("happened");
+        //println("happened");
       }
       //println("triggering");
     }

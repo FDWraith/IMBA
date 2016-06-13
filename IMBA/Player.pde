@@ -6,7 +6,7 @@ public class Player extends Creature {
 
 
   public void handleUserInput(String lastKey) {
-    System.out.println("\nHANDLING USER INPUT");
+    //System.out.println("\nHANDLING USER INPUT");
     if ((lastKey.equals("W") || lastKey.equals("w")) && !getState().equals("JUMPING") && !getState().equals("RISING") && !getState().equals("FALLING")) {
       setState("JUMPING");
       setIsJumping(true);

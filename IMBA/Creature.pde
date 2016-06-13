@@ -269,13 +269,13 @@ public class Creature implements Positionable {
       if (diffY >= -70.5 && diffY <= 70.5 && diffX >= -70.5 && diffX <= 70.5 /*&& speedY <= 0*/) {
         if (diffY - 70.15 > epsilon && diffY - 70.15 < -epsilon) {
           onFloor = false; 
-          System.out.println(diffY);
-          System.out.println("\n\nMade onFloor False again!");
+          //System.out.println(diffY);
+          //System.out.println("\n\nMade onFloor False again!");
         }
         if (diffY + 70.39 > epsilon && diffY + 70.49 < -epsilon) {
           onFloor = true; 
-          System.out.println(diffY);
-          System.out.println("\n\nMade onFloor True again!");
+          //System.out.println(diffY);
+          //System.out.println("\n\nMade onFloor True again!");
         }
       }
       while (diffY > -70 && diffY < 70 && diffX > -70 && diffX < 70 /*&& speedY <= 0*/ /*&& counter > 0*/) { //won't back up when jumping up
@@ -288,6 +288,7 @@ public class Creature implements Positionable {
         wentBack = true;
 
         if (Math.abs(diffY - 70) > epsilon) {
+          //System.out.println(diffY);
           onFloor = true;
           isJumping = false;
           speedY = 0;
