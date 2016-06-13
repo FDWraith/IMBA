@@ -138,7 +138,6 @@ public class World {  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //
     if (player.getState().equals("DEATH")) {
       throw new Throwable("Lose");
     }
-
   }
 
   //might want to replace numBlocksRow and numBlocksCol with width and height primitives
@@ -256,11 +255,11 @@ public class World {  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //
             wentBack = true;
           }
           if (wentBack) {
-          creatureOne.setSpeedX(-creatureOne.getSpeedX());
-          creatureOne.setSpeedY(-creatureOne.getSpeedY());
-          creatureTwo.setSpeedX(-creatureTwo.getSpeedX());
-          creatureTwo.setSpeedY(-creatureTwo.getSpeedY());
-          wentBack = false;
+            creatureOne.setSpeedX(-creatureOne.getSpeedX());
+            creatureOne.setSpeedY(-creatureOne.getSpeedY());
+            creatureTwo.setSpeedX(-creatureTwo.getSpeedX());
+            creatureTwo.setSpeedY(-creatureTwo.getSpeedY());
+            wentBack = false;
           }
         }
       }
