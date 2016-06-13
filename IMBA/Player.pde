@@ -17,6 +17,12 @@ public class Player extends Creature {
     if (lastKey.equals("D") || lastKey.equals("d")) {
       setSpeedHorizontal("RIGHT");
     }
+    if (lastKey.equals("Q") || lastKey.equals("q")) {
+      System.out.println("This began/happened here!");
+    }
+    if (lastKey.equals("E") || lastKey.equals("e")) {
+      System.out.println("This ended/happened here!");
+    }
   }  
 
   //overwrites creature's label
