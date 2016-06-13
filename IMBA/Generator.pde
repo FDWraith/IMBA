@@ -394,7 +394,7 @@ public class Generator {
     if (followBlock != null) {
       return;//terminate if there is already a block following mouse
     } else {
-      for (int i = 0; i < displayBoard.size(); i++) {
+      for (int i = displayAdjust; i < displayAdjust + 4; i++) {
         Block current = displayBoard.get(i);
         float diffX = abs(mouseX - current.getX());
         float diffY = abs(mouseY - (1000 - current.getY()));
