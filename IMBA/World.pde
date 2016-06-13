@@ -90,7 +90,7 @@ public class World {  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //
     for (int i =0; i < creatures.size(); i++) {
       Positionable current = creatures.get(i);
       if (current instanceof Npc) {
-        //((Npc)(current)).randomizeMove(collidableBlocks, creatures);
+        ((Npc)(current)).randomizeMove(collidableBlocks, creatures);
       } else if (current instanceof Player) {
         //((Player)(current)).move(collidableBlocks);
       }
@@ -305,13 +305,13 @@ public class World {  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //
             float newNextDiffY = (creatureOne.getY() + (creatureOne.getSpeedY() / 10)) - (creatureTwo.getY() + (creatureTwo.getSpeedY() / 3)); //the slowed down version of nextDiffY
             //System.out.println("New Next diff(x,y): ("+newNextDiffX+", "+newNextDiffY+")");
             while ((Math.abs(newNextDiffX) > 40 || Math.abs(newNextDiffY) > 40 /*&& Math.abs(newNextDiffX) > 40*/)) {
-              creatureOne.setX(creatureOne.getX() + creatureOne.getSpeedX() / 10);
-              creatureOne.setY(creatureOne.getY() + creatureOne.getSpeedY() / 10);
-              creatureTwo.setX(creatureTwo.getX() + creatureTwo.getSpeedX() / 10);
-              creatureTwo.setY(creatureTwo.getY() + creatureTwo.getSpeedY() / 10);
+              creatureOne.setX(creatureOne.getX() + creatureOne.getSpeedX() / 50);
+              creatureOne.setY(creatureOne.getY() + creatureOne.getSpeedY() / 50);
+              creatureTwo.setX(creatureTwo.getX() + creatureTwo.getSpeedX() / 50);
+              creatureTwo.setY(creatureTwo.getY() + creatureTwo.getSpeedY() / 50);
 
-              newNextDiffX = creatureOne.getX() + creatureOne.getSpeedX() / 10 - (creatureTwo.getX() + creatureTwo.getSpeedX() / 10);
-              newNextDiffY = creatureOne.getY() + creatureOne.getSpeedY() / 10 - (creatureTwo.getY() + creatureTwo.getSpeedY() / 10);
+              newNextDiffX = creatureOne.getX() + creatureOne.getSpeedX() / 50 - (creatureTwo.getX() + creatureTwo.getSpeedX() / 50);
+              newNextDiffY = creatureOne.getY() + creatureOne.getSpeedY() / 50 - (creatureTwo.getY() + creatureTwo.getSpeedY() / 50);
               System.out.println("New Next diff(x,y): ("+newNextDiffX+", "+newNextDiffY+")");
             }
             //if they are reasonably close to each other -- now we need to set speeds properly
@@ -323,15 +323,17 @@ public class World {  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //
             // 2. one is standing next to another on the ground (speedX is reversed, while speedY is 0)
             // 3. one is standing next to another in the air (speedX is reversed, while speedY is normal)                 ***********Will be melged into case 2  -- no speedY changes
             // 4. one is standing on top of another in the air (speedX is normal, while speedY is the slower's/no change) ***********Will be melged into case 1  -- the above creature's speed is the below creature's speed
+            
+            // 5. BUGFIX: Somehow one is inside the other (reverse speedX)
 
 
             //Case 1 and 4:
             if (Math.abs(diffY) > 40 && Math.abs(diffY) < 42) {
               System.out.print("1");
-              if (diffY > 0) { //one is below, two is above (WRONG)
+              if (diffY > 0) { //one is above, two is below
                 System.out.print("A");
                 creatureOne.setSpeedY(creatureTwo.getSpeedY()); //sets to same speed
-                if (Math.abs(creatureOne.getSpeedY()) < .001) { //makes sure speed is not negligible
+                if (Math.abs(creatureOne.getSpeedY()) < .01) { //makes sure speed is not negligible
                   System.out.print("a");
                   creatureOne.onFloor = true;
                 }
@@ -353,6 +355,15 @@ public class World {  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //
               System.out.println("Speed (1, 2): ("+(creatureOne.getSpeedX())+", "+creatureTwo.getSpeedX());
               creatureOne.setSpeedX(-creatureOne.getSpeedX());
               creatureTwo.setSpeedX(-creatureTwo.getSpeedX());
+              System.out.println("Speed (1, 2): ("+(creatureOne.getSpeedX())+", "+creatureTwo.getSpeedX());
+            }
+            
+            if (Math.abs(diffX) < 40 && Math.abs(diffY) < 5) { //can't directly change x/y values due to possible issues with block collision
+            System.out.println("Reversing and Multiplying speed!");
+            System.out.println("Speed (1, 2): ("+(creatureOne.getSpeedX())+", "+creatureTwo.getSpeedX());
+              creatureOne.setSpeedX(Math.min(-creatureOne.getSpeedX() * 1.3, creatureOne.max_speedx));
+              creatureTwo.setSpeedX(Math.min(-creatureTwo.getSpeedX() * 1.3, creatureTwo.max_speedx));
+              
               System.out.println("Speed (1, 2): ("+(creatureOne.getSpeedX())+", "+creatureTwo.getSpeedX());
             }
           }
