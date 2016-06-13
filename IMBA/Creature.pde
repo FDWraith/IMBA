@@ -28,9 +28,9 @@ public class Creature implements Positionable {
 
   public static final float epsilon = .1;
   public static final float gravity_constant = 1.5;
-  public static final float friction_constant = .1;
-  public static final float max_speedx = 10;
-  public static final float accelerateX = 3;
+  public static final float friction_constant = .05;
+  public static final float max_speedx = 7;
+  public static final float accelerateX = 2;
   public static final float jumping_constant = 28;
 
   public static final float ceiling_constant = 1000 - 40;
@@ -74,7 +74,7 @@ public class Creature implements Positionable {
     y = num;
   }
   public void setSpeedX(float num) {
-    if (num < .000001) {
+    if (Math.abs(num) < .000001) {
       speedX = 0;
     } else {
       speedX = num;
