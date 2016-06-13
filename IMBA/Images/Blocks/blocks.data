@@ -1,6 +1,9 @@
 #List of Block IDs and corresponding block.
 0 : Air Block
 1 : Dirt Block
-2 : Stone Block
+2 : Gravel Block
 3 : Stone Bricks
 4 : Wood
+5 : End Block
+6 : Coin Block
+7 : Sliding Block
