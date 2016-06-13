@@ -19,7 +19,7 @@ public class MovableBlock extends SolidBlock implements Movable {
   public float getSpeedX() {
     return speedX;
   }
-  public void move(ArrayList<Positionable> solidBlocks) {
+  public void move(ArrayList<Positionable> others) {
     if ( getX() - getSize() / 2 > 0) {
       setX(speedX + getX());
       println(getX());
@@ -29,11 +29,11 @@ public class MovableBlock extends SolidBlock implements Movable {
     }        
     //collide(solidBlocks);
   }
-  public boolean collide(ArrayList<Positionable> solidBlocks) {
+  public boolean collide(ArrayList<Positionable> others) {
     boolean end = false;
-    for (int i = 0; i < solidBlocks.size(); i++) {
+    for (int i = 0; i < others.size(); i++) {
       //if(solidBlocks.get(i) != this){
-      boolean b = moveBack( (SolidBlock)(solidBlocks.get(i)) );  
+      boolean b = moveBack( (Positionable)(others.get(i)) );  
       if (b) {
         end = true;
       }
@@ -42,7 +42,7 @@ public class MovableBlock extends SolidBlock implements Movable {
     return end;
   }
 
-  public boolean moveBack(SolidBlock b) {
+  public boolean moveBack(Positionable b) {
     boolean end = false;
     float diffX = abs( getX() - b.getX() );
     float diffY = abs( getY() - b.getY() );

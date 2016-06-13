@@ -98,17 +98,19 @@ public class World {  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //
     }
     checkCreatureCollision(creatures);
     //println(movingBlocks.toString());
+    ArrayList<Positionable> temp = new ArrayList<Positionable>();
+    temp.addAll(creatures);
+    temp.addAll(collidableBlocks);
     for (int i =0; i < movingBlocks.size(); i++) {
       MovableBlock current = movingBlocks.get(i);
       if (current instanceof FallingBlock) {
         //println(current.getX()+","+current.getY());
-        ((FallingBlock)(current)).move(collidableBlocks);
+        ((FallingBlock)(current)).move(temp);
       } else if (current instanceof SlidingBlock) {
-        ((SlidingBlock)(current)).move(collidableBlocks);
+        ((SlidingBlock)(current)).move(temp);
       }
     }
-
-
+    //println("break?");
 
     popMatrix();
 

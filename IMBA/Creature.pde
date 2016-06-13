@@ -87,6 +87,9 @@ public class Creature implements Positionable {
       speedY = num;
     }
   }
+  public int getSize(){
+    return 40;  
+  }
 
   public float getX() { 
     return x;

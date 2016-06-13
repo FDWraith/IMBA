@@ -309,6 +309,21 @@ public class Generator {
       displayBoard.get(i).display(xCor, 1000 - yCor);
       xCor += 200;
     }
+    
+    for (int i = displayAdjust; i < displayAdjust + 4; i++){
+      Block current = displayBoard.get(i);
+      float diffX = abs(mouseX - current.getX());
+      float diffY = abs(mouseY - (1000 - current.getY()));
+      if(diffX < current.getSize() / 2 && diffY < current.getSize() / 2){         
+        textAlign(LEFT,TOP);
+        rectMode(CORNER);
+        textSize(12);
+        fill(255);
+        rect(mouseX,mouseY,150,150);
+        fill(0);
+        text(getDescription(current.getID()),mouseX,mouseY,150,100);
+      }
+    }
 
     //BottomGUI's arrow keys on side
 
@@ -379,7 +394,7 @@ public class Generator {
     if (followBlock != null) {
       return;//terminate if there is already a block following mouse
     } else {
-      for (int i = 0; i < displayBoard.size(); i++) {
+      for (int i = displayAdjust; i < displayAdjust + 4; i++) {
         Block current = displayBoard.get(i);
         float diffX = abs(mouseX - current.getX());
         float diffY = abs(mouseY - (1000 - current.getY()));
@@ -434,5 +449,19 @@ public class Generator {
 
   public boolean hasBlock() {
     return followBlock != null;
+  }
+  
+  private String getDescription(int ID){
+    switch(ID){
+      case 0: return "Air, nothing but Air, I tell you!";
+      case 1: return "This is a simple dirt block. Nothing special to see here";
+      case 2: return "A gravel block. It can float in midair, until you step on it, of course. Once you do, it starts to fall, bringing you with it!";
+      case 3: return "Stone bricks! Who doesn't love stone bricks for those dungeons of yours?";
+      case 4: return "Wood!";
+      case 5: return "A portal to the end!? Who knew?";
+      case 6: return "Coins! Ha, this is probably more than an average person earns. I am rich, filthy rich!";
+      case 7: return "No, that's not gold. It moves on it's own! Although... It seems to bounce off walls too...";
+    }
+    return "";
   }
 }
