@@ -4,7 +4,7 @@ public class Npc  extends Creature {
   }
 
   public void randomizeMove(ArrayList<Positionable> others, ArrayList<Positionable> otherCreatures) {
-    int randomChoice = (int)(Math.random() * 2);
+    int randomChoice = (int)(Math.random() * 3);
     if (randomChoice == 0) {
       setState("DEFAULT");
       setSpeedHorizontal("LEFT");
