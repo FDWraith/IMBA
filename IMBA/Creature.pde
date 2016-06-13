@@ -74,10 +74,18 @@ public class Creature implements Positionable {
     y = num;
   }
   public void setSpeedX(float num) {
-    speedX = num;
+    if (num < .000001) {
+      speedX = 0;
+    } else {
+      speedX = num;
+    }
   }
   public void setSpeedY(float num) {
-    speedY = num;
+    if (num < .000001) {
+      speedY = 0;
+    } else {
+      speedY = num;
+    }
   }
 
   public float getX() { 

@@ -1,4 +1,4 @@
-public class World {  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
+public class World {  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
   private Block[][] board;
   private ArrayList<Positionable> collidableBlocks;
   private ArrayList<Positionable> creatures;
@@ -138,6 +138,7 @@ public class World {  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //
     if (player.getState().equals("DEATH")) {
       throw new Throwable("Lose");
     }
+
   }
 
   //might want to replace numBlocksRow and numBlocksCol with width and height primitives
@@ -179,7 +180,6 @@ public class World {  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //
       }
       Scanner nextLine = new Scanner(in.nextLine());
       int numOfCreatures = nextLine.nextInt();
-      //System.out.println("t"+numOfCreatures);
       nextLine.close();
       creatures = new ArrayList<Positionable>();
       for (int i = 0; i < numOfCreatures; i++) {
@@ -188,7 +188,6 @@ public class World {  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //
         String[]ary = data.split(",");
         Creature c = intializeCreature(ary[0], Float.parseFloat(ary[1]), Float.parseFloat(ary[2]));         
         creatures.add((Positionable)(c));
-        //System.out.println("\t\t"+creatures.size());
         if (c instanceof Player) {
           player = ((Player)(c));
         }
@@ -230,7 +229,6 @@ public class World {  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //
     case 1: 
       return new Npc(xCor, yCor);
     }
-    System.out.println("returned null");
     return null;
   }
 
@@ -239,7 +237,7 @@ public class World {  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //
   }
 
   private void checkCreatureCollision(ArrayList<Positionable> creatures) {
-    System.out.println(creatures.size());
+    boolean wentBack = false;
     for (int i = 0; i < creatures.size(); i++) {
       System.out.println("Creature "+i+" (x, y): ("+creatures.get(i).getX()+", "+creatures.get(i).getY()+")");
       for (int j = 0; j < creatures.size(); j++) {
@@ -251,11 +249,19 @@ public class World {  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //
           System.out.println("Diff(x,y): ("+diffX+", "+diffY+")");
           while (Math.abs(diffX) < 40 && Math.abs(diffY) < 40) {
             fixCreatureCollision(creatureOne, creatureTwo);
+            creatureOne.goBack(collidableBlocks);
+            creatureTwo.goBack(collidableBlocks);
+            diffX = creatureOne.getX() - creatureTwo.getX();
+            diffY = creatureOne.getY() - creatureTwo.getY();
+            wentBack = true;
           }
+          if (wentBack) {
           creatureOne.setSpeedX(-creatureOne.getSpeedX());
           creatureOne.setSpeedY(-creatureOne.getSpeedY());
           creatureTwo.setSpeedX(-creatureTwo.getSpeedX());
           creatureTwo.setSpeedY(-creatureTwo.getSpeedY());
+          wentBack = false;
+          }
         }
       }
     }
@@ -263,17 +269,24 @@ public class World {  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //
 
   //one tick of collision
   private void fixCreatureCollision(Creature creatureOne, Creature creatureTwo) {
-    System.out.println("Fixing!");
     float diffX = creatureOne.getX() - creatureTwo.getX(); //if positive, creatureOne is to the right. If negative, creatureOne is to the left.
     float diffY = creatureOne.getY() - creatureTwo.getY();
     float speedXOne = creatureOne.getSpeedX();
     float speedYOne = creatureOne.getSpeedY();
     float speedXTwo = creatureTwo.getSpeedX();
     float speedYTwo = creatureTwo.getSpeedY();
-    creatureOne.setX(-speedXOne/10);
-    creatureOne.setY(-speedYOne/10);
-    creatureTwo.setX(-speedXTwo/10);
-    creatureTwo.setY(-speedYTwo/10);
+    creatureOne.setX(creatureOne.getX() + -speedXOne/10 - (getSign(speedXOne) * .1));
+    creatureOne.setY(creatureOne.getY() + -speedYOne/10 - (getSign(speedYOne) * .1));
+    creatureTwo.setX(creatureTwo.getX() + -speedXTwo/10 - (getSign(speedXTwo) * .1));
+    creatureTwo.setY(creatureTwo.getY() + -speedYTwo/10 - (getSign(speedYTwo) * .1));
+  }
+
+  private float getSign(float x) {
+    if (Math.abs(x) == x) {
+      return 1;
+    } else {
+      return -1;
+    }
   }
 
 
