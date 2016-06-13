@@ -46,6 +46,12 @@ void draw() {
   } else if (globalState.equals("running")) {
     try {
       ((World)(world)).display();
+      noFill();
+      stroke(2);
+      if(checkMouse(950,25,100,50)){
+        fill(#a3a3a3);  
+      }
+      promptButton(950,25,100,50,"Forfeit");
     }
     catch(Throwable t) {
       //println(t.getMessage());
@@ -112,6 +118,22 @@ void draw() {
   } else if (globalState.equals("worldMaking")) {
     background(loadImage("./Images/GeneratorGUI.jpg")); //<>// //<>//
     ((Generator)(world)).display();
+  } else if (globalState.equals("Forfeit")){
+    stroke(2);
+    textAlign(CENTER,CENTER);
+    textSize(28);
+    fill(0);
+    text("Are You Sure?", 500, 150);
+    noFill();
+    if(checkMouse(500,250,300,100)){
+      fill(#a3a3a3);  
+    }
+    promptButton(500,250,300,100,"Return to Game");
+    noFill();
+    if(checkMouse(500,400,300,100)){
+      fill(#a3a3a3);  
+    }
+    promptButton(500,400,300,100,"Quit");
   }
   //System.out.println(globalState);
 }
@@ -180,7 +202,7 @@ void promptButton(float xCor, float yCor, float len, float ht, String txt) {
   rectMode(CENTER);
   textMode(CENTER);
   textAlign(CENTER);
-  textSize(28);
+  textSize(24);
   rect(xCor, yCor, len, ht);
   fill(0);
   text(txt, xCor, yCor);
@@ -241,6 +263,17 @@ void mouseClicked() {
       action = "Again";
     } else if (checkMouse(500, 450, 300, 100)) {
       action = "Quit";
+    }
+  } else if (globalState.equals("running")){
+    if(checkMouse(950,25,100,50)){
+      globalState = "Forfeit";  
+    }
+  } else if (globalState.equals("Forfeit")){
+    if(checkMouse(500,250,300,100)){
+      globalState = "running";  
+    }else if(checkMouse(500,400,300,100)){
+      globalState = "initialize";
+      action = null;
     }
   }
 }
