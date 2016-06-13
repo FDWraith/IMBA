@@ -1,3 +1,3 @@
-public interface Displayable{
-  public void display(); 
+public interface Displayable {
+  public void display();
 }
